@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
-# File Created: 29.10.2024 02:16:38
+# File Created: 29.10.2024 12:57:42
 
 newmtl 02___Default
 	Ns 10.00
@@ -8,12 +8,12 @@ newmtl 02___Default
 	Tr 0.00
 	Tf 1.00 1.00 1.00 
 	illum 2
-	Ka 0.00 0.00 0.00
+	Ka 0.59 0.59 0.59
 	Kd 0.59 0.59 0.59
 	Ks 0.00 0.00 0.00
 	Ke 0.00 0.00 0.00
-	map_Ka azul.tga
-	map_Kd azul.tga
+	map_Ka azul.png
+	map_Kd azul.png
 
 newmtl 03___Default
 	Ns 10.00
@@ -22,7 +22,7 @@ newmtl 03___Default
 	Tr 0.00
 	Tf 1.00 1.00 1.00 
 	illum 2
-	Ka 0.00 0.00 0.00
+	Ka 0.59 0.59 0.59
 	Kd 0.59 0.59 0.59
 	Ks 0.00 0.00 0.00
 	Ke 0.00 0.00 0.00
@@ -36,12 +36,12 @@ newmtl 08___Default
 	Tr 0.00
 	Tf 1.00 1.00 1.00 
 	illum 2
-	Ka 0.00 0.00 0.00
+	Ka 0.59 0.59 0.59
 	Kd 0.59 0.59 0.59
 	Ks 0.00 0.00 0.00
 	Ke 0.00 0.00 0.00
-	map_Ka asd_phong1SG_BaseColor.tga
-	map_Kd asd_phong1SG_BaseColor.tga
+	map_Ka asd_phong1SG_BaseColor.png
+	map_Kd asd_phong1SG_BaseColor.png
 
 newmtl 07___Default
 	Ns 10.00
@@ -50,7 +50,7 @@ newmtl 07___Default
 	Tr 0.00
 	Tf 1.00 1.00 1.00 
 	illum 2
-	Ka 0.00 0.00 0.00
+	Ka 0.59 0.59 0.59
 	Kd 0.59 0.59 0.59
 	Ks 0.00 0.00 0.00
 	Ke 0.00 0.00 0.00
@@ -64,40 +64,12 @@ newmtl 01___Default
 	Tr 0.00
 	Tf 1.00 1.00 1.00 
 	illum 2
-	Ka 0.00 0.00 0.00
+	Ka 0.59 0.59 0.59
 	Kd 0.59 0.59 0.59
 	Ks 0.00 0.00 0.00
 	Ke 0.00 0.00 0.00
-	map_Ka amarillo.tga
-	map_Kd amarillo.tga
-
-newmtl Material_004
-	Kd 0.80 0.75 0.15
-	Ks 0.80 0.75 0.15
-	Tr 0.00
-	d 1.00
-	Tf 0.00 0.00 0.00
-	Pr 0.41
-	Pm 0.00
-	Pc 0.00
-	Pcr 0.00
-	Ni 1.52
-	Ke 0.00 0.00 0.00
-	illum 2
-
-newmtl Material_003
-	Kd 0.00 0.05 0.00
-	Ks 0.00 0.05 0.00
-	Tr 0.00
-	d 1.00
-	Tf 0.00 0.00 0.00
-	Pr 0.60
-	Pm 0.00
-	Pc 0.00
-	Pcr 0.00
-	Ni 1.52
-	Ke 0.00 0.00 0.00
-	illum 2
+	map_Ka amarillo.png
+	map_Kd amarillo.png
 
 newmtl 09___Default
 	Ns 10.00
@@ -106,9 +78,23 @@ newmtl 09___Default
 	Tr 0.00
 	Tf 1.00 1.00 1.00 
 	illum 2
-	Ka 0.00 0.00 0.00
+	Ka 0.59 0.59 0.59
 	Kd 0.59 0.59 0.59
 	Ks 0.00 0.00 0.00
 	Ke 0.00 0.00 0.00
-	map_Ka dirt.tga
-	map_Kd dirt.tga
+	map_Ka dirt.png
+	map_Kd dirt.png
+
+newmtl 14___Default
+	Ns 10.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.59 0.59 0.59
+	Kd 0.59 0.59 0.59
+	Ks 0.00 0.00 0.00
+	Ke 0.00 0.00 0.00
+	map_Ka verde.png
+	map_Kd verde.png

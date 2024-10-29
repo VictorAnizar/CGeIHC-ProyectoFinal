@@ -53,7 +53,7 @@ Model Gru;
 Model CarroGru;
 Model FortalezaVector;
 Model MinionBebe;
-
+Model MacetaMinion;
 
 
 Skybox skybox;
@@ -206,6 +206,9 @@ int main()
 	Minion = Model();
 	Minion.LoadModel("Models/MinionNormalTexturizado.obj");
 
+	MacetaMinion = Model();
+	MacetaMinion.LoadModel("Models/MacetaMinionTexturizada.obj");
+
 	MinionBebe = Model();
 	MinionBebe.LoadModel("Models/MinionBebeTexturizado.obj");
 
@@ -299,6 +302,15 @@ int main()
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Minion.RenderModel();
+
+		//Instancia de maceta minion 
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 20.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MacetaMinion.RenderModel();
 
 
 		//Instancia del minion morado
