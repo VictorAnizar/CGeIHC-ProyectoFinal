@@ -1,12 +1,7 @@
 /*
-Semestre 2024-1
-Animación:
-Sesión 1:
-Simple o básica:Por banderas y condicionales (más de 1 transforomación geométrica se ve modificada
-Sesión 2
-Compleja: Por medio de funciones y algoritmos.
-Adicional.- ,Textura Animada
+	PROYECTO FINAL CGIHC
 */
+
 //para cargar imagen
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -43,6 +38,26 @@ Adicional.- ,Textura Animada
 #include "Material.h"
 const float toRadians = 3.14159265f / 180.0f;
 
+//variables para animación
+int counter = 0;
+int framesAnim = 0;
+int framesMov = 0;
+int numD4 = 0;
+int numD8 = 0;
+int numTotal = 0;
+float rotaDado4X;
+float rotaDado4Y;
+float rotaDado4Z;
+float dirDado4X;
+float dirDado4Y;
+float dirDado4Z;
+float rotaDado8X;
+float rotaDado8Y;
+float rotaDado8Z;
+float dirDado8X;
+float dirDado8Y;
+float dirDado8Z;
+float posDados;
 
 Window mainWindow;
 std::vector<Mesh*> meshList;
@@ -58,6 +73,9 @@ Texture AmTexture;
 Texture AzTexture;
 Texture RoTexture;
 Texture VeTexture;
+Texture D4Texture;
+Texture D8Texture;
+Texture TestTexture;
 
 Skybox skybox;
 
@@ -127,16 +145,33 @@ void CreateObjects()
 			0.0f, 1.0f, 0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f
 	};
 
-	unsigned int floorIndices[] = {
+	unsigned int floorIndices[] = 
+	{
 		0, 2, 1,
 		1, 2, 3
 	};
 
-	GLfloat floorVertices[] = {
+	GLfloat floorVertices[] = 
+	{
 		-10.0f, 0.0f, -10.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, -10.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f,
 		-10.0f, 0.0f, 10.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f,
 		10.0f, 0.0f, 10.0f,		10.0f, 10.0f,	0.0f, -1.0f, 0.0f
+	};
+
+
+	GLfloat casillaVertices[] =
+	{
+		-10.0f, 0.0f, -10.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		10.0f, 0.0f, -10.0f,	0.0f, 1.0f,		0.0f, -1.0f, 0.0f,
+		-10.0f, 0.0f, 10.0f,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		10.0f, 0.0f, 10.0f,		1.0f, 1.0f,		0.0f, -1.0f, 0.0f
+	};
+
+	unsigned int casillaIndices[] =
+	{
+		0, 2, 1,
+		1, 2, 3
 	};
 
 	Mesh* obj1 = new Mesh();
@@ -151,6 +186,10 @@ void CreateObjects()
 	obj3->CreateMesh(floorVertices, floorIndices, 32, 6);
 	meshList.push_back(obj3);
 
+	Mesh* obj4 = new Mesh();
+	obj4->CreateMesh(casillaVertices, casillaIndices, 32, 6);
+	meshList.push_back(obj4);
+
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 }
 
@@ -161,16 +200,179 @@ void CreateShaders()
 	shaderList.push_back(*shader1);
 }
 
-int main()
+void crearDados()
 {
-	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
-	mainWindow.Initialise();
+	GLfloat verticesOcta[] = 
+	{
+		// front sup 1
+		-1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, // izq abajo
+		1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, // der abajo
+		0.0f,  1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, // punta sup
+		// der sup 3
+		1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
+		1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der arriba
+		0.0f,  1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta sup
+		// tras sup 5
+		-1.0f, 0.0f,  1.0f,		0.006f, 0.492f,		0.0f, 0.0f, -1.0f, // izq arriba
+		1.0f, 0.0f,  1.0f,		0.398f, 0.492f,		0.0f, 0.0f, -1.0f, // der arriba
+		0.0f,  1.0f, 0.0f, 		0.201f, 0.891f,		0.0f, 0.0f, -1.0f, // punta sup
+		// izq sup 7
+		-1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq arriba
+		-1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
+		0.0f,  1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta sup
 
-	CreateObjects();
-	CreateShaders();
+		// front inf 2
+		-1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
+		1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
+		0.0f, -1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta inf
+		// der inf 4
+		1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
+		1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der arriba
+		0.0f, -1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta inf
+		// tras inf 6
+		-1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq arriba
+		1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der arriba
+		0.0f, -1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta inf
+		// izq inf 8
+		-1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq arriba
+		-1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
+		0.0f, -1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f  // punta inf
+	};
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
+	GLuint indicesOcta[] = 
+	{
+		// piramide cuadrangular superior
+		0, 1, 2,
+		3, 4, 5,
+		6, 7, 8,
+		9, 10, 11,
 
+		// piramide cuadrangular inferior
+		12, 13, 14,
+		15, 16, 17,
+		18, 19, 20,
+		21, 22, 23
+	};
+
+	GLfloat verticesCuad[] =
+	{
+		// front  1
+		-1.0f, 0.0f, 0.0f,		0.006f, 0.492f,		0.0f, 0.0f, -1.0f, // izq abajo
+		1.0f, 0.0f, 0.0f,		0.492f, 0.492f,		0.0f, 0.0f, -1.0f, // der abajo
+		0.0f,  1.5f, -0.865f, 	0.246f, 0.994f,		0.0f, 0.0f, -1.0f, // punta sup
+		// der  3
+		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
+		0.0f, 0.0f,  -1.73f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // trasera
+		0.0f,  1.5f, -0.865f, 	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta sup
+		// izq  2
+		-1.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
+		0.0f, 0.0f,  -1.73f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // trasera
+		0.0f,  1.5f, -0.865f, 	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta sup
+		// base 4
+		-1.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
+		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
+		0.0f, 0.0f,  -1.73f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f  // trasera
+	};
+
+	GLuint indicesCuad[] =
+	{
+		// piramide triangular 
+		0, 1, 2,
+		3, 4, 5,
+		6, 7, 8,
+		9, 10, 11,
+	};
+
+	Mesh* obj5 = new Mesh();
+	obj5->CreateMesh(verticesOcta, indicesOcta, 192, 24);
+	meshList.push_back(obj5);
+
+	Mesh* obj6 = new Mesh();
+	obj6->CreateMesh(verticesCuad, indicesCuad, 96, 12);
+	meshList.push_back(obj6);
+}
+
+void crearCasilla(float posX, float posZ)
+{
+	GLuint uniformProjection = 0;
+	GLuint uniformModel = 0;
+	GLuint uniformView = 0;
+	GLuint uniformColor = 0;
+	shaderList[0].UseShader();
+	uniformModel = shaderList[0].GetModelLocation();
+	uniformProjection = shaderList[0].GetProjectionLocation();
+	uniformView = shaderList[0].GetViewLocation();
+	uniformColor = shaderList[0].getColorLocation();
+	glm::mat4 model(1.0);
+	model = glm::mat4(1.0); //casilla 1
+	model = glm::translate(model, glm::vec3(posX, 0.2f, posZ));
+	model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	meshList[3]->RenderMesh();
+}
+
+void crearTablero()
+{
+	//casillas rojas
+	RoTexture.UseTexture();
+
+	crearCasilla(0.0f, 0.0f); //1
+	crearCasilla(30.3f, 0.0f); //4
+	crearCasilla(60.6f, 0.0f); //7
+	crearCasilla(90.9f, 0.0f); //10
+	crearCasilla(90.9f, -30.3f); //13
+	crearCasilla(90.9f, -90.9f); //19
+	crearCasilla(60.6f, -111.1f); //24
+	crearCasilla(20.2f, -111.1f); //28
+	crearCasilla(0.0f, -70.7f); //34
+	crearCasilla(0.0f, -30.3f); //38
+
+	//casillas amarillas
+	AmTexture.UseTexture();
+
+	crearCasilla(10.1f, 0.0f); //2
+	crearCasilla(50.5f, 0.0f); //6
+	crearCasilla(80.8f, 0.0f); //9
+	crearCasilla(90.9f, -20.2f); //12
+	crearCasilla(90.9f, -40.4f); //14
+	crearCasilla(90.9f, -70.7f); //17
+	crearCasilla(90.9f, -101.1f); //20
+	crearCasilla(50.5f, -101.0f); //25
+	crearCasilla(0.0f, -111.1f); //30
+	crearCasilla(0.0f, -90.9f); //32
+	crearCasilla(0.0f, -40.4f); //37
+
+	//casillas azules
+	AzTexture.UseTexture();
+
+	crearCasilla(20.2f, 0.0f); //3
+	crearCasilla(70.7f, 0.0f); //8
+	crearCasilla(90.9f, -10.1f); //11
+	crearCasilla(90.9f, -50.5f); //15
+	crearCasilla(90.9f, -80.8f); //18
+	crearCasilla(80.8f, -111.1f); //22
+	crearCasilla(40.4f, -111.1f); //26
+	crearCasilla(0.0f, -101.1f); //31
+	crearCasilla(0.0f, -50.5f); //36
+	crearCasilla(0.0f, -10.1f); //39
+
+	//casillas verdes
+	VeTexture.UseTexture();
+
+	crearCasilla(40.4f, 0.0f); //5
+	crearCasilla(90.9f, -60.6f); //16
+	crearCasilla(90.9f, -111.1f); //21
+	crearCasilla(70.7f, -111.1f); //23
+	crearCasilla(30.3f, -111.1f); //27
+	crearCasilla(10.1f, -111.1f); //29
+	crearCasilla(0.0f, -80.8f); //33
+	crearCasilla(0.0f, -60.6f); //35
+	TestTexture.UseTexture();
+	crearCasilla(0.0f, -20.2f); //39
+}
+
+void cargarTexturas()
+{
 	brickTexture = Texture("Textures/brick.png");
 	brickTexture.LoadTextureA();
 	dirtTexture = Texture("Textures/dirt.png");
@@ -187,6 +389,48 @@ int main()
 	AzTexture.LoadTextureA();
 	VeTexture = Texture("Textures/verde.png");
 	VeTexture.LoadTextureA();
+	D4Texture = Texture("Textures/dado4.png");
+	D4Texture.LoadTextureA();
+	D8Texture = Texture("Textures/dado8.png");
+	D8Texture.LoadTextureA();
+	TestTexture = Texture("Textures/textTest.png");
+	TestTexture.LoadTextureA();
+}
+
+void animacionCaida()
+{
+	posDados = posDados - 0.025f;
+	//printf("[Frame %d] Pos dado: %f\n", framesAnim, posDadoY);
+}
+
+void animacionGiroD4(float rotaX, float rotaY, float rotaZ)
+{
+	dirDado4X = dirDado4X + rotaX;
+	dirDado4Y = dirDado4Y + rotaY;
+	dirDado4Z = dirDado4Z + rotaZ;
+	//printf("[Frame %d] Dir dado: %f, %f, %f\n", framesAnim, dirDadoX, dirDadoY, dirDadoZ);
+}
+
+void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
+{
+	dirDado8X = dirDado8X + rotaX;
+	dirDado8Y = dirDado8Y + rotaY;
+	dirDado8Z = dirDado8Z + rotaZ;
+	//printf("[Frame %d] Dir dado: %f, %f, %f\n", framesAnim, dirDadoX, dirDadoY, dirDadoZ);
+}
+
+int main()
+{
+	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
+	mainWindow.Initialise();
+
+	CreateObjects();
+	crearDados();
+	CreateShaders();
+
+	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
+
+	cargarTexturas();
 
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
@@ -226,6 +470,16 @@ int main()
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
 
+	rotaDado4X = 0.0f;
+	rotaDado4Y = 0.0f;
+	rotaDado4Z = 0.0f;
+	rotaDado8X = 0.0f;
+	rotaDado8Y = 0.0f;
+	rotaDado8Z = 0.0f;
+	posDados = 6.35f;
+
+	printf("[F]\tTirar los dados.\n");
+
 	////Loop mientras no se cierra la ventana
 	glfwSetTime(0.0);
 	while (!mainWindow.getShouldClose())
@@ -234,6 +488,109 @@ int main()
 		deltaTime = now - lastTime;
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
+
+		if (mainWindow.getTiroDados())
+		{
+			mainWindow.resetTiroDados();
+
+			numD4 = mainWindow.getNumDado4();
+			printf("Numero dado de 4 caras: %d\n", numD4);
+
+			switch (numD4)
+			{
+			case 1:
+				rotaDado4X = -0.2375f; rotaDado4Y = -0.72f; rotaDado4Z = 0.0f;
+				break;
+
+			case 2:
+				rotaDado4X = -1.145f; rotaDado4Y = -0.18f; rotaDado4Z = 0.0f;
+				break;
+
+			case 3:
+				rotaDado4X = -0.225f; rotaDado4Y = -0.36f; rotaDado4Z = 0.0f;
+				break;
+
+			case 4:
+				rotaDado4X = -1.125f; rotaDado4Y = -0.54f; rotaDado4Z = 0.0f;
+				break;
+
+			default:
+				break;
+			}
+
+			numD8 = mainWindow.getNumDado8();
+			printf("Numero dado de 8 caras: %d\n", numD8);
+
+			switch (numD8)
+			{
+			case 1:
+				rotaDado8X = -0.2375f; rotaDado8Y = -0.72f; rotaDado8Z = 0.0f;
+				break;
+
+			case 2:
+				rotaDado8X = -1.145f; rotaDado8Y = -0.18f; rotaDado8Z = 0.0f;
+				break;
+
+			case 3:
+				rotaDado8X = -0.225f; rotaDado8Y = -0.36f; rotaDado8Z = 0.0f;
+				break;
+
+			case 4:
+				rotaDado8X = -1.125f; rotaDado8Y = -0.54f; rotaDado8Z = 0.0f;
+				break;
+
+			case 5:
+				rotaDado8X = -0.2375f; rotaDado8Y = -0.72f; rotaDado8Z = 0.0f;
+				break;
+
+			case 6:
+				rotaDado8X = -1.145f; rotaDado8Y = -0.18f; rotaDado8Z = 0.0f;
+				break;
+
+			case 7:
+				rotaDado8X = -0.225f; rotaDado8Y = -0.36f; rotaDado8Z = 0.0f;
+				break;
+
+			case 8:
+				rotaDado8X = -1.125f; rotaDado8Y = -0.54f; rotaDado8Z = 0.0f;
+				break;
+
+			default:
+				break;
+			}
+			numTotal = numD4 + numD8;
+			printf("El personaje avanza %d casillas.\n", numTotal);
+			framesAnim = 1;
+		}
+
+		if (framesAnim == 1)
+		{
+			printf("Animacion de caida comenzada\n");
+			posDados = 6.35f;
+			dirDado4X = 0.0f;
+			dirDado4Y = 0.0f;
+			dirDado4Z = 0.0f;
+			dirDado8X = 0.0f;
+			dirDado8Y = 0.0f;
+			dirDado8Z = 0.0f;
+			framesAnim = 2;
+		}
+		else if (framesAnim >= 2 && framesAnim < 200)
+		{
+			animacionCaida();
+			framesAnim++;
+		}
+		else if (framesAnim >= 200 && framesAnim < 400)
+		{
+			animacionGiroD4(rotaDado4X, rotaDado4Y, rotaDado4Z);
+			animacionGiroD8(rotaDado8X, rotaDado8Y, rotaDado8Z);
+			framesAnim++;
+		}
+		else if (framesAnim == 400)
+		{
+			printf("Animacion de giro terminada\n\n\n");
+			framesAnim = 0;
+		}
 
 		//Recibir eventos del usuario
 		glfwPollEvents();
@@ -287,259 +644,29 @@ int main()
 
 		//casillas de tablero
 
-		//casillas rojas
-		RoTexture.UseTexture();
+		crearTablero();
 
-		model = glm::mat4(1.0); //casilla 1
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		D8Texture.UseTexture();
+
+		model = glm::mat4(1.0); //dado 8
+		model = glm::translate(model, glm::vec3(55.0f, posDados, -55.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.2f, 1.0f));
+		model = glm::rotate(model, dirDado8X * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, dirDado8Y * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, dirDado8Z * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
+		meshList[4]->RenderMesh();
 
-		model = glm::mat4(1.0); //casilla 4
-		model = glm::translate(model, glm::vec3(30.3f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		D4Texture.UseTexture();
+
+		model = glm::mat4(1.0); //dado 4
+		model = glm::translate(model, glm::vec3(45.0f, posDados, -55.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, dirDado4X * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, dirDado4Y * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, dirDado4Z * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 7
-		model = glm::translate(model, glm::vec3(60.6f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 10
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 13
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -30.3f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 19
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -90.9f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 24
-		model = glm::translate(model, glm::vec3(60.6f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 28
-		model = glm::translate(model, glm::vec3(20.2f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 34
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -70.7f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 38
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -30.3f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		//casillas amarillas
-		AmTexture.UseTexture();
-
-		model = glm::mat4(1.0); //casilla 2
-		model = glm::translate(model, glm::vec3(10.1f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 6
-		model = glm::translate(model, glm::vec3(50.5f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 9
-		model = glm::translate(model, glm::vec3(80.8f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 12
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -20.2f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 14
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -40.4f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 17
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -70.7f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 20
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -101.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 25
-		model = glm::translate(model, glm::vec3(50.5f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 30
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 32
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -90.9f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 37
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -40.4f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		//casillas azules
-		AzTexture.UseTexture();
-
-		model = glm::mat4(1.0); //casilla 3
-		model = glm::translate(model, glm::vec3(20.2f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 8
-		model = glm::translate(model, glm::vec3(70.7f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 11
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -10.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 15
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -50.5f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 18
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -80.8f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 22
-		model = glm::translate(model, glm::vec3(80.8f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 26
-		model = glm::translate(model, glm::vec3(40.4f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 31
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -101.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 36
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -50.5f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 39
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -10.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		//casillas verdes
-		VeTexture.UseTexture();
-
-		model = glm::mat4(1.0); //casilla 5
-		model = glm::translate(model, glm::vec3(40.4f, 0.2f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 16
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -60.6f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 21
-		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 23
-		model = glm::translate(model, glm::vec3(70.7f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 27
-		model = glm::translate(model, glm::vec3(30.3f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 29
-		model = glm::translate(model, glm::vec3(10.1f, 0.2f, -111.1f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 33
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -80.8f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 35
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -60.6f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		model = glm::mat4(1.0); //casilla 39
-		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -20.2f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		meshList[2]->RenderMesh();
-
-		
+		meshList[5]->RenderMesh();
 
 		glUseProgram(0);
 
