@@ -50,7 +50,7 @@ int Window::Initialise()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//CREAR VENTANA
-	mainWindow = glfwCreateWindow(width, height, "Practica 06: Texturizado", NULL, NULL);
+	mainWindow = glfwCreateWindow(width, height, "Proyecto final: Monopoly", NULL, NULL);
 	
 	if (!mainWindow)
 	{
