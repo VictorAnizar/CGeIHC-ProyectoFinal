@@ -40,13 +40,11 @@ Texture brickTexture;
 Texture dirtTexture;
 Texture plainTexture;
 Texture pisoTexture;
-Texture dadoTexture;
-Texture logofiTexture;
-//Textura de Dado
-Texture dadoAniamlTexuer;
 
-//Textura Dado de 10 caras
-Texture dado10CarasTexture;
+Texture AmTexture;
+Texture AzTexture;
+Texture RoTexture;
+Texture VeTexture;
 
 Model Minion;
 Model MinionMorado;
@@ -222,6 +220,14 @@ int main()
 	FortalezaVector = Model();
 	FortalezaVector.LoadModel("Models/FortalezaVectorTexturizada4.obj");
 
+	AmTexture = Texture("Textures/amarillo.png");
+	AmTexture.LoadTextureA();
+	RoTexture = Texture("Textures/rojo.png");
+	RoTexture.LoadTextureA();
+	AzTexture = Texture("Textures/azul.png");
+	AzTexture.LoadTextureA();
+	VeTexture = Texture("Textures/verde.png");
+	VeTexture.LoadTextureA();
 
 	
 	std::vector<std::string> skyboxFaces;
@@ -338,6 +344,260 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FortalezaVector.RenderModel();
 
+
+		//casillas de tablero
+
+		//casillas rojas
+		RoTexture.UseTexture();
+
+		model = glm::mat4(1.0); //casilla 1
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 4
+		model = glm::translate(model, glm::vec3(30.3f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 7
+		model = glm::translate(model, glm::vec3(60.6f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 10
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 13
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -30.3f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 19
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -90.9f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 24
+		model = glm::translate(model, glm::vec3(60.6f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 28
+		model = glm::translate(model, glm::vec3(20.2f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 34
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -70.7f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 38
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -30.3f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		//casillas amarillas
+		AmTexture.UseTexture();
+
+		model = glm::mat4(1.0); //casilla 2
+		model = glm::translate(model, glm::vec3(10.1f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 6
+		model = glm::translate(model, glm::vec3(50.5f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 9
+		model = glm::translate(model, glm::vec3(80.8f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 12
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -20.2f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 14
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -40.4f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 17
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -70.7f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 20
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -101.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 25
+		model = glm::translate(model, glm::vec3(50.5f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 30
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 32
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -90.9f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 37
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -40.4f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		//casillas azules
+		AzTexture.UseTexture();
+
+		model = glm::mat4(1.0); //casilla 3
+		model = glm::translate(model, glm::vec3(20.2f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 8
+		model = glm::translate(model, glm::vec3(70.7f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 11
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -10.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 15
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -50.5f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 18
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -80.8f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 22
+		model = glm::translate(model, glm::vec3(80.8f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 26
+		model = glm::translate(model, glm::vec3(40.4f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 31
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -101.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 36
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -50.5f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 39
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -10.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		//casillas verdes
+		VeTexture.UseTexture();
+
+		model = glm::mat4(1.0); //casilla 5
+		model = glm::translate(model, glm::vec3(40.4f, 0.2f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 16
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -60.6f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 21
+		model = glm::translate(model, glm::vec3(90.9f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 23
+		model = glm::translate(model, glm::vec3(70.7f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 27
+		model = glm::translate(model, glm::vec3(30.3f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 29
+		model = glm::translate(model, glm::vec3(10.1f, 0.2f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 33
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -80.8f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 35
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -60.6f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
+
+		model = glm::mat4(1.0); //casilla 39
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -20.2f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[2]->RenderMesh();
 
 		glUseProgram(0);
 
