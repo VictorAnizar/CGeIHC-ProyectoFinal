@@ -1,0 +1,114 @@
+# 3ds Max Wavefront OBJ Exporter v0.99 - (c)2007 guruware
+# File Created: 29.10.2024 02:16:38
+
+newmtl 02___Default
+	Ns 10.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.00 0.00 0.00
+	Kd 0.59 0.59 0.59
+	Ks 0.00 0.00 0.00
+	Ke 0.00 0.00 0.00
+	map_Ka azul.tga
+	map_Kd azul.tga
+
+newmtl 03___Default
+	Ns 10.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.00 0.00 0.00
+	Kd 0.59 0.59 0.59
+	Ks 0.00 0.00 0.00
+	Ke 0.00 0.00 0.00
+	map_Ka negro.tga
+	map_Kd negro.tga
+
+newmtl 08___Default
+	Ns 10.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.00 0.00 0.00
+	Kd 0.59 0.59 0.59
+	Ks 0.00 0.00 0.00
+	Ke 0.00 0.00 0.00
+	map_Ka asd_phong1SG_BaseColor.tga
+	map_Kd asd_phong1SG_BaseColor.tga
+
+newmtl 07___Default
+	Ns 10.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.00 0.00 0.00
+	Kd 0.59 0.59 0.59
+	Ks 0.00 0.00 0.00
+	Ke 0.00 0.00 0.00
+	map_Ka blanco.tga
+	map_Kd blanco.tga
+
+newmtl 01___Default
+	Ns 10.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.00 0.00 0.00
+	Kd 0.59 0.59 0.59
+	Ks 0.00 0.00 0.00
+	Ke 0.00 0.00 0.00
+	map_Ka amarillo.tga
+	map_Kd amarillo.tga
+
+newmtl Material_004
+	Kd 0.80 0.75 0.15
+	Ks 0.80 0.75 0.15
+	Tr 0.00
+	d 1.00
+	Tf 0.00 0.00 0.00
+	Pr 0.41
+	Pm 0.00
+	Pc 0.00
+	Pcr 0.00
+	Ni 1.52
+	Ke 0.00 0.00 0.00
+	illum 2
+
+newmtl Material_003
+	Kd 0.00 0.05 0.00
+	Ks 0.00 0.05 0.00
+	Tr 0.00
+	d 1.00
+	Tf 0.00 0.00 0.00
+	Pr 0.60
+	Pm 0.00
+	Pc 0.00
+	Pcr 0.00
+	Ni 1.52
+	Ke 0.00 0.00 0.00
+	illum 2
+
+newmtl 09___Default
+	Ns 10.00
+	Ni 1.50
+	d 1.00
+	Tr 0.00
+	Tf 1.00 1.00 1.00 
+	illum 2
+	Ka 0.00 0.00 0.00
+	Kd 0.59 0.59 0.59
+	Ks 0.00 0.00 0.00
+	Ke 0.00 0.00 0.00
+	map_Ka dirt.tga
+	map_Kd dirt.tga
