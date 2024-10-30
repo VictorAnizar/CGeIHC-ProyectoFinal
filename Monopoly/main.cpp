@@ -214,21 +214,21 @@ void crearDados()
 	GLfloat verticesOcta[] =
 	{
 		// tras sup 5
-		-1.0f, 0.0f, -1.0f,		0.500f, 0.500f,		0.0f, 0.0f, 1.0f, // izq abajo
-		1.0f, 0.0f, -1.0f,		0.994f, 0.500f,		0.0f, 0.0f, 1.0f, // der abajo
-		0.0f,  1.0f, 0.0f, 		0.742f, 0.994f,		0.0f, 0.0f, 1.0f, // punta sup
+		-1.0f, 0.0f, -1.0f,		0.412f, 0.006f,		0.0f, 0.0f, 1.0f, // izq abajo
+		1.0f, 0.0f, -1.0f,		0.006f, 0.006f,		0.0f, 0.0f, 1.0f, // der abajo
+		0.0f,  1.0f, 0.0f, 		0.203f, 0.398f,		0.0f, 0.0f, 1.0f, // punta sup
 		// der sup 3
-		1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
-		1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der arriba
-		0.0f,  1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta sup
+		1.0f, 0.0f, -1.0f,		0.796f, 0.496f,		0.0f, 0.0f, -1.0f, // der abajo
+		1.0f, 0.0f,  1.0f,		0.402f, 0.496f,		0.0f, 0.0f, -1.0f, // der arriba
+		0.0f,  1.0f, 0.0f, 		0.600f, 0.887f,		0.0f, 0.0f, -1.0f, // punta sup
 		// front sup 1
 		-1.0f, 0.0f,  1.0f,		0.006f, 0.492f,		0.0f, 0.0f, -1.0f, // izq arriba
 		1.0f, 0.0f,  1.0f,		0.398f, 0.492f,		0.0f, 0.0f, -1.0f, // der arriba
 		0.0f,  1.0f, 0.0f, 		0.201f, 0.891f,		0.0f, 0.0f, -1.0f, // punta sup
 		// izq sup 7
-		-1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq arriba
-		-1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
-		0.0f,  1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta sup
+		-1.0f, 0.0f,  1.0f,		0.799f, 0.006f,		0.0f, 0.0f, 1.0f, // izq arriba
+		-1.0f, 0.0f, -1.0f,		0.420f, 0.006f,		0.0f, 0.0f, 1.0f, // izq abajo
+		0.0f,  1.0f, 0.0f, 		0.600f, 0.398f,		0.0f, 0.0f, 1.0f, // punta sup
 
 		// front inf 2
 		-1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
