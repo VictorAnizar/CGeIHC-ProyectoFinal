@@ -13,21 +13,9 @@ Window::Window(GLint windowWidth, GLint windowHeight)
 {
 	width = windowWidth;
 	height = windowHeight;
-	articulacion1 = 0.0f;
-	articulacion2 = 0.0f;
-	articulacion3 = 0.0f;
-	articulacion4 = 0.0f;
-	articulacion5 = 0.0f;
-	articulacion6 = 0.0f;
-	articulacion7 = 0.0f;
-	articulacion8 = 0.0f;
-	articulacion9 = 0.0f;
-	articulacion10 = 0.0f;
-	llanta1 = 0.0f;
-	llanta2 = 0.0f;
-	llanta3 = 0.0f;
-	llanta4 = 0.0f;
-	muevex = 2.0f;
+	tiroDados = 0;
+
+
 	for (size_t i = 0; i < 1024; i++)
 	{
 		keys[i] = 0;
@@ -50,8 +38,8 @@ int Window::Initialise()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	//CREAR VENTANA
-	mainWindow = glfwCreateWindow(width, height, "Proyecto final: Monopoly", NULL, NULL);
-	
+	mainWindow = glfwCreateWindow(width, height, "PROYECTO CGIHC MONOPOLY.", NULL, NULL);
+
 	if (!mainWindow)
 	{
 		printf("Fallo en crearse la ventana con GLFW");
@@ -80,9 +68,9 @@ int Window::Initialise()
 	}
 
 	glEnable(GL_DEPTH_TEST); //HABILITAR BUFFER DE PROFUNDIDAD
-							 // Asignar valores de la ventana y coordenadas
-							 
-							 //Asignar Viewport
+	// Asignar valores de la ventana y coordenadas
+
+	//Asignar Viewport
 	glViewport(0, 0, bufferWidth, bufferHeight);
 	//Callback para detectar que se está usando la ventana
 	glfwSetWindowUserPointer(mainWindow, this);
@@ -107,9 +95,6 @@ GLfloat Window::getYChange()
 	return theChange;
 }
 
-
-
-
 void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, int mode)
 {
 	Window* theWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
@@ -118,97 +103,22 @@ void Window::ManejaTeclado(GLFWwindow* window, int key, int code, int action, in
 	{
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
-	if (key == GLFW_KEY_Y)
+	if (key == GLFW_KEY_F && action == GLFW_PRESS)
 	{
-		theWindow-> muevex += 1.0;
-	}
-	if (key == GLFW_KEY_U)
-	{
-		theWindow-> muevex -= 1.0;
-	}
+		printf("Tirando dados...\n");
+		theWindow->tiroDados = true;
+		std::random_device rd4; // Seed
+		std::mt19937 gen4(rd4()); // Mersenne Twister engine
 
-	if (key == GLFW_KEY_V)
-	{
-		if (theWindow->angulocola > 40.0)
-		{
-		}
-		else
-		{
-			theWindow->angulocola += 10.0;
-		}
-	}
+		std::uniform_int_distribution<> dis4(1, 4);
+		theWindow->numDado4 = dis4(gen4);
 
-	if (key == GLFW_KEY_B)
-	{
-		if (theWindow->angulocola < -40.0)
-		{
-		}
-		else
-		{
-			theWindow->angulocola -= 10.0;
-		}
-	}
+		std::random_device rd8;
+		std::mt19937 gen8(rd8());
 
-	if (key == GLFW_KEY_F)
-	{
-		theWindow->articulacion1 += 10.0;
+		std::uniform_int_distribution<> dis8(1, 8);
+		theWindow->numDado8 = dis8(gen8);
 	}
-	if (key == GLFW_KEY_G)
-	{
-		theWindow->articulacion2 -= 10.0;
-	}
-	if (key == GLFW_KEY_H)
-	{
-		theWindow->articulacion3 += 10.0;
-	}
-	if (key == GLFW_KEY_J)
-	{
-		theWindow->articulacion4 -= 10.0;
-	}
-	if (key == GLFW_KEY_K)
-	{
-		theWindow->articulacion5 += 10.0;
-
-	}
-	if (key == GLFW_KEY_L)
-	{
-		theWindow->articulacion6 -= 10.0;
-	}
-	if (key == GLFW_KEY_Z)
-	{
-		theWindow->articulacion7 += 10.0;
-	}
-	if (key == GLFW_KEY_X)
-	{
-		theWindow->articulacion8 += 10.0;
-	}
-	if (key == GLFW_KEY_C)
-	{
-		theWindow->articulacion9 += 10.0;
-	}
-	if (key == GLFW_KEY_V)
-	{
-		theWindow->articulacion10 += 10.0;
-	}
-	if (key == GLFW_KEY_U)
-	{
-		theWindow->llanta1 += 10.0;
-	}
-	if (key == GLFW_KEY_I)
-	{
-		theWindow->llanta2 += 10.0;
-	}
-	if (key == GLFW_KEY_O)
-	{
-		theWindow->llanta3 += 10.0;
-	}
-	if (key == GLFW_KEY_P)
-	{
-		theWindow->llanta4 += 10.0;
-	}
-	
-
-
 
 	if (key >= 0 && key < 1024)
 	{
