@@ -1,9 +1,9 @@
 /*
 Semestre 2024-1
-Animaci髇:
-Sesi髇 1:
-Simple o b醩ica:Por banderas y condicionales (m醩 de 1 transforomaci髇 geom閠rica se ve modificada
-Sesi髇 2
+Animaci贸n:
+Sesi贸n 1:
+Simple o b谩sica:Por banderas y condicionales (m谩s de 1 transforomaci贸n geom茅trica se ve modificada
+Sesi贸n 2
 Compleja: Por medio de funciones y algoritmos.
 Adicional.- ,Textura Animada
 */
@@ -35,7 +35,7 @@ Adicional.- ,Textura Animada
 #include "Model.h" 
 #include "Skybox.h"
 
-//para iluminaci髇
+//para iluminaci贸n
 #include "CommonValues.h"
 #include "DirectionalLight.h"
 #include "PointLight.h"
@@ -81,7 +81,7 @@ static const char* vShader = "shaders/shader_light.vert";
 // Fragment Shader
 static const char* fShader = "shaders/shader_light.frag";
 
-//funci髇 de calculo de normales por promedio de v閞tices 
+//funci贸n de calculo de normales por promedio de v茅rtices 
 void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
 	unsigned int vLength, unsigned int normalOffset)
 {
@@ -127,6 +127,17 @@ void CreateObjects()
 			0.0f, 1.0f, 0.0f,		0.5f, 1.0f,		0.0f, 0.0f, 0.0f
 	};
 
+	unsigned int tableroIndices[] = {
+		0, 2, 1,
+		1, 2, 3
+	};
+
+	GLfloat tableroVertices[] = {
+		-10.0f, 0.0f, -10.0f,	1.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		10.0f, 0.0f, -10.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		-10.0f, 0.0f, 10.0f,	1.0f, 1.0f,		0.0f, -1.0f, 0.0f,
+		10.0f, 0.0f, 10.0f,		0.0f, 1.0f,		0.0f, -1.0f, 0.0f
+	};
 	unsigned int floorIndices[] = {
 		0, 2, 1,
 		1, 2, 3
@@ -134,10 +145,12 @@ void CreateObjects()
 
 	GLfloat floorVertices[] = {
 		-10.0f, 0.0f, -10.0f,	0.0f, 0.0f,		0.0f, -1.0f, 0.0f,
-		10.0f, 0.0f, -10.0f,	10.0f, 0.0f,	0.0f, -1.0f, 0.0f,
-		-10.0f, 0.0f, 10.0f,	0.0f, 10.0f,	0.0f, -1.0f, 0.0f,
-		10.0f, 0.0f, 10.0f,		10.0f, 10.0f,	0.0f, -1.0f, 0.0f
+		10.0f, 0.0f, -10.0f,	10.0f, 0.0f,		0.0f, -1.0f, 0.0f,
+		-10.0f, 0.0f, 10.0f,	0.0f, 10.0f,		0.0f, -1.0f, 0.0f,
+		10.0f, 0.0f, 10.0f,		10.0f, 10.0f,		0.0f, -1.0f, 0.0f
 	};
+
+
 
 	Mesh* obj1 = new Mesh();
 	obj1->CreateMesh(vertices, indices, 32, 12);
@@ -148,8 +161,12 @@ void CreateObjects()
 	meshList.push_back(obj2);
 
 	Mesh* obj3 = new Mesh();
-	obj3->CreateMesh(floorVertices, floorIndices, 32, 6);
+	obj3->CreateMesh(tableroVertices, tableroIndices, 32, 6);
 	meshList.push_back(obj3);
+
+	Mesh* obj4 = new Mesh();
+	obj4->CreateMesh(floorVertices, floorIndices, 32, 6);
+	meshList.push_back(obj4);
 
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
 }
@@ -202,7 +219,7 @@ int main()
 	Material_opaco = Material(0.3f, 4);
 
 
-	//luz direccional, s髄o 1 y siempre debe de existir
+	//luz direccional, s贸lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.6f, 0.6f,
 		0.0f, 0.0f, -1.0f);
@@ -251,7 +268,7 @@ int main()
 		uniformEyePosition = shaderList[0].GetEyePositionLocation();
 		uniformColor = shaderList[0].getColorLocation();
 
-		//informaci髇 en el shader de intensidad especular y brillo
+		//informaci贸n en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
@@ -259,13 +276,13 @@ int main()
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
-		// luz ligada a la c醡ara de tipo flash
-		// sirve para que en tiempo de ejecuci髇 (dentro del while) se cambien propiedades de la luz
+		// luz ligada a la c谩mara de tipo flash
+		// sirve para que en tiempo de ejecuci贸n (dentro del while) se cambien propiedades de la luz
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
 		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
-		//informaci髇 al shader de fuentes de iluminaci髇
+		//informaci贸n al shader de fuentes de iluminaci贸n
 		shaderList[0].SetDirectionalLight(&mainLight);
 		//shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
@@ -283,7 +300,7 @@ int main()
 		pisoTexture.UseTexture();
 		Material_opaco.UseMaterial(uniformSpecularIntensity, uniformShininess);
 
-		meshList[2]->RenderMesh();
+		meshList[3]->RenderMesh();
 
 		//casillas de tablero
 
@@ -357,6 +374,7 @@ int main()
 		model = glm::translate(model, glm::vec3(10.1f, 0.2f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		gaston.UseTexture();
 		meshList[2]->RenderMesh();
 
 		model = glm::mat4(1.0); //casilla 6
