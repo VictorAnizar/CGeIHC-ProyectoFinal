@@ -86,6 +86,7 @@ Model CarroGru;
 Model FortalezaVector;
 Model MinionBebe;
 Model MacetaMinion;
+Model MinionMaquinaDulces;
 
 Skybox skybox;
 
@@ -437,13 +438,13 @@ void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 void cargarModelos()
 {
 	Minion = Model();
-	Minion.LoadModel("Models/MinionNormalTexturizado.obj");
+	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
 
 	MacetaMinion = Model();
 	MacetaMinion.LoadModel("Models/MacetaMinionTexturizada.obj");
 
 	MinionBebe = Model();
-	MinionBebe.LoadModel("Models/MinionBebeTexturizado.obj");
+	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
 
 	MinionMorado = Model();
 	MinionMorado.LoadModel("Models/MinionMoradoTexturizado.obj");
@@ -459,6 +460,9 @@ void cargarModelos()
 
 	FortalezaVector = Model();
 	FortalezaVector.LoadModel("Models/FortalezaVectorTexturizada4.obj");
+
+	MinionMaquinaDulces = Model();
+	MinionMaquinaDulces.LoadModel("Models/MinionMaquinaDulcesTexturizado.obj");
 }
 
 int main()
@@ -726,6 +730,12 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		meshList[5]->RenderMesh();
 
+		/*
+		/////////////////////////////////////////////////////////////////////////////////////////
+								INCLUIR ABAJO INSTANCIAS DE MODELOS
+		/////////////////////////////////////////////////////////////////////////////////////////
+		*/
+
 		//Instancia del minion 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.0f));
@@ -779,6 +789,15 @@ int main()
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		CarroGru.RenderModel();
+
+		//Instancia de maquina dulces minion
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -60.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(5.2f, 5.2f, 5.2f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionMaquinaDulces.RenderModel();
 
 		//Instancia de Fortaleza de vector
 		model = glm::mat4(1.0);
