@@ -54,6 +54,7 @@ Model CarroGru;
 Model FortalezaVector;
 Model MinionBebe;
 Model MacetaMinion;
+Model MinionMaquinaDulces;
 
 
 Skybox skybox;
@@ -227,6 +228,9 @@ int main()
 	FortalezaVector = Model();
 	FortalezaVector.LoadModel("Models/FortalezaVectorTexturizada4.obj");
 
+	MinionMaquinaDulces = Model();
+	MinionMaquinaDulces.LoadModel("Models/MinionMaquinaDulcesTexturizado.obj");
+
 	AmTexture = Texture("Textures/amarillo.png");
 	AmTexture.LoadTextureA();
 	RoTexture = Texture("Textures/rojo.png");
@@ -349,6 +353,15 @@ int main()
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		CarroGru.RenderModel();
+
+		//Instancia de maquina dulces minion
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -60.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(5.2f, 5.2f, 5.2f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionMaquinaDulces.RenderModel();
 
 
 		//Instancia de Fortaleza de vector
