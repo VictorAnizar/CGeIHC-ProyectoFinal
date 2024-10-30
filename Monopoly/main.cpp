@@ -205,13 +205,13 @@ int main()
 	pisoTexture.LoadTextureA();
 	
 	Minion = Model();
-	Minion.LoadModel("Models/MinionNormalTexturizado.obj");
+	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
 
 	MacetaMinion = Model();
 	MacetaMinion.LoadModel("Models/MacetaMinionTexturizada.obj");
 
 	MinionBebe = Model();
-	MinionBebe.LoadModel("Models/MinionBebeTexturizado.obj");
+	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
 
 	MinionMorado = Model();
 	MinionMorado.LoadModel("Models/MinionMoradoTexturizado.obj");
