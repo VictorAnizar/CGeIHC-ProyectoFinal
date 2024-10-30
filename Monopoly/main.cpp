@@ -213,15 +213,15 @@ void crearDados()
 {
 	GLfloat verticesOcta[] =
 	{
-		// front sup 1
-		-1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, // izq abajo
-		1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, // der abajo
-		0.0f,  1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 1.0f, // punta sup
+		// tras sup 5
+		-1.0f, 0.0f, -1.0f,		0.500f, 0.500f,		0.0f, 0.0f, 1.0f, // izq abajo
+		1.0f, 0.0f, -1.0f,		0.994f, 0.500f,		0.0f, 0.0f, 1.0f, // der abajo
+		0.0f,  1.0f, 0.0f, 		0.742f, 0.994f,		0.0f, 0.0f, 1.0f, // punta sup
 		// der sup 3
 		1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
 		1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der arriba
 		0.0f,  1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta sup
-		// tras sup 5
+		// front sup 1
 		-1.0f, 0.0f,  1.0f,		0.006f, 0.492f,		0.0f, 0.0f, -1.0f, // izq arriba
 		1.0f, 0.0f,  1.0f,		0.398f, 0.492f,		0.0f, 0.0f, -1.0f, // der arriba
 		0.0f,  1.0f, 0.0f, 		0.201f, 0.891f,		0.0f, 0.0f, -1.0f, // punta sup
@@ -269,18 +269,18 @@ void crearDados()
 		-1.0f, 0.0f, 0.0f,		0.006f, 0.492f,		0.0f, 0.0f, -1.0f, // izq abajo
 		1.0f, 0.0f, 0.0f,		0.492f, 0.492f,		0.0f, 0.0f, -1.0f, // der abajo
 		0.0f,  1.5f, -0.865f, 	0.246f, 0.994f,		0.0f, 0.0f, -1.0f, // punta sup
-		// der  3
-		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
-		0.0f, 0.0f,  -1.73f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // trasera
-		0.0f,  1.5f, -0.865f, 	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta sup
-		// izq  2
-		-1.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
-		0.0f, 0.0f,  -1.73f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // trasera
-		0.0f,  1.5f, -0.865f, 	0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta sup
+		// der  2
+		1.0f, 0.0f, 0.0f,		0.500f, 0.500f,		0.0f, 0.0f, 0.0f, // der abajo
+		0.0f, 0.0f,  -1.73f,	0.994f, 0.500f,		0.0f, 0.0f, 0.0f, // trasera
+		0.0f,  1.5f, -0.865f, 	0.744f, 0.994f,		0.0f, 0.0f, 0.0f, // punta sup
+		// izq  3
+		-1.0f, 0.0f, 0.0f,		0.492f, 0.006f,		0.0f, 0.0f, 0.0f, // izq abajo
+		0.0f, 0.0f,  -1.73f,	0.006f, 0.006f,		0.0f, 0.0f, 0.0f, // trasera
+		0.0f,  1.5f, -0.865f, 	0.246f, 0.490f,		0.0f, 0.0f, 0.0f, // punta sup
 		// base 4
-		-1.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
-		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
-		0.0f, 0.0f,  -1.73f,	0.0f, 0.0f,		0.0f, 0.0f, 0.0f  // trasera
+		-1.0f, 0.0f, 0.0f,		0.990f, 0.006f,		0.0f, 0.0f, 0.0f, // izq abajo
+		1.0f, 0.0f, 0.0f,		0.500f, 0.006f,		0.0f, 0.0f, 0.0f, // der abajo
+		0.0f, 0.0f,  -1.73f,	0.744f, 0.492f,		0.0f, 0.0f, 0.0f  // trasera
 	};
 
 	GLuint indicesCuad[] =
