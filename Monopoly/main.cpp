@@ -44,6 +44,7 @@ int framesMov = 0;
 int numD4 = 0;
 int numD8 = 0;
 int numTotal = 0;
+int casAct = 0;
 float rotaDado4X;
 float rotaDado4Y;
 float rotaDado4Z;
@@ -214,38 +215,38 @@ void crearDados()
 	GLfloat verticesOcta[] =
 	{
 		// tras sup 5
-		-1.0f, 0.0f, -1.0f,		0.412f, 0.006f,		0.0f, 0.0f, 1.0f, // izq abajo
-		1.0f, 0.0f, -1.0f,		0.006f, 0.006f,		0.0f, 0.0f, 1.0f, // der abajo
-		0.0f,  1.0f, 0.0f, 		0.203f, 0.398f,		0.0f, 0.0f, 1.0f, // punta sup
+		-1.0f, 0.0f, -1.0f,		0.412f, 0.010f,		0.0f, -1.0f, 1.0f, // izq abajo
+		1.0f, 0.0f, -1.0f,		0.006f, 0.010f,		0.0f, -1.0f, 1.0f, // der abajo
+		0.0f,  1.0f, 0.0f, 		0.203f, 0.398f,		0.0f, -1.0f, 1.0f, // punta sup
 		// der sup 3
-		1.0f, 0.0f, -1.0f,		0.796f, 0.496f,		0.0f, 0.0f, -1.0f, // der abajo
-		1.0f, 0.0f,  1.0f,		0.402f, 0.496f,		0.0f, 0.0f, -1.0f, // der arriba
-		0.0f,  1.0f, 0.0f, 		0.600f, 0.887f,		0.0f, 0.0f, -1.0f, // punta sup
+		1.0f, 0.0f, -1.0f,		0.796f, 0.496f,		-1.0f, -1.0f, 0.0f, // der abajo
+		1.0f, 0.0f,  1.0f,		0.402f, 0.496f,		-1.0f, -1.0f, 0.0f, // der arriba
+		0.0f,  1.0f, 0.0f, 		0.600f, 0.887f,		-1.0f, -1.0f, 0.0f, // punta sup
 		// front sup 1
-		-1.0f, 0.0f,  1.0f,		0.006f, 0.492f,		0.0f, 0.0f, -1.0f, // izq arriba
-		1.0f, 0.0f,  1.0f,		0.398f, 0.492f,		0.0f, 0.0f, -1.0f, // der arriba
-		0.0f,  1.0f, 0.0f, 		0.201f, 0.891f,		0.0f, 0.0f, -1.0f, // punta sup
+		-1.0f, 0.0f,  1.0f,		0.006f, 0.500f,		0.0f, -1.0f, -1.0f, // izq arriba
+		1.0f, 0.0f,  1.0f,		0.398f, 0.500f,		0.0f, -1.0f, -1.0f, // der arriba
+		0.0f,  1.0f, 0.0f, 		0.201f, 0.891f,		0.0f, -1.0f, -1.0f, // punta sup
 		// izq sup 7
-		-1.0f, 0.0f,  1.0f,		0.799f, 0.006f,		0.0f, 0.0f, 1.0f, // izq arriba
-		-1.0f, 0.0f, -1.0f,		0.420f, 0.006f,		0.0f, 0.0f, 1.0f, // izq abajo
-		0.0f,  1.0f, 0.0f, 		0.600f, 0.398f,		0.0f, 0.0f, 1.0f, // punta sup
+		-1.0f, 0.0f,  1.0f,		0.799f, 0.010f,		1.0f, -1.0f, 0.0f, // izq arriba
+		-1.0f, 0.0f, -1.0f,		0.420f, 0.010f,		1.0f, -1.0f, 0.0f, // izq abajo
+		0.0f,  1.0f, 0.0f, 		0.600f, 0.398f,		1.0f, -1.0f, 0.0f, // punta sup
 
 		// front inf 2
-		-1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
-		1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
-		0.0f, -1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta inf
+		-1.0f, 0.0f, -1.0f,		0.598f, 0.463f,		0.0f, 1.0f, 1.0f, // izq abajo
+		1.0f, 0.0f, -1.0f,		0.203f, 0.463f,		0.0f, 1.0f, 1.0f, // der abajo
+		0.0f, -1.0f, 0.0f, 		0.400f, 0.066f,		0.0f, 1.0f, 1.0f, // punta inf
 		// der inf 4
-		1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der abajo
-		1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der arriba
-		0.0f, -1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta inf
+		1.0f, 0.0f, -1.0f,		0.996f, 0.463f,		-1.0f, 1.0f, 0.0f, // der abajo
+		1.0f, 0.0f,  1.0f,		0.600f, 0.463f,		-1.0f, 1.0f, 0.0f, // der arriba
+		0.0f, -1.0f, 0.0f, 		0.799f, 0.066f,		-1.0f, 1.0f, 0.0f, // punta inf
 		// tras inf 6
-		-1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq arriba
-		1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // der arriba
-		0.0f, -1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // punta inf
+		-1.0f, 0.0f,  1.0f,		0.203f, 0.970f,		0.0f, 1.0f, -1.0f, // izq arriba
+		1.0f, 0.0f,  1.0f,		0.598f, 0.970f,		0.0f, 1.0f, -1.0f, // der arriba
+		0.0f, -1.0f, 0.0f, 		0.400f, 0.596f,		0.0f, 1.0f, -1.0f, // punta inf
 		// izq inf 8
-		-1.0f, 0.0f,  1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq arriba
-		-1.0f, 0.0f, -1.0f,		0.0f, 0.0f,		0.0f, 0.0f, 0.0f, // izq abajo
-		0.0f, -1.0f, 0.0f, 		0.0f, 0.0f,		0.0f, 0.0f, 0.0f  // punta inf
+		-1.0f, 0.0f,  1.0f,		0.996f, 0.970f,		1.0f, 1.0f, 0.0f, // izq arriba
+		-1.0f, 0.0f, -1.0f,		0.600f, 0.970f,		1.0f, 1.0f, 0.0f, // izq abajo
+		0.0f, -1.0f, 0.0f, 		0.799f, 0.596f,		1.0f, 1.0f, 0.0f  // punta inf
 	};
 
 	GLuint indicesOcta[] =
@@ -266,21 +267,21 @@ void crearDados()
 	GLfloat verticesCuad[] =
 	{
 		// front  1
-		-1.0f, 0.0f, 0.0f,		0.006f, 0.492f,		0.0f, 0.0f, -1.0f, // izq abajo
-		1.0f, 0.0f, 0.0f,		0.492f, 0.492f,		0.0f, 0.0f, -1.0f, // der abajo
-		0.0f,  1.5f, -0.865f, 	0.246f, 0.994f,		0.0f, 0.0f, -1.0f, // punta sup
+		-1.0f, 0.0f, 0.0f,		0.006f, 0.492f,		0.0f, -1.0f, -1.0f, // izq abajo
+		1.0f, 0.0f, 0.0f,		0.492f, 0.492f,		0.0f, -1.0f, -1.0f, // der abajo
+		0.0f,  1.5f, -0.865f, 	0.246f, 0.994f,		0.0f, -1.0f, -1.0f, // punta sup
 		// der  2
-		1.0f, 0.0f, 0.0f,		0.500f, 0.500f,		0.0f, 0.0f, 0.0f, // der abajo
-		0.0f, 0.0f,  -1.73f,	0.994f, 0.500f,		0.0f, 0.0f, 0.0f, // trasera
-		0.0f,  1.5f, -0.865f, 	0.744f, 0.994f,		0.0f, 0.0f, 0.0f, // punta sup
+		1.0f, 0.0f, 0.0f,		0.500f, 0.500f,		-1.0f, -1.0f, 0.0f, // der abajo
+		0.0f, 0.0f,  -1.73f,	0.994f, 0.500f,		-1.0f, -1.0f, 0.0f, // trasera
+		0.0f,  1.5f, -0.865f, 	0.744f, 0.994f,		-1.0f, -1.0f, 0.0f, // punta sup
 		// izq  3
-		-1.0f, 0.0f, 0.0f,		0.492f, 0.006f,		0.0f, 0.0f, 0.0f, // izq abajo
-		0.0f, 0.0f,  -1.73f,	0.006f, 0.006f,		0.0f, 0.0f, 0.0f, // trasera
-		0.0f,  1.5f, -0.865f, 	0.246f, 0.490f,		0.0f, 0.0f, 0.0f, // punta sup
+		-1.0f, 0.0f, 0.0f,		0.492f, 0.006f,		1.0f, -1.0f, 0.0f, // izq abajo
+		0.0f, 0.0f,  -1.73f,	0.006f, 0.006f,		1.0f, -1.0f, 0.0f, // trasera
+		0.0f,  1.5f, -0.865f, 	0.246f, 0.490f,		1.0f, -1.0f, 0.0f, // punta sup
 		// base 4
-		-1.0f, 0.0f, 0.0f,		0.990f, 0.006f,		0.0f, 0.0f, 0.0f, // izq abajo
-		1.0f, 0.0f, 0.0f,		0.500f, 0.006f,		0.0f, 0.0f, 0.0f, // der abajo
-		0.0f, 0.0f,  -1.73f,	0.744f, 0.492f,		0.0f, 0.0f, 0.0f  // trasera
+		-1.0f, 0.0f, 0.0f,		0.990f, 0.006f,		0.0f, 1.0f, 0.0f, // izq abajo
+		1.0f, 0.0f, 0.0f,		0.500f, 0.006f,		0.0f, 1.0f, 0.0f, // der abajo
+		0.0f, 0.0f,  -1.73f,	0.744f, 0.492f,		0.0f, 1.0f, 0.0f  // trasera
 	};
 
 	GLuint indicesCuad[] =
@@ -538,24 +539,24 @@ int main()
 			mainWindow.resetTiroDados();
 
 			numD4 = mainWindow.getNumDado4();
-			printf("Numero dado de 4 caras: %d\n", numD4);
+			printf(">>Numero de dado blanco: [%d]\n", numD4);
 
 			switch (numD4)
 			{
 			case 1:
-				rotaDado4X = -0.2375f; rotaDado4Y = -0.72f; rotaDado4Z = 0.0f;
+				rotaDado4X = -0.3f; rotaDado4Y = 0.0f; rotaDado4Z = 0.0f;
 				break;
 
 			case 2:
-				rotaDado4X = -1.145f; rotaDado4Y = -0.18f; rotaDado4Z = 0.0f;
+				rotaDado4X = -0.35f; rotaDado4Y = -0.6f; rotaDado4Z = 0.0f;
 				break;
 
 			case 3:
-				rotaDado4X = -0.225f; rotaDado4Y = -0.36f; rotaDado4Z = 0.0f;
+				rotaDado4X = -0.35f; rotaDado4Y = 0.6f; rotaDado4Z = 0.0f;
 				break;
 
 			case 4:
-				rotaDado4X = -1.125f; rotaDado4Y = -0.54f; rotaDado4Z = 0.0f;
+				rotaDado4X = 0.9f; rotaDado4Y = 0.9f; rotaDado4Z = 0.0f;
 				break;
 
 			default:
@@ -563,40 +564,40 @@ int main()
 			}
 
 			numD8 = mainWindow.getNumDado8();
-			printf("Numero dado de 8 caras: %d\n", numD8);
+			printf(">>Numero de dado negro: [%d]\n", numD8);
 
 			switch (numD8)
 			{
-			case 1:
-				rotaDado8X = -0.2375f; rotaDado8Y = -0.72f; rotaDado8Z = 0.0f;
+			case 1: 
+				rotaDado8X = -0.25f; rotaDado8Y = 0.0f; rotaDado8Z = 0.0f;
 				break;
 
-			case 2:
-				rotaDado8X = -1.145f; rotaDado8Y = -0.18f; rotaDado8Z = 0.0f;
+			case 2: 
+				rotaDado8X = -1.12; rotaDado8Y = 0.0f; rotaDado8Z = 0.0f;
 				break;
 
-			case 3:
-				rotaDado8X = -0.225f; rotaDado8Y = -0.36f; rotaDado8Z = 0.0f;
+			case 3: 
+				rotaDado8X = -0.22f; rotaDado8Y = -0.45f; rotaDado8Z = 0.0f;
 				break;
 
-			case 4:
-				rotaDado8X = -1.125f; rotaDado8Y = -0.54f; rotaDado8Z = 0.0f;
+			case 4: 
+				rotaDado8X = 0.68f; rotaDado8Y = 0.45f; rotaDado8Z = 0.0f;
 				break;
 
-			case 5:
-				rotaDado8X = -0.2375f; rotaDado8Y = -0.72f; rotaDado8Z = 0.0f;
+			case 5: 
+				rotaDado8X = -0.22f; rotaDado8Y = 0.9f; rotaDado8Z = 0.0f;
 				break;
 
-			case 6:
-				rotaDado8X = -1.145f; rotaDado8Y = -0.18f; rotaDado8Z = 0.0f;
+			case 6:  
+				rotaDado8X = 0.68f; rotaDado8Y = 0.9f; rotaDado8Z = 0.0f;
 				break;
 
-			case 7:
-				rotaDado8X = -0.225f; rotaDado8Y = -0.36f; rotaDado8Z = 0.0f;
+			case 7: 
+				rotaDado8X = -0.22f; rotaDado8Y = 0.45f; rotaDado8Z = 0.0f;
 				break;
 
 			case 8:
-				rotaDado8X = -1.125f; rotaDado8Y = -0.54f; rotaDado8Z = 0.0f;
+				rotaDado8X = 0.68f; rotaDado8Y = 1.35f; rotaDado8Z = 0.0f;
 				break;
 
 			default:
@@ -604,12 +605,14 @@ int main()
 			}
 			numTotal = numD4 + numD8;
 			printf("El personaje avanza %d casillas.\n", numTotal);
+			casAct += numTotal; //contador de casilla actual
+			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
 			framesAnim = 1;
 		}
 
 		if (framesAnim == 1)
 		{
-			printf("Animacion comenzada\n");
+			printf("[Animacion comenzada]\n");
 			posDados = 6.35f;
 			dirDado4X = 0.0f;
 			dirDado4Y = 0.0f;
@@ -632,9 +635,22 @@ int main()
 		}
 		else if (framesAnim == 400)
 		{
-			printf("Animacion terminada\n\n\n");
+			printf("[Animacion terminada]\n\n\n");
 			framesAnim = 0;
 		}
+
+		/*
+		Hacer:
+			if casAct es igual a indice de una esquina
+				se hace rotacion del personaje
+
+			contador de 1 en 1 para casAct, para lograr que
+			if casAct == 40 
+				reiniciar a casAct = 0 y seguir sumando los restantes
+			prender bandera de paso por inicio para animaciones especiales
+
+			escalar modelos a tamano similar
+		*/
 
 		//Recibir eventos del usuario
 		glfwPollEvents();
@@ -692,7 +708,7 @@ int main()
 
 		model = glm::mat4(1.0); //dado 8
 		model = glm::translate(model, glm::vec3(55.0f, posDados, -55.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.2f, 1.0f));
+		model = glm::scale(model, glm::vec3(1.4f, 1.6f, 1.4f));
 		model = glm::rotate(model, dirDado8X * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, dirDado8Y * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, dirDado8Z * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -702,7 +718,7 @@ int main()
 		D4Texture.UseTexture();
 
 		model = glm::mat4(1.0); //dado 4
-		model = glm::translate(model, glm::vec3(45.0f, posDados, -55.0f));
+		model = glm::translate(model, glm::vec3(45.0f, 0.5f + posDados, -55.0f));
 		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, dirDado4X * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, dirDado4Y * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
