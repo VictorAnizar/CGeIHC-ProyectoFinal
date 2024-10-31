@@ -141,7 +141,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="Shader_m.cpp" />
+    <ClCompile Include="Shader_light.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="SpotLight.cpp" />
@@ -158,7 +158,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="PointLight.h" />
-    <ClInclude Include="Shader_m.h" />
+    <ClInclude Include="Shader_light.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="SpotLight.h" />
@@ -167,8 +167,8 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\shader_texture.frag" />
-    <None Include="shaders\shader_texture.vert" />
+    <None Include="shaders\shader_light.frag" />
+    <None Include="shaders\shader_light.vert" />
     <None Include="shaders\skybox.frag" />
     <None Include="shaders\skybox.vert" />
   </ItemGroup>
