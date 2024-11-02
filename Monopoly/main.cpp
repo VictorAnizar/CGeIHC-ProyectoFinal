@@ -78,6 +78,17 @@ Texture D4Texture;
 Texture D8Texture;
 Texture TestTexture;
 
+Texture MinionTexture;
+Texture EvilMinionTexture;
+Texture MaquinaDulcesMinionTexture;
+Texture MacetMinionTexture;
+Texture HulaMinionTexture;
+Texture GruTexture;
+Texture CarroGruTexture;
+Texture BabyMinionTexture;
+Texture VectorTexture;
+Texture VectorFortressTexture;
+
 Model Minion;
 Model MinionMorado;
 Model Vector;
@@ -331,24 +342,32 @@ void crearTablero()
 	//printf("casillas: ");
 	//casillas rojas (seres vivos)
 	RoTexture.UseTexture();
-
 	crearCasilla(0.0f, 0.0f); //1
+	MinionTexture.UseTexture();
 	crearCasilla(30.3f, 0.0f); //4
+	EvilMinionTexture.UseTexture();
 	crearCasilla(60.6f, 0.0f); //7
+	VectorTexture.UseTexture();
 	crearCasilla(90.9f, 0.0f); //10
+	BabyMinionTexture.UseTexture();
 	crearCasilla(90.9f, -30.3f); //13
+	GruTexture.UseTexture();
 	crearCasilla(90.9f, -90.9f); //19
+	RoTexture.UseTexture();
 	crearCasilla(60.6f, -111.1f); //24
 	crearCasilla(20.2f, -111.1f); //28
 	crearCasilla(0.0f, -70.7f); //34
 	crearCasilla(0.0f, -30.3f); //38
 
+
 	//casillas amarillas (edificios)
 	AmTexture.UseTexture();
-
 	crearCasilla(10.1f, 0.0f); //2
+	VectorFortressTexture.UseTexture();
 	crearCasilla(50.5f, 0.0f); //6
+	CarroGruTexture.UseTexture();
 	crearCasilla(80.8f, 0.0f); //9
+	AmTexture.UseTexture();
 	crearCasilla(90.9f, -20.2f); //12
 	crearCasilla(90.9f, -40.4f); //14
 	crearCasilla(90.9f, -70.7f); //17
@@ -376,9 +395,17 @@ void crearTablero()
 	VeTexture.UseTexture();
 
 	crearCasilla(40.4f, 0.0f); //5
+	HulaMinionTexture.UseTexture();
+
 	crearCasilla(90.9f, -60.6f); //16
+	MacetMinionTexture.UseTexture();
+
 	crearCasilla(90.9f, -111.1f); //21
+	MaquinaDulcesMinionTexture.UseTexture();
+
 	crearCasilla(70.7f, -111.1f); //23
+	VeTexture.UseTexture();
+
 	crearCasilla(30.3f, -111.1f); //27
 	crearCasilla(10.1f, -111.1f); //29
 	crearCasilla(0.0f, -80.8f); //33
@@ -412,6 +439,37 @@ void cargarTexturas()
 	D8Texture.LoadTextureA();
 	TestTexture = Texture("Textures/textTest.png");
 	TestTexture.LoadTextureA();
+
+	MinionTexture = Texture("Textures/MinionNormal.png");
+	MinionTexture.LoadTextureA();
+
+	EvilMinionTexture = Texture("Textures/MinionMorado.png");
+	EvilMinionTexture.LoadTextureA();
+	
+	MaquinaDulcesMinionTexture = Texture("Textures/MaquinaDulcesMinion.png");
+	MaquinaDulcesMinionTexture.LoadTextureA();
+
+	MacetMinionTexture = Texture("Textures/MacetaMinion.png");
+	MacetMinionTexture.LoadTextureA();
+
+	HulaMinionTexture = Texture("Textures/HulaMinion.png");
+	HulaMinionTexture.LoadTextureA();
+
+	GruTexture = Texture("Textures/Gru.png");
+	GruTexture.LoadTextureA();
+
+	CarroGruTexture = Texture("Textures/CarroGru.png");
+	CarroGruTexture.LoadTextureA();
+
+	VectorTexture = Texture("Textures/Vector.png");
+	VectorTexture.LoadTextureA();
+
+	BabyMinionTexture = Texture("Textures/BabyMinion.png");
+	BabyMinionTexture.LoadTextureA();
+
+	VectorFortressTexture = Texture("Textures/VectorFortress.png");
+	VectorFortressTexture.LoadTextureA();
+
 }
 
 void animacionCaida()
@@ -440,13 +498,11 @@ void cargarModelos()
 {
 	Minion = Model();
 	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
-	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
 
 	MacetaMinion = Model();
 	MacetaMinion.LoadModel("Models/MacetaMinionTexturizada.obj");
 
 	MinionBebe = Model();
-	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
 	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
 
 	MinionMorado = Model();
