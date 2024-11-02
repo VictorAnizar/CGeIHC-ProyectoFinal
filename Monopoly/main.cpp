@@ -78,6 +78,31 @@ Texture D4Texture;
 Texture D8Texture;
 Texture TestTexture;
 
+/*
+	Texturas de Mario Bros
+*/
+//Entorno Piramide
+Texture pyramid;
+Texture arena;
+Texture wood;
+//Entorno Bowser
+
+//Entorno Estrella
+
+//Entorno Flores
+
+//Entorno Gomba
+
+//Entorno Lava
+
+//Entorno Nieve
+
+//Entorno Nubes
+
+//Entorno Rocoso
+
+//Entorno Yoshi
+
 Model Minion;
 Model MinionMorado;
 Model Vector;
@@ -88,6 +113,18 @@ Model MinionBebe;
 Model MacetaMinion;
 Model MinionMaquinaDulces;
 Model DoomIIMap1Room1;
+
+//Modelos de Mario Bros
+Model entornoArena;
+Model entornoBowser;
+Model entornoEstrella;
+Model entornoFlores;
+Model entornoGomba;
+Model entornoLava;
+Model entornoNieve;
+Model entornoNubes;
+Model entornoRocoso;
+Model entornoYoshi;
 
 Skybox skybox;
 
@@ -412,6 +449,17 @@ void cargarTexturas()
 	D8Texture.LoadTextureA();
 	TestTexture = Texture("Textures/textTest.png");
 	TestTexture.LoadTextureA();
+
+	/*
+			CARGANDO TEXTURAS DE MARIO BROS
+	*/
+	//Entorno de Arena
+	pyramid = Texture("Textures/Piramide.png");
+	pyramid.LoadTexture();
+	arena = Texture("Textures/sand.png");
+	arena.LoadTexture();
+	wood = Texture("Textures/wood.png");
+	wood.LoadTexture();
 }
 
 void animacionCaida()
@@ -439,7 +487,6 @@ void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 void cargarModelos()
 {
 	Minion = Model();
-	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
 	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
 
 	MacetaMinion = Model();
@@ -470,6 +517,36 @@ void cargarModelos()
 	DoomIIMap1Room1 = Model();
 	DoomIIMap1Room1.LoadModel("Models/DOOMIIM2_IR.obj");
 
+	//Cargando Modelos de Mario Bros
+	entornoArena = Model();
+	entornoArena.LoadModel("Models/MarioBros/entornoArena.obj");
+	
+	entornoBowser = Model();
+	entornoBowser.LoadModel("Models/MarioBros/entornoBowser.glb");
+
+	entornoEstrella = Model();
+	entornoEstrella.LoadModel("Models/MarioBros/entornoEstrella.glb");
+
+	entornoFlores = Model();
+	entornoFlores.LoadModel("Models/MarioBros/entornoFlores.glb");
+
+	entornoGomba = Model();
+	entornoGomba.LoadModel("Models/MarioBros/entornoGomba.glb");
+
+	entornoLava = Model();
+	entornoLava.LoadModel("Models/MarioBros/entornoLava.glb");
+
+	entornoNieve = Model();
+	entornoNieve.LoadModel("Models/MarioBros/entornoNieve.glb");
+
+	entornoNubes = Model();
+	entornoNubes.LoadModel("Models/MarioBros/entornoNubes.glb");
+	
+	entornoRocoso = Model();
+	entornoRocoso.LoadModel("Models/MarioBros/entornoRocoso.glb");
+
+	entornoYoshi = Model();
+	entornoYoshi.LoadModel("Models/MarioBros/entornoYoshi.glb");
 }
 
 int main()
@@ -748,7 +825,7 @@ int main()
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		DoomIIMap1Room1.RenderModel();
+		//DoomIIMap1Room1.RenderModel();
 
 		//Instancia del minion 
 		model = glm::mat4(1.0);
@@ -821,6 +898,20 @@ int main()
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//MinionBebe.RenderModel();
+
+
+		/*
+					INSTANCIAS DE MARIO BROS
+		*/
+
+		//Entorno de piramide
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoArena.RenderModel();
+
 
 		glUseProgram(0);
 
