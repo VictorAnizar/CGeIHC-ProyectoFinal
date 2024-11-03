@@ -440,13 +440,11 @@ void cargarModelos()
 {
 	Minion = Model();
 	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
-	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
 
 	MacetaMinion = Model();
 	MacetaMinion.LoadModel("Models/MacetaMinionTexturizada.obj");
 
 	MinionBebe = Model();
-	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
 	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
 
 	MinionMorado = Model();
