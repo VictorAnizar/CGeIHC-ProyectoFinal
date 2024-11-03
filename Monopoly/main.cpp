@@ -544,8 +544,8 @@ void cargarModelos()
 	RevCuerpo = Model();
 	RevCuerpo.LoadModel("Models/Rev_Cuerpo.obj");
 	printf("Cargado\n");
-	RevCuerpo = Model();
-	RevCuerpo.LoadModel("Models/Rev_Canons.obj");
+	RevCanons = Model();
+	RevCanons.LoadModel("Models/Rev_Canons.obj");
 	printf("Cargado\n");
 	ZombieCuerpo = Model();
 	ZombieCuerpo.LoadModel("Models/Zombie_Cuerpo.obj");
@@ -878,7 +878,7 @@ int main()
 
 		//Instancia de doom II mapa 1 cuarto inicial
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(30.3f, 0.5f, -10.0f));
+		model = glm::translate(model, glm::vec3(-13.1f, 0.5f, -9.0f));
 		model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -900,10 +900,14 @@ int main()
 		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		GargCuerpo.RenderModel();
-		model = glm::rotate(model, rotaGarg * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0.0f));
+		modelaux = model;
+		model = glm::rotate(model, rotaGarg * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		GargAlaI.RenderModel();
+		model = modelaux;
+		model = glm::rotate(model, -1 * rotaGarg * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		GargAlaD.RenderModel();
 
 		//instancia de sentinel wolf
@@ -917,7 +921,7 @@ int main()
 
 		//instancia de zombie
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 30.0f));
+		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 30.0f));
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -929,7 +933,7 @@ int main()
 
 		//instancia de revenant
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 40.0f));
+		model = glm::translate(model, glm::vec3(60.0f, 2.5f, 40.0f));
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -938,19 +942,20 @@ int main()
 
 		//instancia de arachnotron
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 55.0f));
+		model = glm::translate(model, glm::vec3(60.0f, 2.5f, 55.0f));
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//Arachnotron.RenderModel();
+		ArachCuerpo.RenderModel();
+		ArachCanon.RenderModel();
 
 		//instancia de dopefish
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 55.0f));
+		model = glm::translate(model, glm::vec3(70.0f, 2.5f, 55.0f));
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//Dopefish.RenderModel();
+		Dopefish.RenderModel();
 
 		//instancia de cacodemon
 		model = glm::mat4(1.0);
