@@ -79,35 +79,7 @@ Texture D4Texture;
 Texture D8Texture;
 Texture TestTexture;
 
-<<<<<<< HEAD
-/*
-	Texturas de Mario Bros
-*/
-//Entorno Piramide
-Texture pyramid;
-Texture arena;
-Texture wood;
-//Entorno Bowser
-
-//Entorno Estrella
-
-//Entorno Flores
-Texture lava;
-
-//Entorno Gomba
-
-//Entorno Lava
-
-//Entorno Nieve
-
-//Entorno Nubes
-
-//Entorno Rocoso
-
-//Entorno Yoshi
-
 Model Minion;
-=======
 Texture Doom1Tex;
 Texture Doom2Tex;
 Texture Doom3Tex;
@@ -134,7 +106,6 @@ Texture VectorFortressTexture;
 
 Model MinionHula;
 Model MinionNormal;
->>>>>>> main
 Model MinionMorado;
 Model Vector;
 Model Gru;
@@ -522,25 +493,12 @@ void cargarTexturas()
 	D4Texture.LoadTextureA();
 	D8Texture = Texture("Textures/dado8.png");
 	D8Texture.LoadTextureA();
-<<<<<<< HEAD
 	TestTexture = Texture("Textures/textTest.png");
 	TestTexture.LoadTextureA();
 
 	/*
 			CARGANDO TEXTURAS DE MARIO BROS
 	*/
-	//Entorno de Arena
-	pyramid = Texture("Textures/Piramide.png");
-	pyramid.LoadTexture();
-	arena = Texture("Textures/sand.png");
-	arena.LoadTexture();
-	wood = Texture("Textures/wood.png");
-	wood.LoadTexture();
-
-	//Entorno de Flores
-	lava = Texture("Textures/lava.jpg");
-	lava.LoadTexture();
-=======
 
 	Doom1Tex = Texture("Textures/casdoom0.png");
 	Doom1Tex.LoadTextureA();
@@ -592,8 +550,6 @@ void cargarTexturas()
 
 	VectorFortressTexture = Texture("Textures/VectorFortress.png");
 	VectorFortressTexture.LoadTextureA();
-
->>>>>>> main
 }
 
 void animacionCaida()
@@ -620,19 +576,15 @@ void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 
 void cargarModelos()
 {
-<<<<<<< HEAD
 	Minion = Model();
 	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
-=======
 	MinionHula = Model();
 	MinionHula.LoadModel("Models/MinionHulalTexturizado.obj");
->>>>>>> main
 
 	MacetaMinion = Model();
 	MacetaMinion.LoadModel("Models/MacetaMinionTexturizada.obj");
 	MinionBebe = Model();
 	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
-
 	MinionMorado = Model();
 	MinionMorado.LoadModel("Models/MinionMoradoTexturizado.obj");
 	Vector = Model();
@@ -699,7 +651,6 @@ void cargarModelos()
 	DoomE1M1Room2.LoadModel("Models/DOOMM1_GR.obj");
 	printf("Cargado\n");
 	DoomIIMap1Room1 = Model();
-<<<<<<< HEAD
 	DoomIIMap1Room1.LoadModel("Models/DOOMIIM2_IR.obj");
 
 	//Cargando Modelos de Mario Bros
@@ -732,13 +683,12 @@ void cargarModelos()
 
 	entornoYoshi = Model();
 	entornoYoshi.LoadModel("Models/MarioBros/entornoYoshi.obj");
-=======
+
 	DoomIIMap1Room1.LoadModel("Models/DOOMIIM1_IR.obj");
 	printf("Cargado\n");
 	DoomIIMap1Room2= Model();
 	DoomIIMap1Room2.LoadModel("Models/DOOMIIM1_LR.obj");
 	printf("Cargado\n");
->>>>>>> main
 }
 
 int main()
@@ -1119,11 +1069,10 @@ int main()
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-<<<<<<< HEAD
 		//DoomIIMap1Room1.RenderModel();
-=======
+
 		//Cacodemon.RenderModel();
->>>>>>> main
+
 
 		//Instancia del minion hula
 		model = glm::mat4(1.0);
