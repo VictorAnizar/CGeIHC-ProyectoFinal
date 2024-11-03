@@ -45,6 +45,7 @@ int numD4 = 0;
 int numD8 = 0;
 int numTotal = 0;
 int casAct = 0;
+float rotaGarg = 0;
 float rotaDado4X;
 float rotaDado4Y;
 float rotaDado4Z;
@@ -78,6 +79,19 @@ Texture D4Texture;
 Texture D8Texture;
 Texture TestTexture;
 
+Texture Doom1Tex;
+Texture Doom2Tex;
+Texture Doom3Tex;
+Texture Doom4Tex;
+Texture Doom5Tex;
+Texture Doom6Tex;
+Texture Doom7Tex;
+Texture Doom8Tex;
+Texture Doom9Tex;
+Texture Doom10Tex;
+//Texture Doom11Tex;
+
+
 Texture MinionTexture;
 Texture EvilMinionTexture;
 Texture MaquinaDulcesMinionTexture;
@@ -99,7 +113,27 @@ Model FortalezaVector;
 Model MinionBebe;
 Model MacetaMinion;
 Model MinionMaquinaDulces;
+
 Model DoomIIMap1Room1;
+Model DoomIIMap1Room2;
+Model DoomE1M1Room1;
+Model DoomE1M1Room2;
+Model RevCuerpo;
+Model RevCanons;
+Model ZombieCuerpo;
+Model ZombiePiernaD;
+Model ZombiePiernaI;
+Model ZombieBrazoD;
+Model ZombieBrazoI;
+Model ArachCuerpo;
+Model ArachCanon;
+Model WolfCuerpo;
+Model WolfCabeza;
+Model GargCuerpo;
+Model GargAlaD;
+Model GargAlaI;
+Model Cacodemon;
+Model Dopefish;
 
 Skybox skybox;
 
@@ -347,12 +381,14 @@ void crearTablero()
 	crearCasilla(30.3f, 0.0f); //4
 	crearCasilla(60.6f, 0.0f); //7
 	crearCasilla(90.9f, 0.0f); //10
+	Doom6Tex.UseTexture();
 	crearCasilla(90.9f, -30.3f); //13
 	GruTexture.UseTexture();
 	crearCasilla(90.9f, -90.9f); //19
 	RoTexture.UseTexture();
 	crearCasilla(60.6f, -111.1f); //24
 	crearCasilla(20.2f, -111.1f); //28
+	Doom9Tex.UseTexture();
 	crearCasilla(0.0f, -70.7f); //34
 	MinionTexture.UseTexture();
 	crearCasilla(0.0f, -30.3f); //38
@@ -363,14 +399,16 @@ void crearTablero()
 	crearCasilla(10.1f, 0.0f); //2
 	EvilMinionTexture.UseTexture();
 	crearCasilla(50.5f, 0.0f); //6
-	AmTexture.UseTexture();
+	Doom8Tex.UseTexture();
 	crearCasilla(80.8f, 0.0f); //9
 	BabyMinionTexture.UseTexture();
 	crearCasilla(90.9f, -20.2f); //12
-	AmTexture.UseTexture();
+	Doom4Tex.UseTexture();
 	crearCasilla(90.9f, -40.4f); //14
+	AmTexture.UseTexture();
 	crearCasilla(90.9f, -70.7f); //17
 	crearCasilla(90.9f, -101.1f); //20
+	Doom5Tex.UseTexture();
 	crearCasilla(50.5f, -111.1f); //25
 	VectorFortressTexture.UseTexture();
 	crearCasilla(0.0f, -111.1f); //30
@@ -378,20 +416,22 @@ void crearTablero()
 	crearCasilla(0.0f, -90.9f); //32
 	crearCasilla(0.0f, -40.4f); //37
 
-	//casillas azules (edificio)
-
+	//casillas azules (edificios)
 	CarroGruTexture.UseTexture();
 	crearCasilla(20.2f, 0.0f); //3
 	AzTexture.UseTexture();
 	crearCasilla(70.7f, 0.0f); //8
+	Doom7Tex.UseTexture();
 	crearCasilla(90.9f, -10.1f); //11
+	AzTexture.UseTexture();
 	crearCasilla(90.9f, -50.5f); //15
 	crearCasilla(90.9f, -80.8f); //18
 	crearCasilla(80.8f, -111.1f); //22
 	MaquinaDulcesMinionTexture.UseTexture();
 	crearCasilla(40.4f, -111.1f); //26
-	AzTexture.UseTexture();
+	Doom1Tex.UseTexture();
 	crearCasilla(0.0f, -101.1f); //31
+	AzTexture.UseTexture();
 	crearCasilla(0.0f, -50.5f); //36
 	crearCasilla(0.0f, -10.1f); //39
 
@@ -400,18 +440,21 @@ void crearTablero()
 	crearCasilla(40.4f, 0.0f); //5
 	MacetMinionTexture.UseTexture();
 	crearCasilla(90.9f, -60.6f); //16
-	VeTexture.UseTexture();
+	Doom10Tex.UseTexture();
 	crearCasilla(90.9f, -111.1f); //21
 	HulaMinionTexture.UseTexture();
 	crearCasilla(70.7f, -111.1f); //23
 	VeTexture.UseTexture();
 	crearCasilla(30.3f, -111.1f); //27
+	Doom3Tex.UseTexture();
 	crearCasilla(10.1f, -111.1f); //29
+	VeTexture.UseTexture();
 	crearCasilla(0.0f, -80.8f); //33
 	VectorTexture.UseTexture();
 	crearCasilla(0.0f, -60.6f); //35
-	VeTexture.UseTexture();
+	Doom1Tex.UseTexture();
 	crearCasilla(0.0f, -20.2f); //39
+	VeTexture.UseTexture();
 	//printf("\n\n");
 }
 
@@ -423,7 +466,7 @@ void cargarTexturas()
 	dirtTexture.LoadTextureA();
 	plainTexture = Texture("Textures/plain.png");
 	plainTexture.LoadTextureA();
-	pisoTexture = Texture("Textures/piso.tga");
+	pisoTexture = Texture("Textures/pisonuevo.tga");
 	pisoTexture.LoadTextureA();
 	AmTexture = Texture("Textures/amarillo.png");
 	AmTexture.LoadTextureA();
@@ -437,8 +480,27 @@ void cargarTexturas()
 	D4Texture.LoadTextureA();
 	D8Texture = Texture("Textures/dado8.png");
 	D8Texture.LoadTextureA();
-	TestTexture = Texture("Textures/textTest.png");
-	TestTexture.LoadTextureA();
+
+	Doom1Tex = Texture("Textures/casdoom0.png");
+	Doom1Tex.LoadTextureA();
+	Doom2Tex = Texture("Textures/casdoom1.png");
+	Doom2Tex.LoadTextureA();
+	Doom3Tex = Texture("Textures/casdoom2.png");
+	Doom3Tex.LoadTextureA();
+	Doom4Tex = Texture("Textures/casdoom3.png");
+	Doom4Tex.LoadTextureA();
+	Doom5Tex = Texture("Textures/casdoom4.png");
+	Doom5Tex.LoadTextureA();
+	Doom6Tex = Texture("Textures/casdoom5.png");
+	Doom6Tex.LoadTextureA();
+	Doom7Tex = Texture("Textures/casdoom6.png");
+	Doom7Tex.LoadTextureA();
+	Doom8Tex = Texture("Textures/casdoom7.png");
+	Doom8Tex.LoadTextureA();
+	Doom9Tex = Texture("Textures/casdoom8.png");
+	Doom9Tex.LoadTextureA();
+	Doom10Tex = Texture("Textures/casdoom9.png");
+	Doom10Tex.LoadTextureA();
 
 	MinionTexture = Texture("Textures/MinionNormal.png");
 	MinionTexture.LoadTextureA();
@@ -501,31 +563,80 @@ void cargarModelos()
 
 	MacetaMinion = Model();
 	MacetaMinion.LoadModel("Models/MacetaMinionTexturizada.obj");
-
 	MinionBebe = Model();
 	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
 
 	MinionMorado = Model();
 	MinionMorado.LoadModel("Models/MinionMoradoTexturizado.obj");
-
 	Vector = Model();
 	Vector.LoadModel("Models/VectorTexturizado.obj");
-
 	Gru = Model();
 	Gru.LoadModel("Models/GruTexturizado.obj");
-
 	CarroGru = Model();
 	CarroGru.LoadModel("Models/CarroGruTexturizado3.obj");
-
 	FortalezaVector = Model();
 	FortalezaVector.LoadModel("Models/FortalezaVectorTexturizada4.obj");
-
 	MinionMaquinaDulces = Model();
 	MinionMaquinaDulces.LoadModel("Models/MinionMaquinaDulcesTexturizado.obj");
 
-	MinionNormal = Model();
-	MinionNormal.LoadModel("Models/MinionNormalTexturizado.obj");
-
+	GargCuerpo = Model();
+	GargCuerpo.LoadModel("Models/Gargoyle_Cuerpo.obj"); 
+	printf("Cargado\n");
+	GargAlaI = Model();
+	GargAlaI.LoadModel("Models/Gargoyle_AlaIzq.obj");
+	printf("Cargado\n");
+	GargAlaD = Model();
+	GargAlaD.LoadModel("Models/Gargoyle_AlaDer.obj");
+	printf("Cargado\n");
+	Cacodemon = Model();
+	Cacodemon.LoadModel("Models/Cacodemon.obj");
+	printf("Cargado\n");
+	WolfCuerpo = Model();
+	WolfCuerpo.LoadModel("Models/Wolf_Cuerpo.obj");
+	WolfCabeza = Model();
+	WolfCabeza.LoadModel("Models/Wolf_Cabeza.obj");
+	RevCuerpo = Model();
+	RevCuerpo.LoadModel("Models/Rev_Cuerpo.obj");
+	printf("Cargado\n");
+	RevCanons = Model();
+	RevCanons.LoadModel("Models/Rev_Canons.obj");
+	printf("Cargado\n");
+	ZombieCuerpo = Model();
+	ZombieCuerpo.LoadModel("Models/Zombie_Cuerpo.obj");
+	printf("Cargado\n");
+	ZombiePiernaD = Model();
+	ZombiePiernaD.LoadModel("Models/Zombie_PiernaDer.obj");
+	printf("Cargado\n");
+	ZombiePiernaI = Model();
+	ZombiePiernaI.LoadModel("Models/Zombie_PiernaIzq.obj");
+	printf("Cargado\n");
+	ZombieBrazoD = Model();
+	ZombieBrazoD.LoadModel("Models/Zombie_BrIzq.obj");
+	printf("Cargado\n");
+	ZombieBrazoI = Model();
+	ZombieBrazoI.LoadModel("Models/Zombie_BrIzq.obj");
+	printf("Cargado\n");
+	ArachCuerpo = Model();
+	ArachCuerpo.LoadModel("Models/Arach_Cuerpo.obj");
+	printf("Cargado\n");
+	ArachCanon = Model();
+	ArachCanon.LoadModel("Models/Arach_Canon.obj");
+	printf("Cargado\n");
+	Dopefish = Model();
+	Dopefish.LoadModel("Models/Dopefish.obj");
+	printf("Cargado\n");
+	DoomE1M1Room1 = Model();
+	DoomE1M1Room1.LoadModel("Models/DOOMM1_IR.obj");
+	printf("Cargado\n");
+	DoomE1M1Room2 = Model();
+	DoomE1M1Room2.LoadModel("Models/DOOMM1_GR.obj");
+	printf("Cargado\n");
+	DoomIIMap1Room1 = Model();
+	DoomIIMap1Room1.LoadModel("Models/DOOMIIM1_IR.obj");
+	printf("Cargado\n");
+	DoomIIMap1Room2= Model();
+	DoomIIMap1Room2.LoadModel("Models/DOOMIIM1_LR.obj");
+	printf("Cargado\n");
 }
 
 int main()
@@ -543,12 +654,12 @@ int main()
 	cargarModelos();
 	
 	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_dn.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_up.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_bk.tga");
-	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_ft.tga");
+	skyboxFaces.push_back("Textures/Skybox/newsb1.tga");
+	skyboxFaces.push_back("Textures/Skybox/newsb2.tga");
+	skyboxFaces.push_back("Textures/Skybox/newsb5.tga");
+	skyboxFaces.push_back("Textures/Skybox/newsb5.tga");
+	skyboxFaces.push_back("Textures/Skybox/newsb3.tga");
+	skyboxFaces.push_back("Textures/Skybox/newsb4.tga");
 
 	skybox = Skybox(skyboxFaces);
 
@@ -716,6 +827,10 @@ int main()
 			prender bandera de paso por inicio para animaciones especiales
 
 			escalar modelos a tamano similar
+
+			funcion para animacion generica
+
+			jerarquia de wolf
 		*/
 
 		//Recibir eventos del usuario
@@ -757,9 +872,10 @@ int main()
 		glm::mat4 modelaux(1.0);
 		glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 
+		//instancia de piso
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(30.0f, 1.0f, 30.0f));
+		model = glm::scale(model, glm::vec3(15.0f, 1.0f, 15.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
 
@@ -798,13 +914,110 @@ int main()
 		/////////////////////////////////////////////////////////////////////////////////////////
 		*/
 
-		//Instancia de doom II mapa 1 cuarto 1
+		//instancia de doom E1M1 cuarto inicial
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(10.1f, 0.5f, -10.0f));
+		model = glm::scale(model, glm::vec3(0.17f, 0.17f, 0.17f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		DoomE1M1Room1.RenderModel();
+
+		//instancia de doom E1M1 cuarto iconico
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.2f, 0.5f, -10.0f));
+		model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		DoomE1M1Room2.RenderModel();
+
+		//Instancia de doom II mapa 1 cuarto inicial
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-13.1f, 0.5f, -9.0f));
+		model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		DoomIIMap1Room1.RenderModel();
+
+		//Instancia de doom II mapa 1 cuarto final
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(40.4f, 0.5f, -10.0f));
+		model = glm::scale(model, glm::vec3(0.28f, 0.28f, 0.28f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		DoomIIMap1Room2.RenderModel();
+
+		rotaGarg += 0.5f;
+		//Instancia de gargoyle
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 10.0f));
+		//model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		GargCuerpo.RenderModel();
+		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0.0f));
+		modelaux = model;
+		model = glm::rotate(model, rotaGarg * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		GargAlaI.RenderModel();
+		model = modelaux;
+		model = glm::rotate(model, -1 * rotaGarg * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		GargAlaD.RenderModel();
+
+		//instancia de sentinel wolf
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 20.0f));
+		//model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		WolfCuerpo.RenderModel();
+		WolfCabeza.RenderModel();
+
+		//instancia de zombie
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 2.5f, 30.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ZombieCuerpo.RenderModel();
+		ZombieBrazoD.RenderModel();
+		ZombieBrazoI.RenderModel();
+		ZombiePiernaD.RenderModel();
+		ZombiePiernaI.RenderModel();
+
+		//instancia de revenant
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(60.0f, 2.5f, 40.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		RevCuerpo.RenderModel();
+		RevCanons.RenderModel();
+
+		//instancia de arachnotron
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(60.0f, 2.5f, 55.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		ArachCuerpo.RenderModel();
+		ArachCanon.RenderModel();
+
+		//instancia de dopefish
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(70.0f, 2.5f, 55.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Dopefish.RenderModel();
+
+		//instancia de cacodemon
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 55.0f));
 		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		DoomIIMap1Room1.RenderModel();
+		//Cacodemon.RenderModel();
 
 		//Instancia del minion hula
 		model = glm::mat4(1.0);
