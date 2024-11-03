@@ -89,7 +89,8 @@ Texture BabyMinionTexture;
 Texture VectorTexture;
 Texture VectorFortressTexture;
 
-Model Minion;
+Model MinionHula;
+Model MinionNormal;
 Model MinionMorado;
 Model Vector;
 Model Gru;
@@ -495,8 +496,8 @@ void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 
 void cargarModelos()
 {
-	Minion = Model();
-	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
+	MinionHula = Model();
+	MinionHula.LoadModel("Models/MinionHulalTexturizado.obj");
 
 	MacetaMinion = Model();
 	MacetaMinion.LoadModel("Models/MacetaMinionTexturizada.obj");
@@ -522,8 +523,8 @@ void cargarModelos()
 	MinionMaquinaDulces = Model();
 	MinionMaquinaDulces.LoadModel("Models/MinionMaquinaDulcesTexturizado.obj");
 
-	DoomIIMap1Room1 = Model();
-	DoomIIMap1Room1.LoadModel("Models/DOOMIIM2_IR.obj");
+	MinionNormal = Model();
+	MinionNormal.LoadModel("Models/MinionNormalTexturizado.obj");
 
 }
 
@@ -805,25 +806,33 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		DoomIIMap1Room1.RenderModel();
 
-		//Instancia del minion 
+		//Instancia del minion hula
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::translate(model, glm::vec3(70.7f, 0.5f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Minion.RenderModel();
+		MinionHula.RenderModel();
+
+		//Instancia del minion normal
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, -30.3f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionNormal.RenderModel();
 
 		//Instancia de maceta minion 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 20.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::mat4(1.0); 
+		model = glm::translate(model, glm::vec3(90.9f, 0.5f, -60.6f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MacetaMinion.RenderModel();
 
 		//Instancia del minion morado
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-15.0f, 0.0f, -2.0f));
+		model = glm::translate(model, glm::vec3(50.5f, 0.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -831,15 +840,15 @@ int main()
 
 		//Instancia del Dany flow (trash)
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-25.0f, 0.0f, -20.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -60.6f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Vector.RenderModel();
 
 		//Instancia de gru
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-45.0f, 0.0f, -20.0f));
+		model = glm::translate(model, glm::vec3(90.9f, 0.0f, -90.9f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -847,32 +856,32 @@ int main()
 
 		//Instancia de carro de gru
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-75.0f, 0.0f, -60.0f));
-		model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(20.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		CarroGru.RenderModel();
 
 		//Instancia de maquina dulces minion
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -60.0f));
-		model = glm::scale(model, glm::vec3(5.2f, 5.2f, 5.2f));
+		model = glm::translate(model, glm::vec3(40.4f, 0.0f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.12f, 0.12f, 0.12f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionMaquinaDulces.RenderModel();
 
 		//Instancia de Fortaleza de vector
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(75.0f, 0.0f, 60.0f));
-		model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		FortalezaVector.RenderModel();
 
 		//Instancia del minion bebe 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 0.0f, -10.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::mat4(1.0); 
+		model = glm::translate(model, glm::vec3(90.9f, 0.0f, -20.2f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionBebe.RenderModel();
