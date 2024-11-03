@@ -1,0 +1,42 @@
+# Blender 3.6.0 MTL File: 'entornoEstrella.blend'
+# www.blender.org
+
+newmtl Estrella
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/estrella_Colores.png
+
+newmtl Madera
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/wood.png
+
+newmtl Material
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 0.271919
+illum 9
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/estrella_Colores.png
+
+newmtl Material.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/estrella_Fondo.png

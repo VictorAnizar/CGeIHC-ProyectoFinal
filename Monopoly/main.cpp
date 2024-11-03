@@ -90,6 +90,7 @@ Texture wood;
 //Entorno Estrella
 
 //Entorno Flores
+Texture lava;
 
 //Entorno Gomba
 
@@ -460,6 +461,10 @@ void cargarTexturas()
 	arena.LoadTexture();
 	wood = Texture("Textures/wood.png");
 	wood.LoadTexture();
+
+	//Entorno de Flores
+	lava = Texture("Textures/lava.jpg");
+	lava.LoadTexture();
 }
 
 void animacionCaida()
@@ -522,31 +527,31 @@ void cargarModelos()
 	entornoArena.LoadModel("Models/MarioBros/entornoArena.obj");
 	
 	entornoBowser = Model();
-	entornoBowser.LoadModel("Models/MarioBros/entornoBowser.glb");
+	entornoBowser.LoadModel("Models/MarioBros/entornoBowser.obj");
 
 	entornoEstrella = Model();
-	entornoEstrella.LoadModel("Models/MarioBros/entornoEstrella.glb");
+	entornoEstrella.LoadModel("Models/MarioBros/entornoEstrella.obj");
 
 	entornoFlores = Model();
-	entornoFlores.LoadModel("Models/MarioBros/entornoFlores.glb");
+	entornoFlores.LoadModel("Models/MarioBros/entornoFlores.obj");
 
 	entornoGomba = Model();
-	entornoGomba.LoadModel("Models/MarioBros/entornoGomba.glb");
+	entornoGomba.LoadModel("Models/MarioBros/entornoGomba.obj");
 
 	entornoLava = Model();
-	entornoLava.LoadModel("Models/MarioBros/entornoLava.glb");
+	entornoLava.LoadModel("Models/MarioBros/entornoLava.obj");
 
 	entornoNieve = Model();
-	entornoNieve.LoadModel("Models/MarioBros/entornoNieve.glb");
+	entornoNieve.LoadModel("Models/MarioBros/entornoNieve.obj");
 
 	entornoNubes = Model();
-	entornoNubes.LoadModel("Models/MarioBros/entornoNubes.glb");
+	entornoNubes.LoadModel("Models/MarioBros/entornoNubes.obj");
 	
 	entornoRocoso = Model();
-	entornoRocoso.LoadModel("Models/MarioBros/entornoRocoso.glb");
+	entornoRocoso.LoadModel("Models/MarioBros/entornoRocoso.obj");
 
 	entornoYoshi = Model();
-	entornoYoshi.LoadModel("Models/MarioBros/entornoYoshi.glb");
+	entornoYoshi.LoadModel("Models/MarioBros/entornoYoshi.obj");
 }
 
 int main()
@@ -904,14 +909,87 @@ int main()
 					INSTANCIAS DE MARIO BROS
 		*/
 
+		
+
+		//Entorno de flores
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(10.0f, 0.5f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoFlores.RenderModel();
+
+		//Reino champiñon
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(40.0f, 0.2f, 0.5f));
+		model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoGomba.RenderModel();
+
+		//Isla de Yoshi
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(60.0f, 0.5f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoYoshi.RenderModel();
+
+		//Reino de nube
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(90.9f, 0.5f, -0.5f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoNubes.RenderModel();
+
+		//Tierra sorbete
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(90.9f, 0.5f, -80.0f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoNieve.RenderModel();
+
 		//Entorno de piramide
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(90.0f, 0.0f, -100.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		entornoArena.RenderModel();
 
+		//Mundo rocoso
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(80.5f, 0.0f, -110.5f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoRocoso.RenderModel();
+
+		//Reino Koopa 
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(20.5f, 0.0f, -110.5f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoBowser.RenderModel();
+
+		// Camino estrella 
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -90.5f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoEstrella.RenderModel();
+
+		// Reino de lava
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.5f));
+		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		entornoLava.RenderModel();
 
 		glUseProgram(0);
 
