@@ -343,13 +343,9 @@ void crearTablero()
 	//casillas rojas (seres vivos)
 	RoTexture.UseTexture();
 	crearCasilla(0.0f, 0.0f); //1
-	MinionTexture.UseTexture();
 	crearCasilla(30.3f, 0.0f); //4
-	EvilMinionTexture.UseTexture();
 	crearCasilla(60.6f, 0.0f); //7
-	VectorTexture.UseTexture();
 	crearCasilla(90.9f, 0.0f); //10
-	BabyMinionTexture.UseTexture();
 	crearCasilla(90.9f, -30.3f); //13
 	GruTexture.UseTexture();
 	crearCasilla(90.9f, -90.9f); //19
@@ -357,60 +353,63 @@ void crearTablero()
 	crearCasilla(60.6f, -111.1f); //24
 	crearCasilla(20.2f, -111.1f); //28
 	crearCasilla(0.0f, -70.7f); //34
+	MinionTexture.UseTexture();
 	crearCasilla(0.0f, -30.3f); //38
 
 
-	//casillas amarillas (edificios)
+	//casillas amarillas (fauna)
 	AmTexture.UseTexture();
 	crearCasilla(10.1f, 0.0f); //2
-	VectorFortressTexture.UseTexture();
+	EvilMinionTexture.UseTexture();
 	crearCasilla(50.5f, 0.0f); //6
-	CarroGruTexture.UseTexture();
-	crearCasilla(80.8f, 0.0f); //9
 	AmTexture.UseTexture();
+	crearCasilla(80.8f, 0.0f); //9
+	BabyMinionTexture.UseTexture();
 	crearCasilla(90.9f, -20.2f); //12
+	AmTexture.UseTexture();
 	crearCasilla(90.9f, -40.4f); //14
 	crearCasilla(90.9f, -70.7f); //17
 	crearCasilla(90.9f, -101.1f); //20
 	crearCasilla(50.5f, -111.1f); //25
+	VectorFortressTexture.UseTexture();
 	crearCasilla(0.0f, -111.1f); //30
+	AmTexture.UseTexture();
 	crearCasilla(0.0f, -90.9f); //32
 	crearCasilla(0.0f, -40.4f); //37
 
-	//casillas azules (fauna)
-	AzTexture.UseTexture();
+	//casillas azules (edificio)
 
+	CarroGruTexture.UseTexture();
 	crearCasilla(20.2f, 0.0f); //3
+	AzTexture.UseTexture();
 	crearCasilla(70.7f, 0.0f); //8
 	crearCasilla(90.9f, -10.1f); //11
 	crearCasilla(90.9f, -50.5f); //15
 	crearCasilla(90.9f, -80.8f); //18
 	crearCasilla(80.8f, -111.1f); //22
+	MaquinaDulcesMinionTexture.UseTexture();
 	crearCasilla(40.4f, -111.1f); //26
+	AzTexture.UseTexture();
 	crearCasilla(0.0f, -101.1f); //31
 	crearCasilla(0.0f, -50.5f); //36
 	crearCasilla(0.0f, -10.1f); //39
 
 	//casillas verdes (flora)
 	VeTexture.UseTexture();
-
 	crearCasilla(40.4f, 0.0f); //5
-	HulaMinionTexture.UseTexture();
-
-	crearCasilla(90.9f, -60.6f); //16
 	MacetMinionTexture.UseTexture();
-
+	crearCasilla(90.9f, -60.6f); //16
+	VeTexture.UseTexture();
 	crearCasilla(90.9f, -111.1f); //21
-	MaquinaDulcesMinionTexture.UseTexture();
-
+	HulaMinionTexture.UseTexture();
 	crearCasilla(70.7f, -111.1f); //23
 	VeTexture.UseTexture();
-
 	crearCasilla(30.3f, -111.1f); //27
 	crearCasilla(10.1f, -111.1f); //29
 	crearCasilla(0.0f, -80.8f); //33
+	VectorTexture.UseTexture();
 	crearCasilla(0.0f, -60.6f); //35
-	TestTexture.UseTexture();
+	VeTexture.UseTexture();
 	crearCasilla(0.0f, -20.2f); //39
 	//printf("\n\n");
 }
