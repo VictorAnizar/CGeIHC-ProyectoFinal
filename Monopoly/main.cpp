@@ -947,6 +947,10 @@ int main()
 	glm::mat4 model(1.0);
 	glm::mat4 modelaux(1.0);
 	glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
+
+	float angulovaria = 0.0f;
+
+
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
 	{
@@ -954,6 +958,9 @@ int main()
 		deltaTime = now - lastTime;
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
+
+		angulovaria += 0.9f * deltaTime;
+
 
 		if (mainWindow.getTiroDados())
 		{
@@ -1177,73 +1184,47 @@ int main()
 
 		renderizarModelosMinion(model, uniformModel, modelaux);
 
+	
+
+
 		//Instancia del minion avatar
 		//Cuerpo
 		model = glm::mat4(1.0);
-		model = modelaux;
 		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
-		modelaux = model;
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		modelaux = model;
+
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarCuerpo.RenderModel();
 		model = modelaux;
 
 		//Brazos
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.3f));
+		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarBrazoIzq.RenderModel();
 		model = modelaux;
 
 		
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.3f));
+		model = glm::rotate(model, cos(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarBrazoDer.RenderModel();
 		model = modelaux;
 
 		//Piernas
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, cos(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarPiernaIzq.RenderModel();
 		model = modelaux;
 
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarPiernaDer.RenderModel();
 		model = modelaux;
 
-
-		//Instancia de gargoyle 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(100.0f, 3.5f, -30.3f));
-		model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, 30 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargCuerpo.RenderModel();
-		
-		model = glm::translate(model, glm::vec3(0.0f, 2.2f, 0.0f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargAlaI.RenderModel();
-		model = modelaux;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargAlaD.RenderModel();
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(-1.0f, 1.0f, -0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargBrazoD.RenderModel();
-		model = modelaux;
-		model = glm::translate(model, glm::vec3(-1.0f, 1.0f, 0.5f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargBrazoI.RenderModel();
 		
 		//Iluminacion
 
