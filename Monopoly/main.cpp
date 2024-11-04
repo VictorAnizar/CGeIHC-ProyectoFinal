@@ -83,51 +83,21 @@ std::vector<Shader> shaderList;
 Camera camera;
 
 //Texturas tablero
-Texture AmTexture;
-Texture AzTexture;
-Texture RoTexture;
-Texture VeTexture;
-Texture pisoTexture;
+Texture AmTexture, AzTexture, RoTexture, VeTexture, pisoTexture;
+
 //Texturas dados
-Texture D4Texture;
-Texture D8Texture;
+Texture D4Texture, D8Texture;
 
 //Texturas Doom 
-Texture Doom1Tex;
-Texture Doom2Tex;
-Texture Doom3Tex;
-Texture Doom4Tex;
-Texture Doom5Tex;
-Texture Doom6Tex;
-Texture Doom7Tex;
-Texture Doom8Tex;
-Texture Doom9Tex;
-Texture Doom10Tex;
+Texture Doom1Tex, Doom2Tex, Doom3Tex, Doom4Tex, Doom5Tex, Doom6Tex, Doom7Tex, Doom8Tex, Doom9Tex, Doom10Tex;
 //Texture Doom11Tex;
 
 //Texturas Minion
-Texture MinionTexture;
-Texture EvilMinionTexture;
-Texture MaquinaDulcesMinionTexture;
-Texture MacetMinionTexture;
-Texture HulaMinionTexture;
-Texture GruTexture;
-Texture CarroGruTexture;
-Texture BabyMinionTexture;
-Texture VectorTexture;
-Texture VectorFortressTexture;
+Texture MinionTexture, EvilMinionTexture, MaquinaDulcesMinionTexture, MacetMinionTexture, HulaMinionTexture, GruTexture, CarroGruTexture, BabyMinionTexture, VectorTexture, VectorFortressTexture;
 
 //Modelos Minion
-Model MinionHula;
-Model MinionNormal;
-Model MinionMorado;
-Model Vector;
-Model Gru;
-Model CarroGru;
-Model FortalezaVector;
-Model MinionBebe;
-Model MacetaMinion;
-Model MinionMaquinaDulces;
+Model MinionHula, MinionNormal, MinionMorado, Vector, Gru, CarroGru, FortalezaVector, MinionBebe, MacetaMinion, MinionMaquinaDulces;
+Model MinionAvatarCuerpo, MinionAvatarBrazoIzq, MinionAvatarBrazoDer, MinionAvatarPiernaIzq, MinionAvatarPiernaDer;
 
 //Modelos Doom
 Model DoomIIMap1Room1;
@@ -613,6 +583,21 @@ void cargarModelos()
 	MinionMaquinaDulces = Model();
 	MinionMaquinaDulces.LoadModel("Models/MinionMaquinaDulcesTexturizado.obj");
 
+	MinionAvatarCuerpo = Model();
+	MinionAvatarCuerpo.LoadModel("Models/MinionAvatarCuerpo.obj");
+
+	MinionAvatarBrazoIzq = Model();
+	MinionAvatarBrazoIzq.LoadModel("Models/MinionAvatarBrazoIzq.obj");
+
+	MinionAvatarBrazoDer = Model();
+	MinionAvatarBrazoDer.LoadModel("Models/MinionAvatarBrazoIzqDer.obj");
+
+	MinionAvatarPiernaDer = Model();
+	MinionAvatarPiernaDer.LoadModel("Models/MinionAvatarPiernaDer.obj");
+
+	MinionAvatarPiernaIzq = Model();
+	MinionAvatarPiernaIzq.LoadModel("Models/MinionAvatarPiernaIzq.obj");
+
 	//Doom
 	GargCuerpo = Model();
 	GargCuerpo.LoadModel("Models/Gargoyle_Cuerpo.obj"); 
@@ -673,6 +658,9 @@ void cargarModelos()
 }
 
 void renderizarModelosMinion(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux){
+
+	
+
 	//Instancia del minion hula
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(70.7f, 0.5f, -121.0f));
@@ -943,6 +931,8 @@ int main()
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	GLuint uniformColor = 0;
 	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)mainWindow.getBufferWidth() / mainWindow.getBufferHeight(), 0.1f, 1000.0f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	rotaDado4X = 0.0f;
 	rotaDado4Y = 0.0f;
@@ -1187,9 +1177,77 @@ int main()
 
 		renderizarModelosMinion(model, uniformModel, modelaux);
 
+		//Instancia del minion avatar
+		//Cuerpo
+		model = glm::mat4(1.0);
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionAvatarCuerpo.RenderModel();
+		model = modelaux;
+
+		//Brazos
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionAvatarBrazoIzq.RenderModel();
+		model = modelaux;
+
+		
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionAvatarBrazoDer.RenderModel();
+		model = modelaux;
+
+		//Piernas
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionAvatarPiernaIzq.RenderModel();
+		model = modelaux;
+
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionAvatarPiernaDer.RenderModel();
+		model = modelaux;
+
+
+		//Instancia de gargoyle 
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(100.0f, 3.5f, -30.3f));
+		model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, 30 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		GargCuerpo.RenderModel();
+		
+		model = glm::translate(model, glm::vec3(0.0f, 2.2f, 0.0f));
+		modelaux = model;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		GargAlaI.RenderModel();
+		model = modelaux;
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		GargAlaD.RenderModel();
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-1.0f, 1.0f, -0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		GargBrazoD.RenderModel();
+		model = modelaux;
+		model = glm::translate(model, glm::vec3(-1.0f, 1.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		GargBrazoI.RenderModel();
+		
 		//Iluminacion
 
-				//Instancia de lampara 1
+		//Instancia de lampara 1
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-10.0f, 0.5f, 10.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
