@@ -637,7 +637,6 @@ void cargarModelos()
 	ZombiePiernaI.LoadModel("Models/Zombie_PiernaIzq.obj");
 	ZombieBrazoD = Model();
 	ZombieBrazoD.LoadModel("Models/Zombie_BrDer.obj");
-	printf("Cargado\n");
 	ZombieBrazoI = Model();
 	ZombieBrazoI.LoadModel("Models/Zombie_BrIzq.obj");
 
@@ -666,23 +665,22 @@ void cargarModelos()
 void renderizarModelosMinion(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux){
 	//Instancia del minion hula
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(70.7f, 0.5f, -111.1f));
+	model = glm::translate(model, glm::vec3(70.7f, 0.5f, -121.0f));
 	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	MinionHula.RenderModel();
 
-	//Instancia del minion normal
+	//Instancia de minion normal 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 0.5f, -30.3f));
+	model = glm::translate(model, glm::vec3(-10.1f, 0.5f, -30.3f));
 	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	MinionNormal.RenderModel();
 
 	//Instancia de maceta minion 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(90.9f, 0.5f, -60.6f));
+	model = glm::translate(model, glm::vec3(100.0f, 0.5f, -60.6f));
 	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
 	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -690,23 +688,23 @@ void renderizarModelosMinion(glm::mat4 model, GLuint uniformModel, glm::mat4 mod
 
 	//Instancia del minion morado
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(50.5f, 0.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(50.5f, 0.0f, 10.0f));
 	model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	MinionMorado.RenderModel();
 
 	//Instancia del Dany flow (trash)
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -60.6f));
+	model = glm::translate(model, glm::vec3(-10.1f, 0.0f, -60.6f));
 	model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Vector.RenderModel();
 
 	//Instancia de gru
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(90.9f, 0.0f, -90.9f));
+	model = glm::translate(model, glm::vec3(100.0f, 0.0f, -90.9f));
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -714,101 +712,101 @@ void renderizarModelosMinion(glm::mat4 model, GLuint uniformModel, glm::mat4 mod
 
 	//Instancia de carro de gru
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(20.0f, 0.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(20.0f, 0.0f, 10.0f));
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	CarroGru.RenderModel();
 
 	//Instancia de maquina dulces minion
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(40.4f, 0.0f, -111.1f));
+	model = glm::translate(model, glm::vec3(40.4f, 0.0f, -121.0f));
 	model = glm::scale(model, glm::vec3(0.12f, 0.12f, 0.12f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	MinionMaquinaDulces.RenderModel();
 
 	//Instancia de Fortaleza de vector
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 0.5f, -111.1f));
+	model = glm::translate(model, glm::vec3(0.0f, 0.5f, -121.0f));
 	model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	FortalezaVector.RenderModel();
 
 	//Instancia del minion bebe 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(90.9f, 0.0f, -20.2f));
+	model = glm::translate(model, glm::vec3(100.0f, 0.0f, -20.2f));
 	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	MinionBebe.RenderModel();
 }
 
 void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
-	//instancia de doom E1M1 cuarto inicial
+	//instancia de doom E1M1 cuarto inicial crearCasilla(0.0f, -20.2f); //39
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(10.1f, 0.5f, -10.0f));
-	model = glm::scale(model, glm::vec3(0.17f, 0.17f, 0.17f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(-10.1f, 0.5f, -101.1f));
+	model = glm::scale(model, glm::vec3(0.22f, 0.22f, 0.22f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	DoomE1M1Room1.RenderModel();
 
-	//instancia de doom E1M1 cuarto iconico
+	//instancia de doom E1M1 cuarto iconico crearCasilla(10.1f, -111.1f); //29
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(20.2f, 0.5f, -10.0f));
-	model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(11.1f, 0.2f, -120.0f));
+	model = glm::scale(model, glm::vec3(0.23f, 0.23f, 0.23f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	DoomE1M1Room2.RenderModel();
 
-	//Instancia de doom II mapa 1 cuarto inicial
+	//Instancia de doom II mapa 1 cuarto inicial crearCasilla(0.0f, -101.1f); //31
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-13.1f, 0.5f, -9.0f));
-	model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
+	model = glm::translate(model, glm::vec3(-12.5f, 0.5f, -18.9f));
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	DoomIIMap1Room1.RenderModel();
 
-	//Instancia de doom II mapa 1 cuarto final
+	//Instancia de doom II mapa 1 cuarto iconico crearCasilla(90.9f, -40.4f); //14
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(40.4f, 0.5f, -10.0f));
+	model = glm::translate(model, glm::vec3(100.0f, 0.2f, -40.4f));
 	model = glm::scale(model, glm::vec3(0.28f, 0.28f, 0.28f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	DoomIIMap1Room2.RenderModel();
 
-	rotaGarg += 0.5f;
-	//Instancia de gargoyle
+	//Instancia de gargoyle 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 2.5f, 10.0f));
-	//model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-	//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(100.0f, 3.5f, -30.3f));
+	model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, -30 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	GargCuerpo.RenderModel();
-	model = glm::translate(model, glm::vec3(0.0f, 2.5f, 0.0f));
+	model = glm::translate(model, glm::vec3(0.0f, 2.2f, 0.0f));
 	modelaux = model;
-	model = glm::rotate(model, rotaGarg * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	GargAlaI.RenderModel();
 	model = modelaux;
-	model = glm::rotate(model, -1 * rotaGarg * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	GargAlaD.RenderModel();
+	model = modelaux;
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	GargBrazoD.RenderModel();
+	model = modelaux;
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	GargBrazoI.RenderModel();
 
-	//instancia de sentinel wolf
+	//instancia de sentinel wolf crearCasilla(50.5f, -111.1f); //25
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 0.5f, 20.0f));
-	//model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(50.5f, 0.2f, -120.0f));
+	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	WolfCuerpo.RenderModel();
 	WolfCabeza.RenderModel();
 
-	//instancia de zombie
+	//instancia de zombie crearCasilla(90.9f, -10.1f); //11
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 2.5f, 30.0f));
-	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+	model = glm::translate(model, glm::vec3(100.0f, 6.0f, -10.0f));
+	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	ZombieCuerpo.RenderModel();
@@ -817,29 +815,31 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 	ZombiePiernaD.RenderModel();
 	ZombiePiernaI.RenderModel();
 
-	//instancia de revenant
+	//instancia de revenant crearCasilla(80.8f, 0.0f); //9
+	//rotaCanon += 2.0f;
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(60.0f, 2.5f, 40.0f));
-	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(80.8f, 0.2f, 9.0f));
+	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	RevCuerpo.RenderModel();
 	RevCanons.RenderModel();
 
-	//instancia de arachnotron
+	//instancia de arachnotron crearCasilla(0.0f, -70.7f);
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(60.0f, 2.5f, 55.0f));
-	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(-10.1f, 3.5f, -70.7f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	ArachCuerpo.RenderModel();
+	//model = glm::rotate(model, rotaCanon * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	ArachCanon.RenderModel();
 
-	//instancia de dopefish
+	//instancia de dopefish crearCasilla(90.9f, -111.1f); //21
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(70.0f, 2.5f, 55.0f));
+	model = glm::translate(model, glm::vec3(90.9f, 1.0f, -120.0f));
 	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Dopefish.RenderModel();
 
@@ -1127,119 +1127,33 @@ int main()
 		/////////////////////////////////////////////////////////////////////////////////////////
 		*/
 
-		//instancia de doom E1M1 cuarto inicial crearCasilla(0.0f, -20.2f); //39
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.1f, 0.5f, -101.1f));
-		model = glm::scale(model, glm::vec3(0.22f, 0.22f, 0.22f));
-		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		DoomE1M1Room1.RenderModel();
+		renderizarModelosDoom(model, uniformModel, modelaux);
 
-		//instancia de doom E1M1 cuarto iconico crearCasilla(10.1f, -111.1f); //29
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(11.1f, 0.2f, -120.0f));
-		model = glm::scale(model, glm::vec3(0.23f, 0.23f, 0.23f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		DoomE1M1Room2.RenderModel();
+		renderizarModelosMinion(model, uniformModel, modelaux);
 
-		//Instancia de doom II mapa 1 cuarto inicial crearCasilla(0.0f, -101.1f); //31
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-12.5f, 0.5f, -18.9f));
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		DoomIIMap1Room1.RenderModel();
+		//Iluminacion
 
-		//Instancia de doom II mapa 1 cuarto iconico crearCasilla(90.9f, -40.4f); //14
+				//Instancia de lampara 1
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(100.0f, 0.2f, -40.4f));
-		model = glm::scale(model, glm::vec3(0.28f, 0.28f, 0.28f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-10.0f, 0.5f, 10.0f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, 135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
 
-		//Instancia de gargoyle 
+		//Instancia de lampara 2
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(100.0f, 3.5f, -30.3f));
-		model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, -30 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargCuerpo.RenderModel();
-		model = glm::translate(model, glm::vec3(0.0f, 2.2f, 0.0f));
-		modelaux = model;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargAlaI.RenderModel();
-		model = modelaux;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargAlaD.RenderModel();
-		model = modelaux;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargBrazoD.RenderModel();
-		model = modelaux;
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		GargBrazoI.RenderModel();
-
-		//instancia de sentinel wolf crearCasilla(50.5f, -111.1f); //25
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(50.5f, 0.2f, -120.0f));
-		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		WolfCuerpo.RenderModel();
-		WolfCabeza.RenderModel();
-
-		//instancia de zombie crearCasilla(90.9f, -10.1f); //11
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(100.0f, 6.0f, -10.0f));
-		model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		ZombieCuerpo.RenderModel();
-		ZombieBrazoD.RenderModel();
-		ZombieBrazoI.RenderModel();
-		ZombiePiernaD.RenderModel();
-		ZombiePiernaI.RenderModel();
-
-		//instancia de revenant crearCasilla(80.8f, 0.0f); //9
-		//rotaCanon += 2.0f;
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(80.8f, 0.2f, 9.0f));
-		model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
-		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		RevCuerpo.RenderModel();
-		RevCanons.RenderModel();
-
-		//instancia de arachnotron crearCasilla(0.0f, -70.7f);
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.1f, 3.5f, -70.7f));
+		model = glm::translate(model, glm::vec3(100.0f, 0.5f, 10.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		ArachCuerpo.RenderModel();
-		//model = glm::rotate(model, rotaCanon * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		ArachCanon.RenderModel();
+		Lampara.RenderModel();
 
-		//instancia de dopefish crearCasilla(90.9f, -111.1f); //21
+		//Instancia de lampara 3
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(90.9f, 1.0f, -120.0f));
-		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Dopefish.RenderModel();
-
-		//instancia de cacodemon
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 55.0f));
-		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//Cacodemon.RenderModel();
-
-		//Instancia del minion hula
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(70.7f, 0.5f, -121.0f));
+		model = glm::translate(model, glm::vec3(100.0f, 0.5f, -120.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, -45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
 
@@ -1249,69 +1163,7 @@ int main()
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		MinionNormal.RenderModel();
-
-		//Instancia de maceta minion 
-		model = glm::mat4(1.0); 
-		model = glm::translate(model, glm::vec3(100.0f, 0.5f, -60.6f));
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		MacetaMinion.RenderModel();
-
-		//Instancia del minion morado
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(50.5f, 0.0f, 10.0f));
-		model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
-		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		MinionMorado.RenderModel();
-
-		//Instancia del Dany flow (trash)
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.1f, 0.0f, -60.6f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Vector.RenderModel();
-
-		//Instancia de gru
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(100.0f, 0.0f, -90.9f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		Gru.RenderModel();
-
-		//Instancia de carro de gru
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.0f, 0.0f, 10.0f));
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		CarroGru.RenderModel();
-
-		//Instancia de maquina dulces minion
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(40.4f, 0.0f, -121.0f));
-		model = glm::scale(model, glm::vec3(0.12f, 0.12f, 0.12f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		MinionMaquinaDulces.RenderModel();
-
-		//Instancia de Fortaleza de vector
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.5f, -121.0f));
-		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		FortalezaVector.RenderModel();
-
-		//Instancia del minion bebe 
-		model = glm::mat4(1.0); 
-		model = glm::translate(model, glm::vec3(100.0f, 0.0f, -20.2f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		MinionBebe.RenderModel();
+		Lampara.RenderModel();
 
 		glUseProgram(0);
 
