@@ -14,7 +14,7 @@ newmtl Material__39
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd metal_oxid.png
+	map_Kd amarillo.png
 
 newmtl Material__42
 	Kd 0.5000 0.5000 0.5000
@@ -29,7 +29,7 @@ newmtl Material__42
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd metal_oxid.png
+	map_Kd azul.png
 
 newmtl Material__40
 	Kd 0.5000 0.5000 0.5000
@@ -44,7 +44,7 @@ newmtl Material__40
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd metal_oxid.png
+	map_Kd verde.png
 
 newmtl Material__41
 	Kd 0.5000 0.5000 0.5000
@@ -59,7 +59,7 @@ newmtl Material__41
 	Ni 1.5200
 	Ke 0.0000 0.0000 0.0000
 	illum 2
-	map_Kd metal_oxid.png
+	map_Kd rojo.png
 
 newmtl Material__38
 	Kd 0.5000 0.5000 0.5000
