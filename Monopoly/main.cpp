@@ -417,7 +417,6 @@ void crearTablero()
 	//casillas rojas (seres vivos)
 	RoTexture.UseTexture();
 	crearCasilla(0.0f, 0.0f); //1
-	mushroomKingdom.UseTexture();
 	crearCasilla(30.3f, 0.0f); //4
 	yoshiIsland.UseTexture();
 	crearCasilla(60.6f, 0.0f); //7
@@ -429,12 +428,12 @@ void crearTablero()
 	crearCasilla(90.9f, -90.9f); //19
 	RoTexture.UseTexture();
 	crearCasilla(60.6f, -111.1f); //24
+	koppaReino.UseTexture();
 	crearCasilla(20.2f, -111.1f); //28
 	Doom9Tex.UseTexture();
 	crearCasilla(0.0f, -70.7f); //34
 	MinionTexture.UseTexture();
 	crearCasilla(0.0f, -30.3f); //38
-
 
 	//casillas amarillas (fauna)
 	plantioFuego.UseTexture();
@@ -449,15 +448,17 @@ void crearTablero()
 	crearCasilla(90.9f, -40.4f); //14
 	sarasaLand.UseTexture();
 	crearCasilla(90.9f, -70.7f); //17
+	AmTexture.UseTexture();
 	crearCasilla(90.9f, -101.1f); //20
 	Doom5Tex.UseTexture();
 	crearCasilla(50.5f, -111.1f); //25
 	VectorFortressTexture.UseTexture();
 	crearCasilla(0.0f, -111.1f); //30
-	AmTexture.UseTexture();
+	caminoEstrella.UseTexture();
 	crearCasilla(0.0f, -90.9f); //32
+	AmTexture.UseTexture();
 	crearCasilla(0.0f, -40.4f); //37
-
+	
 	//casillas azules (edificios)
 	CarroGruTexture.UseTexture();
 	crearCasilla(20.2f, 0.0f); //3
@@ -495,9 +496,8 @@ void crearTablero()
 	crearCasilla(0.0f, -80.8f); //33
 	VectorTexture.UseTexture();
 	crearCasilla(0.0f, -60.6f); //35
-	Doom1Tex.UseTexture();
+	reinoLava.UseTexture();
 	crearCasilla(0.0f, -20.2f); //39
-	VeTexture.UseTexture();
 	//printf("\n\n");
 }
 
@@ -599,6 +599,12 @@ void cargarTexturas()
 	sarasaLand.LoadTextureA();
 	mundoRocoso = Texture("Textures/whompT.png");
 	mundoRocoso.LoadTextureA();
+	koppaReino = Texture("Textures/bowser.png");
+	koppaReino.LoadTextureA();
+	caminoEstrella = Texture("Textures/luma.png");
+	caminoEstrella.LoadTextureA();
+	reinoLava = Texture("Textures/plantaP.png");
+	reinoLava.LoadTextureA();
 }
 
 void animacionCaida()
@@ -742,17 +748,8 @@ void cargarModelos()
 	bowser.LoadModel("Models/MarioBros/bowserhigh.obj");
 	luma = Model();
 	luma.LoadModel("Models/MarioBros/luma.obj");
-	
-	/*
-	* /plantaPirana = Model();
-	plantaPirana.LoadModel("Models/MarioBros/plantaPirana.obj");
-	*/
-	
-	/*
-	Model castilloHielo;
-	Model plantaPirana;
-
-	*/
+	plantaPirana = Model();
+	plantaPirana.LoadModel("Models/MarioBros/plantaPiraña.obj");
 
 
 	//DOOM
@@ -1362,7 +1359,7 @@ int main()
 
 		//Luma
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -90.5f));
+		model = glm::translate(model, glm::vec3(0.0f, 2.0f, -90.5f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1379,7 +1376,7 @@ int main()
 		//Planta Piraña
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.5f));
-		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//plantaPirana.RenderModel();
