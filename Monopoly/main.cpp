@@ -124,7 +124,7 @@ Model Cacodemon;
 Model Dopefish;
 
 //Modelos entorno
-Model Lampara;
+Model Lampara, Sol;
 
 Skybox skybox;
 
@@ -552,6 +552,9 @@ void cargarModelos()
 	Lampara = Model();
 	Lampara.LoadModel("Models/lampara.obj");
 
+	Sol = Model();
+	Sol.LoadModel("Models/SolTexturizado.obj");
+
 	//Minions
 	MinionNormal = Model();
 	MinionNormal.LoadModel("Models/MinionNormalTexturizado.obj");
@@ -915,6 +918,19 @@ int main()
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
 
+	pointLights[0] = PointLight(0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f,
+		-6.0f, 1.5f, 1.5f,
+		0.3f, 0.2f, 0.1f);
+	pointLightCount++;
+
+	//Luz blanca
+	pointLights[1] = PointLight(1.0f, 1.0f, 1.0f,
+		0.5f, 0.3f,
+		0.0f, 0.0f, 0.0f,
+		0.2f, 0.01f, 0.001f);
+	pointLightCount++;
+
 	unsigned int spotLightCount = 0;
 	//linterna
 	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
@@ -949,6 +965,11 @@ int main()
 	glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	float angulovaria = 0.0f;
+
+	// Variables para el movimiento circular
+	float r = 250.0f;     // Radio constante de la circunferencia
+	float theta = 0.0f; // Ángulo polar inicial
+	float deltaTheta = 0.003f; // Incremento del ángulo en cada frame (velocidad angular)
 
 
 	////Loop mientras no se cierra la ventana
@@ -1131,7 +1152,7 @@ int main()
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
-		//shaderList[0].SetPointLights(pointLights, pointLightCount);
+		shaderList[0].SetPointLights(pointLights, pointLightCount);
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
 		glm::mat4 model(1.0);
@@ -1228,6 +1249,29 @@ int main()
 		
 		//Iluminacion
 
+		// Calcular la posición en la circunferencia usando las ecuaciones paramétricas
+		float x = r * std::cos(theta);
+		float y = r * std::sin(theta);
+
+		// Incrementar theta para el siguiente frame
+		theta += deltaTheta;
+
+		// Calcular la rotación necesaria para que el modelo mire hacia el centro
+		// La rotación es igual a -theta en este caso
+		float rotationAngle = theta + glm::half_pi<float>(); // Ajuste de 90° para "mirar" al centro
+
+
+		//Sol
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(x, y, 0.0f));
+		model = glm::rotate(model, rotationAngle, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::half_pi<float>(), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Sol.RenderModel();
+		pointLights[1].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 5.0f, model[3][2] + 0.0f));
+
+
+
 		//Instancia de lampara 1
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-10.0f, 0.5f, 10.0f));
@@ -1235,6 +1279,7 @@ int main()
 		model = glm::rotate(model, 135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+
 
 		//Instancia de lampara 2
 		model = glm::mat4(1.0);
