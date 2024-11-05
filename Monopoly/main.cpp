@@ -58,7 +58,8 @@ float dirDado8X;
 float dirDado8Y;
 float dirDado8Z;
 float posDados;
-
+int textures ;
+GLfloat contadorDAYNIGHT = 0.0f;
 Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
@@ -78,6 +79,63 @@ Texture D4Texture;
 Texture D8Texture;
 Texture TestTexture;
 
+
+//MUNDO BELLA 
+
+//TEXTURAS DIA
+Texture lumiere;
+Texture rosa;
+Texture gaston;
+Texture crosworth;
+Texture bestia;
+Texture plumette;
+Texture castillo;
+Texture madame;
+Texture mrpotts;
+Texture chip;
+
+//TEXTURAS DIA COCINADAS
+Texture lumiereC;
+Texture rosaC;
+Texture gastonC;
+Texture crosworthC;
+Texture bestiaC;
+Texture plumetteC;
+Texture castilloC;
+Texture madameC;
+Texture mrpottsC;
+Texture chipC;
+
+//TEXTURAS NOCHE
+
+Texture lumiereN;
+Texture rosaN;
+Texture gastonN;
+Texture crosworthN;
+Texture bestiaN;
+Texture plumetteN;
+Texture castilloN;
+Texture madameN;
+Texture mrpottsN;
+Texture chipN;
+Skybox skyboxN;
+
+//TEXTURAS NOCHE COCINADAS
+
+Texture lumiereNC;
+Texture rosaNC;
+Texture gastonNC;
+Texture crosworthNC;
+Texture bestiaNC;
+Texture plumetteNC;
+Texture castilloNC;
+Texture madameNC;
+Texture mrpottsNC;
+Texture chipNC;
+
+Texture genericT;
+
+//Minion
 Model Minion;
 Model MinionMorado;
 Model Vector;
@@ -88,6 +146,18 @@ Model MinionBebe;
 Model MacetaMinion;
 Model MinionMaquinaDulces;
 Model DoomIIMap1Room1;
+
+//Bella
+Model mrpottsT;
+Model lumiereT;
+Model cogsworthT;
+Model bellaT;
+Model gastonT;
+Model bestiaT;
+Model rosaT;
+Model castilloT;
+Model chipT;
+Model plumetteT;
 
 Skybox skybox;
 
@@ -207,7 +277,7 @@ void CreateObjects()
 
 void CreateShaders()
 {
-	Shader *shader1 = new Shader();
+	Shader* shader1 = new Shader();
 	shader1->CreateFromFiles(vShader, fShader);
 	shaderList.push_back(*shader1);
 }
@@ -330,17 +400,69 @@ void crearTablero()
 	//inferior izquierda y se recorre hacia la derecha, arriba, izquierda, abajo.
 	//printf("casillas: ");
 	//casillas rojas (seres vivos)
-	RoTexture.UseTexture();
+
+	rosa.UseTexture();
+	
+	/*
+	if (textures) {
+		mrpottsNC.UseTexture();
+	}
+	else {
+		mrpottsN.UseTexture();
+	}
+	
+	if (contadorDAYNIGHT <= 40.0f) {
+		mrpottsN.UseTexture(); // Usa la primera textura
+	}
+	else if (contadorDAYNIGHT == 25.0f) {
+		mrpottsNC.UseTexture(); // Usa la segunda textura
+	}
+	else if (contadorDAYNIGHT <= 100.0f) {
+		mrpotts.UseTexture(); // Usa la tercera textura
+	}
+	else if (contadorDAYNIGHT == 70.0f) {
+		mrpottsC.UseTexture(); // Usa la cuarta textura
+	}*/
 
 	crearCasilla(0.0f, 0.0f); //1
+
+	
+
+	/*
+	if (textures) {
+		
+			chip.UseTexture(); 
+		
+	}
+	else {
+		chipN.UseTexture();
+	}*/
+
+	crosworth.UseTexture();
 	crearCasilla(30.3f, 0.0f); //4
+	
+
 	crearCasilla(60.6f, 0.0f); //7
+	
+
 	crearCasilla(90.9f, 0.0f); //10
+	
+
 	crearCasilla(90.9f, -30.3f); //13
+	
+
 	crearCasilla(90.9f, -90.9f); //19
+
+	chip.UseTexture();
 	crearCasilla(60.6f, -111.1f); //24
+	
+
 	crearCasilla(20.2f, -111.1f); //28
+	
+
 	crearCasilla(0.0f, -70.7f); //34
+	
+
 	crearCasilla(0.0f, -30.3f); //38
 
 	//casillas amarillas (edificios)
@@ -350,18 +472,23 @@ void crearTablero()
 	crearCasilla(50.5f, 0.0f); //6
 	crearCasilla(80.8f, 0.0f); //9
 	crearCasilla(90.9f, -20.2f); //12
+	gaston.UseTexture();
 	crearCasilla(90.9f, -40.4f); //14
+	mrpotts.UseTexture();
 	crearCasilla(90.9f, -70.7f); //17
 	crearCasilla(90.9f, -101.1f); //20
 	crearCasilla(50.5f, -111.1f); //25
 	crearCasilla(0.0f, -111.1f); //30
 	crearCasilla(0.0f, -90.9f); //32
+
+	lumiere.UseTexture();
 	crearCasilla(0.0f, -40.4f); //37
 
 	//casillas azules (fauna)
 	AzTexture.UseTexture();
 
 	crearCasilla(20.2f, 0.0f); //3
+	castillo.UseTexture();
 	crearCasilla(70.7f, 0.0f); //8
 	crearCasilla(90.9f, -10.1f); //11
 	crearCasilla(90.9f, -50.5f); //15
@@ -369,6 +496,7 @@ void crearTablero()
 	crearCasilla(80.8f, -111.1f); //22
 	crearCasilla(40.4f, -111.1f); //26
 	crearCasilla(0.0f, -101.1f); //31
+	plumette.UseTexture();
 	crearCasilla(0.0f, -50.5f); //36
 	crearCasilla(0.0f, -10.1f); //39
 
@@ -379,8 +507,10 @@ void crearTablero()
 	crearCasilla(90.9f, -60.6f); //16
 	crearCasilla(90.9f, -111.1f); //21
 	crearCasilla(70.7f, -111.1f); //23
+	bestia.UseTexture();
 	crearCasilla(30.3f, -111.1f); //27
 	crearCasilla(10.1f, -111.1f); //29
+	madame.UseTexture();
 	crearCasilla(0.0f, -80.8f); //33
 	crearCasilla(0.0f, -60.6f); //35
 	TestTexture.UseTexture();
@@ -412,6 +542,99 @@ void cargarTexturas()
 	D8Texture.LoadTextureA();
 	TestTexture = Texture("Textures/textTest.png");
 	TestTexture.LoadTextureA();
+
+
+	//TEXTURAS MUNDO BELLA
+
+	lumiereN = Texture("Textures/lumierenight.png");
+	lumiereN.LoadTextureA();
+	rosaN = Texture("Textures/rosanight.png");
+	rosaN.LoadTextureA();
+	gastonN = Texture("Textures/gastonnight.png");
+	gastonN.LoadTextureA();
+	crosworthN = Texture("Textures/cogsworthnight.png");
+	crosworthN.LoadTextureA();
+	bestiaN = Texture("Textures/bestianight.png");
+	bestiaN.LoadTextureA();
+	plumetteN = Texture("Textures/plumettenight.png");
+	plumetteN.LoadTextureA();
+	castilloN = Texture("Textures/castillonight.png");
+	castilloN.LoadTextureA();
+	madameN = Texture("Textures/madamenight.png");
+	madameN.LoadTextureA();
+	mrpottsN = Texture("Textures/mrpottsnight.png");
+	mrpottsN.LoadTextureA();
+	chipN = Texture("Textures/chipnight.png");
+	chipN.LoadTextureA();
+
+	lumiereNC = Texture("Textures/lumierenightcook.png");
+	lumiereNC.LoadTextureA();
+	rosaNC = Texture("Textures/rosanightcook.png");
+	rosaNC.LoadTextureA();
+	gastonNC = Texture("Textures/gastonnightcook.png");
+	gastonNC.LoadTextureA();
+	crosworthNC = Texture("Textures/cogsworthnightcook.png");
+	crosworthNC.LoadTextureA();
+	bestiaNC = Texture("Textures/bestianightcook.png");
+	bestiaNC.LoadTextureA();
+	plumetteNC = Texture("Textures/plumettenightcook.png");
+	plumetteNC.LoadTextureA();
+	castilloNC = Texture("Textures/castillonightcook.png");
+	castilloNC.LoadTextureA();
+	madameNC = Texture("Textures/madamenightcook.png");
+	madameNC.LoadTextureA();
+	mrpottsNC = Texture("Textures/mrpottsnightcook.png");
+	mrpottsNC.LoadTextureA();
+	chipNC = Texture("Textures/chipnightcook.png");
+	chipNC.LoadTextureA();
+
+
+	lumiere = Texture("Textures/lumiere.png");
+	lumiere.LoadTextureA();
+	rosa = Texture("Textures/rosa.png");
+	rosa.LoadTextureA();
+	gaston = Texture("Textures/gaston.png");
+	gaston.LoadTextureA();
+	crosworth = Texture("Textures/cogsworth.png");
+	crosworth.LoadTextureA();
+	bestia = Texture("Textures/bestia.png");
+	bestia.LoadTextureA();
+	plumette = Texture("Textures/plumette.png");
+	plumette.LoadTextureA();
+	castillo = Texture("Textures/castillo.png");
+	castillo.LoadTextureA();
+	madame = Texture("Textures/madame.png");
+	madame.LoadTextureA();
+	mrpotts = Texture("Textures/mrpotts.png");
+	mrpotts.LoadTextureA();
+	chip = Texture("Textures/chip.png");
+	chip.LoadTextureA();
+
+	lumiereC = Texture("Textures/lumierecook.png");
+	lumiereC.LoadTextureA();
+	rosaC = Texture("Textures/rosacook.png");
+	rosaC.LoadTextureA();
+	gastonC = Texture("Textures/gastoncook.png");
+	gastonC.LoadTextureA();
+	crosworthC = Texture("Textures/cogsworthcook.png");
+	crosworthC.LoadTextureA();
+	bestiaC = Texture("Textures/bestiacook.png");
+	bestiaC.LoadTextureA();
+	plumetteC = Texture("Textures/plumettecook.png");
+	plumetteC.LoadTextureA();
+	castilloC = Texture("Textures/castillocook.png");
+	castilloC.LoadTextureA();
+	madameC = Texture("Textures/madamecook.png");
+	madameC.LoadTextureA();
+	mrpottsC = Texture("Textures/mrpottscook.png");
+	mrpottsC.LoadTextureA();
+	chipC = Texture("Textures/chipcook.png");
+	chipC.LoadTextureA();
+
+	genericT = Texture("Textures/Gru");
+	genericT.LoadTextureA();
+
+
 }
 
 void animacionCaida()
@@ -438,6 +661,7 @@ void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 
 void cargarModelos()
 {
+	/*
 	Minion = Model();
 	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
 	Minion.LoadModel("Models/MinionHulalTexturizado.obj");
@@ -469,7 +693,43 @@ void cargarModelos()
 
 	DoomIIMap1Room1 = Model();
 	DoomIIMap1Room1.LoadModel("Models/DOOMIIM2_IR.obj");
+	*/
+	//Bella
+	
+	mrpottsT = Model();
+	mrpottsT.LoadModel("Models/mrpotts.obj");
 
+
+
+	
+	gastonT = Model();
+	gastonT.LoadModel("Models/gaston2.obj");
+	
+	bestiaT = Model();
+	bestiaT.LoadModel("Models/thebeastsecond.obj");
+	
+	rosaT = Model();
+	rosaT.LoadModel("Models/rosatexturizada.obj");
+	
+	castilloT = Model();
+	castilloT.LoadModel("Models/castillo.obj");
+	
+	chipT = Model();
+	chipT.LoadModel("Models/chip.obj");
+	
+	plumetteT = Model();
+	plumetteT.LoadModel("Models/plumette.obj");
+	
+	lumiereT = Model();
+	lumiereT.LoadModel("Models/lumieretexturizado.obj");
+
+	cogsworthT = Model();
+	cogsworthT.LoadModel("Models/cogsworthtextre.obj");
+
+
+	bellaT = Model();
+	bellaT.LoadModel("Models/bella.obj");
+	
 }
 
 int main()
@@ -480,12 +740,12 @@ int main()
 	CreateObjects();
 	crearDados();
 	CreateShaders();
-	
+
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
 
 	cargarTexturas();
 	cargarModelos();
-	
+
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_rt.tga");
 	skyboxFaces.push_back("Textures/Skybox/cupertin-lake_lf.tga");
@@ -501,9 +761,11 @@ int main()
 
 	//luz direccional, s�lo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.6f, 0.6f,
-		0.0f, 0.0f, -1.0f);
+		0.6f, 0.6f, //atenuacion
+		450.0f, 75.0f, 0.0f);
 	//contador de luces puntuales
+
+
 	unsigned int pointLightCount = 0;
 
 	unsigned int spotLightCount = 0;
@@ -515,6 +777,8 @@ int main()
 		1.0f, 0.0f, 0.0f,
 		5.0f);
 	spotLightCount++;
+
+
 
 	//se crean mas luces puntuales y spotlight 
 
@@ -532,7 +796,7 @@ int main()
 	posDados = 6.35f;
 
 	printf("[F]\tTirar los dados.\n");
-	
+
 	glm::mat4 model(1.0);
 	glm::mat4 modelaux(1.0);
 	glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -543,6 +807,21 @@ int main()
 		deltaTime = now - lastTime;
 		deltaTime += (now - lastTime) / limitFPS;
 		lastTime = now;
+		//Cambio de texturas entre el dia y la noche 
+
+		contadorDAYNIGHT += deltaTime;
+
+		
+		if (contadorDAYNIGHT >= 100.0f) {
+			textures = !textures;
+			contadorDAYNIGHT = 0.0f;
+		}
+		/*
+		if (contadorDAYNIGHT >= 100.0f) {
+			
+			contadorDAYNIGHT = 0.0f;
+		}*/
+		//Tirada Dados
 
 		if (mainWindow.getTiroDados())
 		{
@@ -578,31 +857,31 @@ int main()
 
 			switch (numD8)
 			{
-			case 1: 
+			case 1:
 				rotaDado8X = -0.25f; rotaDado8Y = 0.0f; rotaDado8Z = 0.0f;
 				break;
 
-			case 2: 
+			case 2:
 				rotaDado8X = -1.12; rotaDado8Y = 0.0f; rotaDado8Z = 0.0f;
 				break;
 
-			case 3: 
+			case 3:
 				rotaDado8X = -0.22f; rotaDado8Y = -0.45f; rotaDado8Z = 0.0f;
 				break;
 
-			case 4: 
+			case 4:
 				rotaDado8X = 0.68f; rotaDado8Y = 0.45f; rotaDado8Z = 0.0f;
 				break;
 
-			case 5: 
+			case 5:
 				rotaDado8X = -0.22f; rotaDado8Y = 0.9f; rotaDado8Z = 0.0f;
 				break;
 
-			case 6:  
+			case 6:
 				rotaDado8X = 0.68f; rotaDado8Y = 0.9f; rotaDado8Z = 0.0f;
 				break;
 
-			case 7: 
+			case 7:
 				rotaDado8X = -0.22f; rotaDado8Y = 0.45f; rotaDado8Z = 0.0f;
 				break;
 
@@ -655,7 +934,7 @@ int main()
 				se hace rotacion del personaje
 
 			contador de 1 en 1 para casAct, para lograr que
-			if casAct == 40 
+			if casAct == 40
 				reiniciar a casAct = 0 y seguir sumando los restantes
 			prender bandera de paso por inicio para animaciones especiales
 
@@ -741,7 +1020,7 @@ int main()
 								INCLUIR ABAJO INSTANCIAS DE MODELOS
 		/////////////////////////////////////////////////////////////////////////////////////////
 		*/
-
+		/*
 		//Instancia de doom II mapa 1 cuarto 1
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 55.0f));
@@ -764,6 +1043,7 @@ int main()
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+
 		//MacetaMinion.RenderModel();
 
 		//Instancia del minion morado
@@ -821,7 +1101,94 @@ int main()
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		//MinionBebe.RenderModel();
+		*/
 
+		//INSTANCIAS MUNDO BELLA 
+		//Instancia mrpotts
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(90.9f, 1.0f, -70.70f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(0.80f, 0.80f, 0.80f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		mrpottsT.RenderModel();
+		
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(30.3f, 0.2f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(.05f, .05f, .05f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		cogsworthT.RenderModel();
+		
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(90.9f, 1.0f, -40.40f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		gastonT.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(30.3f, 0.2f, -111.1f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bestiaT.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		rosaT.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(70.7f, 0.2f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(.05f, .05f, .05f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		castilloT.RenderModel();
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(60.6f, 0.2f, -111.1f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		chipT.RenderModel();
+		
+		
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -50.5f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(.03f, .03f, .03f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		plumetteT.RenderModel();
+
+						
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.2f, -40.4f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(.1f, .1f, .1f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		lumiereT.RenderModel();
+		//AVATAR
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bellaT.RenderModel();
+		
+		
 		glUseProgram(0);
 
 		mainWindow.swapBuffers();
