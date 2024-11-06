@@ -90,14 +90,31 @@ Texture D4Texture, D8Texture;
 
 //Texturas Doom 
 Texture Doom1Tex, Doom2Tex, Doom3Tex, Doom4Tex, Doom5Tex, Doom6Tex, Doom7Tex, Doom8Tex, Doom9Tex, Doom10Tex;
+
 //Texture Doom11Tex;
 
 //Texturas Minion
 Texture MinionTexture, EvilMinionTexture, MaquinaDulcesMinionTexture, MacetMinionTexture, HulaMinionTexture, GruTexture, CarroGruTexture, BabyMinionTexture, VectorTexture, VectorFortressTexture;
 
+
+/*
+	Texturas de Mario Bros
+*/
+Texture plantioFuego;
+Texture mushroomKingdom;
+Texture yoshiIsland;
+Texture nubeReino;
+Texture sorbeteTierra;
+Texture sarasaLand;
+Texture mundoRocoso;
+Texture koppaReino;
+Texture caminoEstrella;
+Texture reinoLava;
+
 //Modelos Minion
 Model MinionHula, MinionNormal, MinionMorado, Vector, Gru, CarroGru, FortalezaVector, MinionBebe, MacetaMinion, MinionMaquinaDulces;
 Model MinionAvatarCuerpo, MinionAvatarBrazoIzq, MinionAvatarBrazoDer, MinionAvatarPiernaIzq, MinionAvatarPiernaDer;
+
 
 //Modelos Doom
 Model DoomIIMap1Room1;
@@ -123,6 +140,29 @@ Model GargBrazoI;
 Model Cacodemon;
 Model Dopefish;
 
+//Modelos de Instancias de Mario Bros
+Model entornoArena;
+Model entornoBowser;
+Model entornoEstrella;
+Model entornoFlores;
+Model entornoGomba;
+Model entornoLava;
+Model entornoNieve;
+Model entornoNubes;
+Model entornoRocoso;
+Model entornoYoshi;
+
+//Modelos de Mario Bros
+Model florFlama;
+Model goomba;
+Model castilloHielo;
+Model plantaPirana;
+Model whomp;
+Model luma;
+Model lakitu;
+Model sandman;
+Model yoshi;
+Model bowser;
 //Modelos entorno
 Model Lampara, Sol;
 
@@ -375,7 +415,9 @@ void crearTablero()
 	RoTexture.UseTexture();
 	crearCasilla(0.0f, 0.0f); //1
 	crearCasilla(30.3f, 0.0f); //4
+	yoshiIsland.UseTexture();
 	crearCasilla(60.6f, 0.0f); //7
+	nubeReino.UseTexture();
 	crearCasilla(90.9f, 0.0f); //10
 	Doom6Tex.UseTexture();
 	crearCasilla(90.9f, -30.3f); //13
@@ -383,15 +425,15 @@ void crearTablero()
 	crearCasilla(90.9f, -90.9f); //19
 	RoTexture.UseTexture();
 	crearCasilla(60.6f, -111.1f); //24
+	koppaReino.UseTexture();
 	crearCasilla(20.2f, -111.1f); //28
 	Doom9Tex.UseTexture();
 	crearCasilla(0.0f, -70.7f); //34
 	MinionTexture.UseTexture();
 	crearCasilla(0.0f, -30.3f); //38
 
-
 	//casillas amarillas (fauna)
-	AmTexture.UseTexture();
+	plantioFuego.UseTexture();
 	crearCasilla(10.1f, 0.0f); //2
 	EvilMinionTexture.UseTexture();
 	crearCasilla(50.5f, 0.0f); //6
@@ -401,17 +443,19 @@ void crearTablero()
 	crearCasilla(90.9f, -20.2f); //12
 	Doom4Tex.UseTexture();
 	crearCasilla(90.9f, -40.4f); //14
-	AmTexture.UseTexture();
+	sarasaLand.UseTexture();
 	crearCasilla(90.9f, -70.7f); //17
+	AmTexture.UseTexture();
 	crearCasilla(90.9f, -101.1f); //20
 	Doom5Tex.UseTexture();
 	crearCasilla(50.5f, -111.1f); //25
 	VectorFortressTexture.UseTexture();
 	crearCasilla(0.0f, -111.1f); //30
-	AmTexture.UseTexture();
+	caminoEstrella.UseTexture();
 	crearCasilla(0.0f, -90.9f); //32
+	AmTexture.UseTexture();
 	crearCasilla(0.0f, -40.4f); //37
-
+	
 	//casillas azules (edificios)
 	CarroGruTexture.UseTexture();
 	crearCasilla(20.2f, 0.0f); //3
@@ -422,6 +466,7 @@ void crearTablero()
 	AzTexture.UseTexture();
 	crearCasilla(90.9f, -50.5f); //15
 	crearCasilla(90.9f, -80.8f); //18
+	mundoRocoso.UseTexture();
 	crearCasilla(80.8f, -111.1f); //22
 	MaquinaDulcesMinionTexture.UseTexture();
 	crearCasilla(40.4f, -111.1f); //26
@@ -432,7 +477,7 @@ void crearTablero()
 	crearCasilla(0.0f, -10.1f); //39
 
 	//casillas verdes (flora)
-	VeTexture.UseTexture();
+	mushroomKingdom.UseTexture();
 	crearCasilla(40.4f, 0.0f); //5
 	MacetMinionTexture.UseTexture();
 	crearCasilla(90.9f, -60.6f); //16
@@ -448,9 +493,8 @@ void crearTablero()
 	crearCasilla(0.0f, -80.8f); //33
 	VectorTexture.UseTexture();
 	crearCasilla(0.0f, -60.6f); //35
-	Doom1Tex.UseTexture();
+	reinoLava.UseTexture();
 	crearCasilla(0.0f, -20.2f); //39
-	VeTexture.UseTexture();
 }
 
 void cargarTexturas()
@@ -469,6 +513,11 @@ void cargarTexturas()
 	D4Texture.LoadTextureA();
 	D8Texture = Texture("Textures/dado8.png");
 	D8Texture.LoadTextureA();
+
+
+	/*
+			CARGANDO TEXTURAS DE DOOM
+	*/
 
 	Doom1Tex = Texture("Textures/casdoom0.png");
 	Doom1Tex.LoadTextureA();
@@ -520,8 +569,33 @@ void cargarTexturas()
 
 	VectorFortressTexture = Texture("Textures/VectorFortress.png");
 	VectorFortressTexture.LoadTextureA();
+	/*
+		CARGANDO TEXTURAS DE MARIO BROS 
+	*/
+
+	plantioFuego = Texture("Textures/florFlama.png");
+	plantioFuego.LoadTextureA();
+	mushroomKingdom = Texture("Textures/goomba.png");
+	mushroomKingdom.LoadTextureA();
+	yoshiIsland = Texture("Textures/Yoshi.png");
+	yoshiIsland.LoadTextureA();
+	nubeReino = Texture("Textures/lakitu.png");
+	nubeReino.LoadTextureA();
+	sorbeteTierra = Texture("Textures/castilloSorbete.png");
+	sorbeteTierra.LoadTextureA();
+	sarasaLand = Texture("Textures/sandMan.png");
+	sarasaLand.LoadTextureA();
+	mundoRocoso = Texture("Textures/whompT.png");
+	mundoRocoso.LoadTextureA();
+	koppaReino = Texture("Textures/bowser.png");
+	koppaReino.LoadTextureA();
+	caminoEstrella = Texture("Textures/luma.png");
+	caminoEstrella.LoadTextureA();
+	reinoLava = Texture("Textures/plantaP.png");
+	reinoLava.LoadTextureA();
 
 	printf("Texturas cargadas.\n");
+
 }
 
 void animacionCaida()
@@ -548,6 +622,7 @@ void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 
 void cargarModelos()
 {
+
 	//Iluminacion
 	Lampara = Model();
 	Lampara.LoadModel("Models/lampara.obj");
@@ -567,7 +642,6 @@ void cargarModelos()
 	
 	MinionBebe = Model();
 	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
-
 	MinionMorado = Model();
 	MinionMorado.LoadModel("Models/MinionMoradoTexturizado.obj");
 	
@@ -652,6 +726,53 @@ void cargarModelos()
 	DoomE1M1Room2.LoadModel("Models/DOOMM1_GR.obj");
 
 	DoomIIMap1Room1 = Model();
+	DoomIIMap1Room1.LoadModel("Models/DOOMIIM2_IR.obj");
+
+	//Cargando Modelos de Mario Bros
+	entornoArena = Model();
+	entornoArena.LoadModel("Models/MarioBros/entornoArena.obj");
+	entornoBowser = Model();
+	entornoBowser.LoadModel("Models/MarioBros/entornoBowser.obj");
+	entornoEstrella = Model();
+	entornoEstrella.LoadModel("Models/MarioBros/entornoEstrella.obj");
+	entornoFlores = Model();
+	entornoFlores.LoadModel("Models/MarioBros/entornoFlores.obj");
+	entornoGomba = Model();
+	entornoGomba.LoadModel("Models/MarioBros/entornoGomba.obj");
+	entornoLava = Model();
+	entornoLava.LoadModel("Models/MarioBros/entornoLava.obj");
+	entornoNieve = Model();
+	entornoNieve.LoadModel("Models/MarioBros/entornoNieve.obj");
+	entornoNubes = Model();
+	entornoNubes.LoadModel("Models/MarioBros/entornoNubes.obj");
+	entornoRocoso = Model();
+	entornoRocoso.LoadModel("Models/MarioBros/entornoRocoso.obj");
+	entornoYoshi = Model();
+	entornoYoshi.LoadModel("Models/MarioBros/entornoYoshi.obj");
+
+	//Cargando Modelos de MarioBros
+	florFlama = Model();
+	florFlama.LoadModel("Models/MarioBros/florFlama.obj");
+	goomba = Model();
+	goomba.LoadModel("Models/MarioBros/goomba.obj");
+	yoshi = Model();
+	yoshi.LoadModel("Models/MarioBros/yoshi.obj");
+	lakitu = Model();
+	lakitu.LoadModel("Models/MarioBros/lakitu.obj");
+	//aqui escribe el castillo cuando lo tengas xd
+	sandman = Model();
+	sandman.LoadModel("Models/MarioBros/sandMan.obj");
+	whomp = Model();
+	whomp.LoadModel("Models/MarioBros/whomp.obj");
+	bowser = Model();
+	bowser.LoadModel("Models/MarioBros/bowserhigh.obj");
+	luma = Model();
+	luma.LoadModel("Models/MarioBros/luma.obj");
+	plantaPirana = Model();
+	plantaPirana.LoadModel("Models/MarioBros/plantaPiraña.obj");
+
+
+	//DOOM
 	DoomIIMap1Room1.LoadModel("Models/DOOMIIM1_IR.obj");
 
 	DoomIIMap1Room2= Model();
@@ -859,6 +980,166 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	//Cacodemon.RenderModel();
+}
+
+void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
+	/*
+			INSTANCIAS DE MARIO BROS
+*/
+
+//Entorno de flores
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(10.0f, 0.5f, 10.0f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoFlores.RenderModel();
+
+	//Flor flama
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(10.0f, 2.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	florFlama.RenderModel();
+
+	//Reino champiñon
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(40.0f, 0.2f, 10.5f));
+	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoGomba.RenderModel();
+
+	//Gomba
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(40.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	goomba.RenderModel();
+
+	//Isla de Yoshi
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(60.0f, 0.5f, 10.0f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoYoshi.RenderModel();
+
+	//Yoshi
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(60.0f, 0.5f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	yoshi.RenderModel();
+
+	//Reino de nube
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.9f, 0.5f, 10.5f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoNubes.RenderModel();
+
+	//Lakitu
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.9f, 0.5f, -0.5f));
+	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	lakitu.RenderModel();
+
+	//Tierra sorbete
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.9f, 0.5f, -80.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoNieve.RenderModel();
+
+	//Castillo
+
+	//Entorno de piramide
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(100.0f, 0.0f, -100.0f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoArena.RenderModel();
+
+	//Sand
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.0f, 0.0f, -100.0f));
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	sandman.RenderModel();
+
+	//Mundo rocoso
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(80.5f, 0.2f, -120.5f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoRocoso.RenderModel();
+
+	//Whomp
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(80.5f, 0.0f, -110.0f));
+	model = glm::scale(model, glm::vec3(1.5f, 1.50f, 1.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	whomp.RenderModel();
+
+	//Reino Koopa 
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(20.5f, 0.0f, -120.5f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoBowser.RenderModel();
+
+	//Bowser
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(20.5f, 0.0f, -110.5f));
+	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	bowser.RenderModel();
+
+	//Camino estrella 
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -90.5f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoEstrella.RenderModel();
+
+	//Luma
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 2.0f, -90.5f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	luma.RenderModel();
+
+	// Reino de lava
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -20.5f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoLava.RenderModel();
+
+	//Planta Piraña
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.5f));
+	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//plantaPirana.RenderModel();
 }
 
 void animacionLicuadora(float posFinal, float dirFinal)
@@ -1210,7 +1491,7 @@ int main()
 
 		renderizarModelosMinion(model, uniformModel, modelaux);
 
-	
+		renderizarModelosMario(model, uniformModel, modelaux);
 
 
 		//Instancia del minion avatar
@@ -1249,6 +1530,7 @@ int main()
 		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarPiernaDer.RenderModel();
+		model = modelaux;
 
 		
 		//Iluminacion
@@ -1313,6 +1595,8 @@ int main()
 		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+
+	
 		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
 
 

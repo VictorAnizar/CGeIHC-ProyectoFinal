@@ -1,0 +1,82 @@
+# Blender 3.6.0 MTL File: 'entornoYoshi.blend'
+# www.blender.org
+
+newmtl Cartel
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/wood.png
+
+newmtl Huevo
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/yoshi_egg_spot__fanart__by_jonwii_dcqjsig-fullview.png
+
+newmtl Huevo.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/173009565551994777.png
+
+newmtl Huevo.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/173009565551994777 (1).png
+
+newmtl Material
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/images (1).png
+
+newmtl Material.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/images.png
+
+newmtl Material.002
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/images (2).png
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/top-view-beach-sand-texture-green-grass-flowers-beach-top-view-beach-sand-texture-green-grass-flowers-beach-321005089.png

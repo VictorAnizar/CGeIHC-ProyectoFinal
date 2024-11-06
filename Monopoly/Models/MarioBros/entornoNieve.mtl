@@ -1,0 +1,52 @@
+# Blender 3.6.0 MTL File: 'entornoNieve.blend'
+# www.blender.org
+
+newmtl Madera
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/wood.png
+
+newmtl Material
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/images_Rock.png
+
+newmtl Snow
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/rough_brown_rock_with_snow_40_49_diffuse.png
+
+newmtl Tree
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/7276.png
+
+newmtl Wood
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/869aa0043fbe4f0e6770326f1b75260d.png
