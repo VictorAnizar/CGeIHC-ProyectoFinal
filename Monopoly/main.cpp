@@ -64,7 +64,7 @@ int framesCamin = 0; //propuesto xd
 int numD4 = 0;
 int numD8 = 0;
 int numTotal = 0;
-int casAct = 0;
+int casAct = 1;
 int casDest = 0;
 float rotaDado4X, rotaDado4Y, rotaDado4Z;
 float dirDado4X, dirDado4Y, dirDado4Z;
@@ -1395,11 +1395,11 @@ int main()
 			casAct += numTotal; //contador de casilla actual
 			if (casAct >= 40) {
 				int aux = casAct - 40;
-				casAct = 0;
-				casAct += aux;
+				casAct = 1;
+				casAct += aux-1;
 			}
 			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
-			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct-1][0], pos[casAct - 1][1]);
+			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct][0], pos[casAct ][1]);
 			animActiva = true;
 			 
 		}
@@ -1552,7 +1552,7 @@ int main()
 		//Instancia del minion avatar
 		//Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+		model = glm::translate(model, glm::vec3(pos[casAct - 1][0], 0.5f, pos[casAct - 1][1]));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		modelaux = model;
 
@@ -1585,10 +1585,17 @@ int main()
 		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarPiernaDer.RenderModel();
-		model = modelaux;
 
 		
 		//Iluminacion
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(pos[casAct - 1][0], 0.2f, pos[casAct - 1][1])); //para mover todo el tablero se restan o suman valores a posX y posZ
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[3]->RenderMesh();
+		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
+
 
 		// Calcular la posición en la circunferencia usando las ecuaciones paramétricas
 		float x = r * std::cos(theta);
@@ -1620,7 +1627,6 @@ int main()
 		model = glm::rotate(model, 135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
-		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
 
 
 		//Instancia de lampara 2 amarilla
@@ -1630,7 +1636,6 @@ int main()
 		model = glm::rotate(model, -135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
-		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
 
 
 		//Instancia de lampara 3 verde
@@ -1640,7 +1645,6 @@ int main()
 		model = glm::rotate(model, -45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
-		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
 
 
 		//Instancia de lampara 4 roja
@@ -1652,7 +1656,6 @@ int main()
 		Lampara.RenderModel();
 
 	
-		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
 
 
 		glUseProgram(0);
