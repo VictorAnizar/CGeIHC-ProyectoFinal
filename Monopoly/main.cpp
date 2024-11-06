@@ -536,8 +536,7 @@ void cargarTexturas()
 	D4Texture.LoadTextureA();
 	D8Texture = Texture("Textures/dado8.png");
 	D8Texture.LoadTextureA();
-	TestTexture = Texture("Textures/textTest.png");
-	TestTexture.LoadTextureA();
+
 
 	/*
 			CARGANDO TEXTURAS DE DOOM
@@ -1007,6 +1006,166 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 	//Cacodemon.RenderModel();
 }
 
+void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
+	/*
+			INSTANCIAS DE MARIO BROS
+*/
+
+//Entorno de flores
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(10.0f, 0.5f, 10.0f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoFlores.RenderModel();
+
+	//Flor flama
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(10.0f, 2.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	florFlama.RenderModel();
+
+	//Reino champiñon
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(40.0f, 0.2f, 10.5f));
+	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoGomba.RenderModel();
+
+	//Gomba
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(40.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	goomba.RenderModel();
+
+	//Isla de Yoshi
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(60.0f, 0.5f, 10.0f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoYoshi.RenderModel();
+
+	//Yoshi
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(60.0f, 0.5f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	yoshi.RenderModel();
+
+	//Reino de nube
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.9f, 0.5f, 10.5f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoNubes.RenderModel();
+
+	//Lakitu
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.9f, 0.5f, -0.5f));
+	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	lakitu.RenderModel();
+
+	//Tierra sorbete
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.9f, 0.5f, -80.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoNieve.RenderModel();
+
+	//Castillo
+
+	//Entorno de piramide
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(100.0f, 0.0f, -100.0f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoArena.RenderModel();
+
+	//Sand
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.0f, 0.0f, -100.0f));
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	sandman.RenderModel();
+
+	//Mundo rocoso
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(80.5f, 0.2f, -120.5f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoRocoso.RenderModel();
+
+	//Whomp
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(80.5f, 0.0f, -110.0f));
+	model = glm::scale(model, glm::vec3(1.5f, 1.50f, 1.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	whomp.RenderModel();
+
+	//Reino Koopa 
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(20.5f, 0.0f, -120.5f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoBowser.RenderModel();
+
+	//Bowser
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(20.5f, 0.0f, -110.5f));
+	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	bowser.RenderModel();
+
+	//Camino estrella 
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -90.5f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoEstrella.RenderModel();
+
+	//Luma
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 2.0f, -90.5f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	luma.RenderModel();
+
+	// Reino de lava
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -20.5f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoLava.RenderModel();
+
+	//Planta Piraña
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.5f));
+	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//plantaPirana.RenderModel();
+}
+
 void animacionLicuadora(float posFinal, float dirFinal)
 {
 	float aux = 0.0f;
@@ -1077,17 +1236,22 @@ int main()
 		0.2f, 0.01f, 0.001f);
 	pointLightCount++;
 
-	unsigned int spotLightCount = 0;
-	//linterna
-	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
-		0.0f, 2.0f,
+	//Azul
+	pointLights[2] = PointLight(0.0f, 0.0f, 1.0f,
+		0.5f, 0.3f,
 		0.0f, 0.0f, 0.0f,
-		0.0f, -1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		5.0f);
-	spotLightCount++;
+		0.2f, 0.01f, 0.001f);
+	pointLightCount++;
 
-	//se crean mas luces puntuales y spotlight 
+
+
+
+
+
+	unsigned int spotLightCount = 0;
+	
+
+	
 
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0;
@@ -1292,7 +1456,7 @@ int main()
 		// sirve para que en tiempo de ejecuci�n (dentro del while) se cambien propiedades de la luz
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		//spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
@@ -1348,6 +1512,8 @@ int main()
 		renderizarModelosDoom(model, uniformModel, modelaux);
 
 		renderizarModelosMinion(model, uniformModel, modelaux);
+
+		renderizarModelosMario(model, uniformModel, modelaux);
 
 		//Instancia del minion avatar
 		//Cuerpo
@@ -1529,7 +1695,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionHula.RenderModel();
     
-		//Iluminacion
+
 		// Calcular la posición en la circunferencia usando las ecuaciones paramétricas
 		float x = r * std::cos(theta);
 		float y = r * std::sin(theta);
@@ -1551,32 +1717,37 @@ int main()
 		Sol.RenderModel();
 		pointLights[1].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 5.0f, model[3][2] + 0.0f));
 
-		//Instancia de lampara 1
+
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-10.0f, 0.5f, 10.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, 135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
 
 
-		//Instancia de lampara 2
+		//Instancia de lampara 2 amarilla
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(100.0f, 0.5f, 10.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, -135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
 
-		//Instancia de lampara 3
+
+		//Instancia de lampara 3 verde
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(100.0f, 0.5f, -120.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, -45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
 
-		//Instancia de lampara 4
+
+		//Instancia de lampara 4 roja
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-10.0f, 0.5f, -120.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
@@ -1584,163 +1755,9 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
 
-		/*
-					INSTANCIAS DE MARIO BROS
-		*/
+	
+		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
 
-		//Entorno de flores
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(10.0f, 0.5f, 10.0f));
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoFlores.RenderModel();
-
-		//Flor flama
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(10.0f, 2.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		florFlama.RenderModel();
-
-		//Reino champiñon
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(40.0f, 0.2f, 10.5f));
-		model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoGomba.RenderModel();
-
-		//Gomba
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(40.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		goomba.RenderModel();
-
-		//Isla de Yoshi
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.0f, 0.5f, 10.0f));
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoYoshi.RenderModel();
-
-		//Yoshi
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.0f, 0.5f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		yoshi.RenderModel();
-
-		//Reino de nube
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(90.9f, 0.5f, 10.5f));
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoNubes.RenderModel();
-
-		//Lakitu
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(90.9f, 0.5f, -0.5f));
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		lakitu.RenderModel();
-
-		//Tierra sorbete
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(90.9f, 0.5f, -80.0f));
-		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoNieve.RenderModel();
-
-		//Castillo
-
-		//Entorno de piramide
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(100.0f, 0.0f, -100.0f));
-		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoArena.RenderModel();
-
-		//Sand
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(90.0f, 0.0f, -100.0f));
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		sandman.RenderModel();
-
-		//Mundo rocoso
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(80.5f, 0.2f, -120.5f));
-		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoRocoso.RenderModel();
-
-		//Whomp
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(80.5f, 0.0f, -110.0f));
-		model = glm::scale(model, glm::vec3(1.5f, 1.50f, 1.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		whomp.RenderModel();
-
-		//Reino Koopa 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.5f, 0.0f, -120.5f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoBowser.RenderModel();
-
-		//Bowser
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.5f, 0.0f, -110.5f));
-		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bowser.RenderModel();
-
-		//Camino estrella 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -90.5f));
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoEstrella.RenderModel();
-
-		//Luma
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 2.0f, -90.5f));
-		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		luma.RenderModel();
-
-		// Reino de lava
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -20.5f));
-		model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		entornoLava.RenderModel();
-
-		//Planta Piraña
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.5f));
-		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//plantaPirana.RenderModel();
 
 		glUseProgram(0);
 
