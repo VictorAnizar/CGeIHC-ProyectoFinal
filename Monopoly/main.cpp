@@ -421,6 +421,7 @@ void crearTablero()
 	crearCasilla(0.0f, -101.1f); //31
 	AzTexture.UseTexture();
 	crearCasilla(0.0f, -50.5f); //36
+	Doom1Tex.UseTexture();
 	crearCasilla(0.0f, -10.1f); //39
 
 	//casillas verdes (flora)
@@ -832,7 +833,7 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 
 	//Instancia de doom II mapa 1 cuarto inicial 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-12.5f, 0.5f, -18.9f));
+	model = glm::translate(model, glm::vec3(-12.5f, 0.5f, -8.8f));
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -849,8 +850,8 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 	//Instancia de gargoyle 
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(100.0f, 3.5f, -30.3f));
-	model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, 30 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	GargCuerpo.RenderModel();
@@ -858,15 +859,15 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 	//instancia de sentinel wolf 
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(50.5f, 0.2f, -120.0f));
-	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	WolfCuerpo.RenderModel();
 
 	//instancia de zombie 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.0f, 6.0f, -10.0f));
-	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(100.0f, 0.2f, -10.0f));
+	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	ZombieCuerpo.RenderModel();
 
@@ -874,15 +875,15 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(80.8f, 0.2f, 9.0f));
 	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	RevCuerpo.RenderModel();
 
 	//instancia de arachnotron 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-10.1f, 3.7f, -70.7f));
+	model = glm::translate(model, glm::vec3(-10.1f, 0.2f, -70.7f));
 	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	ArachCuerpo.RenderModel();
 
@@ -892,14 +893,6 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Dopefish.RenderModel();
-
-	//instancia de cacodemon (avatar)
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(20.0f, 8.5f, -55.0f));
-	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	Cacodemon.RenderModel();
 }
 
 void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
@@ -1460,6 +1453,13 @@ int main()
 
 		renderizarModelosMario(model, uniformModel, modelaux);
 
+		//instancia de cacodemon avatar
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-25.0f, 6.0f + (sin(glm::radians(angulovaria * 2))), -55.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, (90 + (5 * cos(glm::radians(angulovaria * 2.5f)))) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Cacodemon.RenderModel();
 
 		//Instancia del minion avatar
 		//Cuerpo
