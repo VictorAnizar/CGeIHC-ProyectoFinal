@@ -10,9 +10,11 @@
 #include <vector>
 #include <math.h>
 #include <random>
+#include <string>
 
 #include <glew.h>
 #include <glfw3.h>
+#include <map>
 
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
@@ -1164,7 +1166,52 @@ void animacionLicuadora(float posFinal, float dirFinal)
 		dirAnimMods -= cambioDirMods;
 	}
 }
+ 
+int pos[40][2] = 
+{ 
+	{0.0f, 0.0f}, //1
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+	{0.0f, 0.0f},
+};
 
+  
 int main()
 {
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
@@ -1220,10 +1267,6 @@ int main()
 	pointLightCount++;
 
 
-
-
-
-
 	unsigned int spotLightCount = 0;
 	
 
@@ -1257,6 +1300,9 @@ int main()
 	float theta = 0.0f; // Ángulo polar inicial
 	float deltaTheta = 0.003f; // Incremento del ángulo en cada frame (velocidad angular)
 
+	float posicionX;
+	float posicionZ;
+	int casilla;
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -1267,7 +1313,13 @@ int main()
 		lastTime = now;
 
 		angulovaria += 0.9f * deltaTime;
-
+		
+		if (casAct >= 40) {
+			printf("Se reinicia las casillas\n");
+			int aux = casAct - 40;
+			casAct = 0;
+			casAct += aux;
+		}
 
 		if (mainWindow.getTiroDados())
 		{
@@ -1343,6 +1395,7 @@ int main()
 			printf("El personaje avanza %d casillas.\n", numTotal);
 			//aqui va llamada a animacion de caminata
 			//al terminar animacion de caminata, se llama la animacion del modelo
+			
 			casAct += numTotal; //contador de casilla actual
 			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
 			animActiva = true;
