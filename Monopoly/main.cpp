@@ -96,20 +96,6 @@ Texture Doom1Tex, Doom2Tex, Doom3Tex, Doom4Tex, Doom5Tex, Doom6Tex, Doom7Tex, Do
 //Texturas Minion
 Texture MinionTexture, EvilMinionTexture, MaquinaDulcesMinionTexture, MacetMinionTexture, HulaMinionTexture, GruTexture, CarroGruTexture, BabyMinionTexture, VectorTexture, VectorFortressTexture;
 
-//Modelos Minion
-Model MinionHula, MinionNormal, MinionMorado, Vector, Gru, CarroGru, FortalezaVector, MinionBebe, MacetaMinion, MinionMaquinaDulces;
-Model MinionAvatarCuerpo, MinionAvatarBrazoIzq, MinionAvatarBrazoDer, MinionAvatarPiernaIzq, MinionAvatarPiernaDer;
-Texture MinionTexture;
-Texture EvilMinionTexture;
-Texture MaquinaDulcesMinionTexture;
-Texture MacetMinionTexture;
-Texture HulaMinionTexture;
-Texture GruTexture;
-Texture CarroGruTexture;
-Texture BabyMinionTexture;
-Texture VectorTexture;
-Texture VectorFortressTexture;
-
 /*
 	Texturas de Mario Bros
 */
@@ -128,8 +114,6 @@ Texture TestTexture;
 //Modelos Minion
 Model MinionHula, MinionNormal, MinionMorado, Vector, Gru, CarroGru, FortalezaVector, MinionBebe, MacetaMinion, MinionMaquinaDulces;
 Model MinionAvatarCuerpo, MinionAvatarBrazoIzq, MinionAvatarBrazoDer, MinionAvatarPiernaIzq, MinionAvatarPiernaDer;
-
-
 
 //Modelos Doom
 Model DoomIIMap1Room1;
@@ -182,9 +166,6 @@ Model lakitu;
 Model sandman;
 Model yoshi;
 Model bowser;
-
-//Modelos entorno
-Model Lampara, Sol;
 
 Skybox skybox;
 
