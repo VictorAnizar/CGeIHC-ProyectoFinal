@@ -99,6 +99,16 @@ Texture MinionTexture, EvilMinionTexture, MaquinaDulcesMinionTexture, MacetMinio
 //Modelos Minion
 Model MinionHula, MinionNormal, MinionMorado, Vector, Gru, CarroGru, FortalezaVector, MinionBebe, MacetaMinion, MinionMaquinaDulces;
 Model MinionAvatarCuerpo, MinionAvatarBrazoIzq, MinionAvatarBrazoDer, MinionAvatarPiernaIzq, MinionAvatarPiernaDer;
+Texture MinionTexture;
+Texture EvilMinionTexture;
+Texture MaquinaDulcesMinionTexture;
+Texture MacetMinionTexture;
+Texture HulaMinionTexture;
+Texture GruTexture;
+Texture CarroGruTexture;
+Texture BabyMinionTexture;
+Texture VectorTexture;
+Texture VectorFortressTexture;
 
 /*
 	Texturas de Mario Bros
@@ -115,6 +125,10 @@ Texture caminoEstrella;
 Texture reinoLava;
 
 Texture TestTexture;
+//Modelos Minion
+Model MinionHula, MinionNormal, MinionMorado, Vector, Gru, CarroGru, FortalezaVector, MinionBebe, MacetaMinion, MinionMaquinaDulces;
+Model MinionAvatarCuerpo, MinionAvatarBrazoIzq, MinionAvatarBrazoDer, MinionAvatarPiernaIzq, MinionAvatarPiernaDer;
+
 
 
 //Modelos Doom
@@ -168,6 +182,9 @@ Model lakitu;
 Model sandman;
 Model yoshi;
 Model bowser;
+
+//Modelos entorno
+Model Lampara, Sol;
 
 Skybox skybox;
 
@@ -500,6 +517,7 @@ void crearTablero()
 	crearCasilla(0.0f, -20.2f); //39
 	VeTexture.UseTexture();
 	//printf("\n\n");
+
 }
 
 void cargarTexturas()
@@ -577,7 +595,6 @@ void cargarTexturas()
 	VectorFortressTexture.LoadTextureA();
 
 	printf("Texturas cargadas.\n");
-
 	/*
 		CARGANDO TEXTURAS DE MARIO BROS 
 	*/
@@ -602,6 +619,8 @@ void cargarTexturas()
 	caminoEstrella.LoadTextureA();
 	reinoLava = Texture("Textures/plantaP.png");
 	reinoLava.LoadTextureA();
+
+	printf("Texturas cargadas.\n");
 }
 
 void animacionCaida()
@@ -1452,6 +1471,9 @@ int main()
 
 		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
 
+
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		modelaux = model;
 
@@ -1488,6 +1510,26 @@ int main()
 		
 		//Iluminacion
 
+		//instancia de cacodemon
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 55.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//DoomIIMap1Room1.RenderModel();
+
+		//Cacodemon.RenderModel();
+
+
+		//Instancia del minion hula
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(70.7f, 0.5f, -111.1f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionHula.RenderModel();
+    
+		//Iluminacion
 		// Calcular la posición en la circunferencia usando las ecuaciones paramétricas
 		float x = r * std::cos(theta);
 		float y = r * std::sin(theta);
