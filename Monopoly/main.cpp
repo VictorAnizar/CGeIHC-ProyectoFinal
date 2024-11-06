@@ -1208,9 +1208,10 @@ int main()
 	float theta = 0.0f; // Ángulo polar inicial
 	float deltaTheta = 0.003f; // Incremento del ángulo en cada frame (velocidad angular)
 
-	float posicionX;
-	float posicionZ;
+	float posicionX=0.0f ;
+	float posicionZ=0.0f ;
 	int casilla;
+	float movOffset = 0.5f;
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -1304,10 +1305,30 @@ int main()
 				casAct = 1;
 				casAct += aux-1;
 			}
+
+			
+
 			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
 			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct][0], pos[casAct ][1]);
 			animActiva = true;	 
 		}
+
+		//posicionX = pos[casAct-1][0];
+		//posicionZ = pos[casAct-1][1];
+
+		if (posicionX <= pos[casAct-1][0]) {
+			posicionX += movOffset * deltaTime;
+		}
+		if (posicionX >= pos[casAct-1][0]) {
+			posicionX -= movOffset * deltaTime;
+		}
+		if (posicionZ >= pos[casAct-1][1]) {
+			posicionZ -= movOffset * deltaTime;
+		}
+		if (posicionZ <= pos[casAct-1][1]) {
+			posicionZ += movOffset * deltaTime;
+		}
+
 
 		
 		//control para animacion de dados
@@ -1464,7 +1485,8 @@ int main()
 		//Instancia del minion avatar
 		//Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(pos[casAct - 1][0], 0.5f, pos[casAct - 1][1]));
+		model = glm::translate(model, glm::vec3(posicionX, 0.5f, posicionZ));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		modelaux = model;
 
