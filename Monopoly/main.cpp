@@ -152,7 +152,7 @@ Model entornoRocoso;
 Model entornoYoshi;
 
 //Modelo principal de MB, Toad
-Model toadArm, toadBody;
+Model toadArm1, toadArm2, toadFoot1, toadFoot2, toadBody;
 
 //Modelos entorno
 Model Lampara, Sol;
@@ -780,11 +780,17 @@ void cargarModelos()
 	luma = Model();
 	luma.LoadModel("Models/MarioBros/luma.obj");
 	plantaPirana = Model();
-	plantaPirana.LoadModel("Models/MarioBros/plantaPiraña.obj");
+	plantaPirana.LoadModel("Models/MarioBros/plantaP.obj");
 
 	//MODELO PRINCIPAL TOAD
-	toadArm = Model();
-	toadArm.LoadModel("Models/MarioBros/toadBrazos.obj");
+	toadArm1 = Model();
+	toadArm1.LoadModel("Models/MarioBros/toadBrazo1.obj");
+	toadArm2 = Model();
+	toadArm2.LoadModel("Models/MarioBros/toadBrazo2.obj");
+	toadFoot1 = Model();
+	toadFoot1.LoadModel("Models/MarioBros/toadPie1.obj");
+	toadFoot2 = Model();
+	toadFoot2.LoadModel("Models/MarioBros/toadPie2.obj");
 	toadBody = Model();
 	toadBody.LoadModel("Models/MarioBros/toadCuerpo.obj");
 
@@ -1578,7 +1584,67 @@ int main()
 		*/
 
 		//Modelo principal TOAD
+	
+		/*
+			ANIMACIÓN DE CAMINATA
+
+					float t = glfwGetTime();  // Tiempo transcurrido para animación
+		float walkSpeed = 2.0f;   // Ajusta la velocidad de movimiento
+		float legRotation = glm::sin(t * walkSpeed) * glm::radians(30.0f); // Ángulo de movimiento de las piernas
+		float armRotation = glm::sin(t * walkSpeed) * glm::radians(15.0f); // Ángulo de movimiento de los brazos
+
+		// Renderizado del cuerpo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadBody.RenderModel();
+
+		// Renderizado de la pierna 1
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, legRotation, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotación sobre el eje Z
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadFoot1.RenderModel();
+
+		// Renderizado de la pierna 2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -legRotation, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotación inversa sobre el eje Z
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadFoot2.RenderModel();
+
+		// Renderizado del brazo 1
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, armRotation, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotación sobre el eje Z
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadArm1.RenderModel();
+
+		// Renderizado del brazo 2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -armRotation, glm::vec3(0.0f, 0.0f, 1.0f));  // Rotación inversa sobre el eje Z
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadArm2.RenderModel();
+
+		*/
+
+		/*
+				ANIMACIÓN DE BRINCO (On Hold)
+		*/
+
 		// Variables para el salto y los brazos
+		float baseHeight = 1.5f; // Altura base para que el modelo esté centrado en la pantalla
 		float jumpHeight = 1.0f; // Altura máxima del salto
 		float jumpSpeed = 2.0f;   // Velocidad del salto
 		float armRotationAngle = 45.0f * toRadians; // Ángulo de levantamiento de los brazos en radianes
@@ -1586,24 +1652,49 @@ int main()
 		// Tiempo o fase de animación (asegúrate de actualizarla en el loop principal)
 		float animationTime = glfwGetTime();
 		float jump = sin(animationTime * jumpSpeed) * jumpHeight;
-		float armAngle = (jump > 0.1f) ? armRotationAngle : 0.0f; // Levanta brazos en el aire
+		float armAngle = (jump > 0.1f) ? armRotationAngle : 0.0f; // Levanta los brazos en el aire
 
-		// Cuerpo - Aplicamos la transformación de salto
+		// Cuerpo - Aplicamos la altura base y el salto
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, jump + 1.0f, 0.0f)); // Salto en Y
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		toadBody.RenderModel();
 
-		// Brazo - Rotación sobre el eje Y mientras salta
+		// Pierna 1
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, jump + 1.0f, 0.0f)); // Salto en Y
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadFoot1.RenderModel();
+
+		// Pierna 2
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadFoot2.RenderModel();
+
+		// Brazo 1 - Rotación sobre el eje Y mientras salta
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, armAngle, glm::vec3(0.0f, 1.0f, 0.0f)); // Levantamos los brazos solo en el eje Y
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		toadArm.RenderModel();
+		toadArm1.RenderModel();
+
+		// Brazo 2 - Rotación sobre el eje Y mientras salta
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, armAngle, glm::vec3(0.0f, 1.0f, 0.0f)); // Levantamos los brazos solo en el eje Y
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadArm2.RenderModel();
 
 
 		//Entorno de flores
@@ -1714,9 +1805,9 @@ int main()
 
 		//Reino Koopa 
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(20.5f, 0.0f, -120.5f));
+		model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -180.5f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 1.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		entornoBowser.RenderModel();
 
@@ -1755,10 +1846,10 @@ int main()
 		//Planta Piraña
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.5f));
-		model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+		model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		//plantaPirana.RenderModel();
+		plantaPirana.RenderModel();
 
 		glUseProgram(0);
 
