@@ -770,7 +770,8 @@ void cargarModelos()
 	yoshi.LoadModel("Models/MarioBros/yoshi.obj");
 	lakitu = Model();
 	lakitu.LoadModel("Models/MarioBros/lakitu.obj");
-	//aqui escribe el castillo cuando lo tengas xd
+	//castilloHielo = Model();
+	//castilloHielo.LoadModel("Models/MarioBros/castilloHielo.obj");
 	sandman = Model();
 	sandman.LoadModel("Models/MarioBros/sandMan.obj");
 	whomp = Model();
@@ -1588,7 +1589,9 @@ int main()
 		/*
 			ANIMACIÓN DE CAMINATA
 
-					float t = glfwGetTime();  // Tiempo transcurrido para animación
+		*/
+
+		float t = glfwGetTime();  // Tiempo transcurrido para animación
 		float walkSpeed = 2.0f;   // Ajusta la velocidad de movimiento
 		float legRotation = glm::sin(t * walkSpeed) * glm::radians(30.0f); // Ángulo de movimiento de las piernas
 		float armRotation = glm::sin(t * walkSpeed) * glm::radians(15.0f); // Ángulo de movimiento de los brazos
@@ -1637,13 +1640,9 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		toadArm2.RenderModel();
 
-		*/
-
 		/*
 				ANIMACIÓN DE BRINCO (On Hold)
-		*/
-
-		// Variables para el salto y los brazos
+				// Variables para el salto y los brazos
 		float baseHeight = 1.5f; // Altura base para que el modelo esté centrado en la pantalla
 		float jumpHeight = 1.0f; // Altura máxima del salto
 		float jumpSpeed = 2.0f;   // Velocidad del salto
@@ -1656,7 +1655,7 @@ int main()
 
 		// Cuerpo - Aplicamos la altura base y el salto
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 0.0f)); // Salto en Y con altura base
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1664,7 +1663,7 @@ int main()
 
 		// Pierna 1
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 0.0f)); // Salto en Y con altura base
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1672,7 +1671,7 @@ int main()
 
 		// Pierna 2
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 0.0f)); // Salto en Y con altura base
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1680,7 +1679,7 @@ int main()
 
 		// Brazo 1 - Rotación sobre el eje Y mientras salta
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 0.0f)); // Salto en Y con altura base
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, armAngle, glm::vec3(0.0f, 1.0f, 0.0f)); // Levantamos los brazos solo en el eje Y
@@ -1689,13 +1688,16 @@ int main()
 
 		// Brazo 2 - Rotación sobre el eje Y mientras salta
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 10.0f)); // Salto en Y con altura base
+		model = glm::translate(model, glm::vec3(0.0f, baseHeight + jump, 0.0f)); // Salto en Y con altura base
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, armAngle, glm::vec3(0.0f, 1.0f, 0.0f)); // Levantamos los brazos solo en el eje Y
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		toadArm2.RenderModel();
 
+		*/
+
+		
 
 		//Entorno de flores
 		model = glm::mat4(1.0);
@@ -1737,13 +1739,21 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		entornoYoshi.RenderModel();
 
-		//Yoshi
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(60.0f, 0.5f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//Entorno de Yoshi
+		glm::mat4 model1 = glm::mat4(1.0f);
+		model1 = glm::translate(model1, glm::vec3(60.0f, 0.5f, 0.0f));
+		model1 = glm::scale(model1, glm::vec3(0.7f, 0.7f, 0.7f));
+		model1 = glm::rotate(model1, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model1));
 		yoshi.RenderModel();
+
+		//Entorno Yoshi de fondo
+		glm::mat4 model2 = glm::mat4(1.0f);
+		model2 = glm::translate(model2, glm::vec3(60.0f, 0.0f, 100.5f));
+		model2 = glm::scale(model2, glm::vec3(5.0f, 5.0f, 5.0f));
+		model2 = glm::rotate(model2, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); // Cambio en la rotación
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model2));
+		entornoBowser.RenderModel();
 
 		//Reino de nube
 		model = glm::mat4(1.0);
@@ -1763,21 +1773,35 @@ int main()
 
 		//Tierra sorbete
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(90.9f, 0.5f, -80.0f));
+		model = glm::translate(model, glm::vec3(100.9f, 0.5f, -80.0f));
 		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		entornoNieve.RenderModel();
 
 		//Castillo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(90.9f, 0.5f, -80.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//castilloHielo.RenderModel();
 
 		//Entorno de piramide
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(100.0f, 0.0f, -100.0f));
-		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		glm::mat4 model3 = glm::mat4(1.0f);
+		model3 = glm::translate(model3, glm::vec3(100.0f, 0.0f, -100.0f));
+		model3 = glm::scale(model3, glm::vec3(0.8f, 0.8f, 0.8f));
+		model3 = glm::rotate(model3, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model3));
 		entornoArena.RenderModel();
+
+		// Segundo modelo (Reino piramide de fondo)
+		glm::mat4 model4 = glm::mat4(1.0f);
+		model4 = glm::translate(model4, glm::vec3(200.0f, 0.0f, -300.5f));
+		model4 = glm::scale(model4, glm::vec3(5.0f, 5.0f, 5.0f));
+		model4 = glm::rotate(model4, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); // Cambio en la rotación
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model4));
+		entornoYoshi.RenderModel();
 
 		//Sand
 		model = glm::mat4(1.0);
@@ -1803,13 +1827,21 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		whomp.RenderModel();
 
-		//Reino Koopa 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-40.0f, 0.0f, -180.5f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 1.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		// Primer modelo (Reino Koopa)
+		glm::mat4 model6 = glm::mat4(1.0f);
+		model6 = glm::translate(model6, glm::vec3(20.5f, 0.0f, -100.5f));
+		model6 = glm::scale(model6, glm::vec3(1.0f, 1.0f, 1.0f));
+		model6 = glm::rotate(model6, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model6));
 		entornoBowser.RenderModel();
+
+		// Segundo modelo (Reino Koopa, con diferente rotación)
+		glm::mat4 model5 = glm::mat4(1.0f);
+		model5 = glm::translate(model5, glm::vec3(-40.0f, 0.0f, -300.5f));
+		model5 = glm::scale(model5, glm::vec3(5.0f, 5.0f, 5.0f));
+		model5 = glm::rotate(model5, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f)); // Cambio en la rotación
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model5));
+		entornoArena.RenderModel();
 
 		//Bowser
 		model = glm::mat4(1.0);
