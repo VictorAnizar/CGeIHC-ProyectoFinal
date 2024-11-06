@@ -1,6 +1,15 @@
 /*
 	PROYECTO FINAL CGIHC
 */
+
+/*
+		Hacer:
+
+			meter texturas al horno
+
+			ir llenando arreglos de dir y pos para licuadora
+*/
+
 //para cargar imagen
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -55,6 +64,58 @@ float posiciones[40]  =
 	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f
 };
 
+float posLamparas[4][2] = 
+{
+	{-10.0f, 10.0f}, //1
+	{100.0f, 10.0f}, //2
+	{100.0f, -120.0f}, //3	
+	{-10.0f, -120.0f} //4
+};
+
+float pos[40][2] =
+{
+	{0.0f, 0.0f}, //1
+	{10.1f, 0.0f}, //2
+	{20.2f, 0.0f}, //3	
+	{30.3f, 0.0f}, //4
+	{40.4f, 0.0f}, //5
+	{50.5f, 0.0f}, //6
+	{60.6f, 0.0f}, //7
+	{70.7f, 0.0f}, //8
+	{80.8f, 0.0f}, //9
+	{90.9f, 0.0f}, //10
+	{90.9f, -10.1f},//11
+	{90.9f, -20.2f}, //12
+	{90.9f, -30.3f}, //13
+	{90.9f, -40.4f}, //14
+	{90.9f, -50.5f}, //15
+	{90.9f, -60.6f}, //16
+	{90.9f, -70.7f}, //17
+	{90.9f, -80.8f}, //18
+	{90.9, -90.9f}, //19
+	{90.9f, -101.1f}, //20
+	{90.9f, -111.1f}, //21
+	{80.8f, -111.1f}, //22
+	{70.7f, -111.1f}, //23
+	{60.6f, -111.1f}, //24
+	{50.5f, -111.1f}, //25
+	{40.4f, -111.1f}, //26
+	{30.3f, -111.1f}, //27
+	{20.2f, -111.1f}, //28
+	{10.1f, -111.1f}, //29
+	{0.0f, -111.1f}, //30
+	{0.0f, -101.1f}, //31
+	{0.0f, -90.9f}, //32
+	{0.0f, -80.8f}, //33
+	{0.0f, -70.7f}, //34
+	{0.0f, -60.6f}, //35
+	{0.0f, -50.5f}, //36
+	{0.0f, -40.4f}, //37
+	{0.0f, -30.3f}, //38
+	{0.0f, -20.2f}, //39
+	{0.0f, -10.1f}, //40
+};
+
 //variables para animacion
 int counter = 0;
 int framesDados = 0;
@@ -77,7 +138,11 @@ float cambioPosMods  = 0.0f;
 float dirAnimMods = 0.0f;
 float dirAvatar=0.0f;
 float cambioDirMods  = 0.0f;
+float rotationAngle = 0.0f;
+float anguloLuzX = 0.0f;
+float anguloLuzY = 0.0f;
 bool animActiva = false;
+bool esNoche = false;
 
 Window mainWindow;
 std::vector<Mesh*> meshList;
@@ -1079,51 +1144,6 @@ void animacionLicuadora(float posFinal, float dirFinal)
 	}
 }
  
-float pos[40][2] = 
-{ 
-	{0.0f, 0.0f}, //1
-	{10.1f, 0.0f}, //2
-	{20.2f, 0.0f}, //3	
-	{30.3f, 0.0f}, //4
-	{40.4f, 0.0f}, //5
-	{50.5f, 0.0f}, //6
-	{60.6f, 0.0f}, //7
-	{70.7f, 0.0f}, //8
-	{80.8f, 0.0f}, //9
-	{90.9f, 0.0f}, //10
-	{90.9f, -10.1f},//11
-	{90.9f, -20.2f}, //12
-	{90.9f, -30.3f}, //13
-	{90.9f, -40.4f}, //14
-	{90.9f, -50.5f}, //15
-	{90.9f, -60.6f}, //16
-	{90.9f, -70.7f}, //17
-	{90.9f, -80.8f}, //18
-	{90.9, -90.9f}, //19
-	{90.9f, -101.1f}, //20
-	{90.9f, -111.1f}, //21
-	{80.8f, -111.1f}, //22
-	{70.7f, -111.1f}, //23
-	{60.6f, -111.1f}, //24
-	{50.5f, -111.1f}, //25
-	{40.4f, -111.1f}, //26
-	{30.3f, -111.1f}, //27
-	{20.2f, -111.1f}, //28
-	{10.1f, -111.1f}, //29
-	{0.0f, -111.1f}, //30
-	{0.0f, -101.1f}, //31
-	{0.0f, -90.9f}, //32
-	{0.0f, -80.8f}, //33
-	{0.0f, -70.7f}, //34
-	{0.0f, -60.6f}, //35
-	{0.0f, -50.5f}, //36
-	{0.0f, -40.4f}, //37
-	{0.0f, -30.3f}, //38
-	{0.0f, -20.2f}, //39
-	{0.0f, -10.1f}, //40
-};
-
-  
 int main()
 {
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
@@ -1151,33 +1171,34 @@ int main()
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
-	//luz direccional, s�lo 1 y siempre debe de existir
+	//luz direccional, solo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.6f, 0.6f,
 		0.0f, 0.0f, -1.0f);
+
 	//contador de luces puntuales
 	unsigned int pointLightCount = 0;
 
-	pointLights[0] = PointLight(0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f,
-		-6.0f, 1.5f, 1.5f,
-		0.3f, 0.2f, 0.1f);
-	pointLightCount++;
-
-	//Luz blanca
-	pointLights[1] = PointLight(1.0f, 1.0f, 1.0f,
+	//Luz blanca que ilumina al modelo del sol
+	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
 		0.5f, 0.3f,
 		0.0f, 0.0f, 0.0f,
 		0.2f, 0.01f, 0.001f);
 	pointLightCount++;
 
-	//Azul
-	pointLights[2] = PointLight(0.0f, 0.0f, 1.0f,
+	//Luz azul que seguira al avatar
+	pointLights[1] = PointLight(0.0f, 0.0f, 1.0f,
 		0.5f, 0.3f,
 		0.0f, 0.0f, 0.0f,
 		0.2f, 0.01f, 0.001f);
 	pointLightCount++;
 
+	//luz amarilla para las lamparas
+	pointLights[2] = PointLight(1.0f, 1.0f, 0.4f,
+		0.5f, 0.3f,
+		0.0f, 0.0f, 0.0f,
+		0.2f, 0.01f, 0.001f);
+	pointLightCount++;
 
 	unsigned int spotLightCount = 0;
 	
@@ -1398,17 +1419,6 @@ int main()
 			animActiva = false;
 		}
 
-		/*
-		Hacer:
-			ligar luz direccional al sol
-
-			cambiar color de luz segun posicion del sol pa que se vea de dia y noche
-
-			meter texturas al horno
-
-			ir llenando arreglos de dir y pos para licuadora
-		*/
-
 		//Recibir eventos del usuario
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
@@ -1441,7 +1451,22 @@ int main()
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
-		shaderList[0].SetPointLights(pointLights, pointLightCount);
+		if (esNoche)
+		{
+			if (casAct == 1 || casAct == 10 || casAct == 20 || casAct == 30)
+			{
+				shaderList[0].SetPointLights(pointLights, pointLightCount);
+			}
+			else
+			{
+				shaderList[0].SetPointLights(pointLights, pointLightCount-1);
+			}
+		}
+		else
+		{
+			shaderList[0].SetPointLights(pointLights, pointLightCount-2);
+		}
+		
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
 		glm::mat4 model(1.0);
@@ -1543,16 +1568,16 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarPiernaDer.RenderModel();
 
-		
-		//Iluminacion
-
+		//Iluminacion de personaje
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(pos[casAct - 1][0], 0.2f, pos[casAct - 1][1])); //para mover todo el tablero se restan o suman valores a posX y posZ
 		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		meshList[3]->RenderMesh();
-		pointLights[2].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
-
+		if (esNoche)
+		{
+			pointLights[1].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
+		}
 
 		// Calcular la posición en la circunferencia usando las ecuaciones paramétricas
 		float x = r * std::cos(theta);
@@ -1563,8 +1588,8 @@ int main()
 
 		// Calcular la rotación necesaria para que el modelo mire hacia el centro
 		// La rotación es igual a -theta en este caso
-		float rotationAngle = theta + glm::half_pi<float>(); // Ajuste de 90° para "mirar" al centro
-
+		rotationAngle = theta + glm::half_pi<float>(); // Ajuste de 90° para "mirar" al centro
+		
 		//Sol
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(x, y, 0.0f));
@@ -1572,7 +1597,42 @@ int main()
 		model = glm::rotate(model, glm::half_pi<float>(), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Sol.RenderModel();
-		pointLights[1].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 5.0f, model[3][2] + 0.0f));// esta tiene que ser la global creo xd
+		//Luz para que el sol siempre se vea iluminado
+		pointLights[0].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 5.0f, model[3][2] + 0.0f));
+
+		//angulo de iluminacion del sol
+		anguloLuzY = -round(y) / 250;
+		anguloLuzX = 1.0f - anguloLuzY;
+
+		//ciclo de dia y noche, cambia color y direccion de luz global sol
+		if (y > 125.0f) //iluminacion max
+		{
+			mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+				0.6f, 0.6f,
+				anguloLuzX, anguloLuzY, 0.0f);
+			esNoche = false;
+		}
+		else if (y > 0.0f && y <= 125.0f) //max disminuida
+		{
+			mainLight = DirectionalLight(0.5f, 0.6f, 0.95f,
+				0.6f, 0.6f,
+				anguloLuzX, anguloLuzY, 0.0f);
+			esNoche = false;
+		}
+		else if (y < 0.0f && y >= -125.0f) //max mas disminuida
+		{
+			mainLight = DirectionalLight(0.5f, 0.6f, 0.875f,
+				0.6f, 0.6f,
+				anguloLuzX, anguloLuzY, 0.0f);
+			esNoche = true;
+		}
+		else if (y < -125.0f) //iluminacion min
+		{
+			mainLight = DirectionalLight(0.5f, 0.6f, 0.70f,
+				0.6f, 0.6f,
+				anguloLuzX, anguloLuzY, 0.0f);
+			esNoche = true;
+		}
 
 		//Instancia de lampara 1 azul
 		model = glm::mat4(1.0);
@@ -1581,7 +1641,10 @@ int main()
 		model = glm::rotate(model, 135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
-
+		if (casAct == 1 && esNoche)
+		{
+			pointLights[2].SetPosicion(glm::vec3(posLamparas[0][0], 30.0f, posLamparas[0][1]));
+		}
 
 		//Instancia de lampara 2 amarilla
 		model = glm::mat4(1.0);
@@ -1590,7 +1653,10 @@ int main()
 		model = glm::rotate(model, -135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
-
+		if (casAct == 10 && esNoche)
+		{
+			pointLights[2].SetPosicion(glm::vec3(posLamparas[1][0], 30.0f, posLamparas[1][1]));
+		}
 
 		//Instancia de lampara 3 verde
 		model = glm::mat4(1.0);
@@ -1599,7 +1665,10 @@ int main()
 		model = glm::rotate(model, -45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
-
+		if (casAct == 20 && esNoche)
+		{
+			pointLights[2].SetPosicion(glm::vec3(posLamparas[2][0], 30.0f, posLamparas[2][1]));
+		}
 
 		//Instancia de lampara 4 roja
 		model = glm::mat4(1.0);
@@ -1608,6 +1677,10 @@ int main()
 		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+		if (casAct == 30 && esNoche)
+		{
+			pointLights[2].SetPosicion(glm::vec3(posLamparas[3][0], 30.0f, posLamparas[3][1]));
+		}
 
 		glUseProgram(0);
 
