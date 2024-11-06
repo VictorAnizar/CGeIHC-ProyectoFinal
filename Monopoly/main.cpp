@@ -151,6 +151,8 @@ Model entornoNubes;
 Model entornoRocoso;
 Model entornoYoshi;
 
+//Modelo principal de MB, Toad
+Model toadArm, toadBody;
 
 //Modelos entorno
 Model Lampara, Sol;
@@ -576,6 +578,7 @@ void cargarTexturas()
 	VectorFortressTexture.LoadTextureA();
 
 	printf("Texturas cargadas.\n");
+	
 	/*
 		CARGANDO TEXTURAS DE MARIO BROS 
 	*/
@@ -779,6 +782,11 @@ void cargarModelos()
 	plantaPirana = Model();
 	plantaPirana.LoadModel("Models/MarioBros/plantaPiraña.obj");
 
+	//MODELO PRINCIPAL TOAD
+	toadArm = Model();
+	toadArm.LoadModel("Models/MarioBros/toadBrazos.obj");
+	toadBody = Model();
+	toadBody.LoadModel("Models/MarioBros/toadCuerpo.obj");
 
 	//DOOM
 	DoomIIMap1Room1.LoadModel("Models/DOOMIIM1_IR.obj");
@@ -1144,31 +1152,31 @@ int main()
 
 			switch (numD8)
 			{
-			case 1: 
+			case 1:
 				rotaDado8X = -0.25f; rotaDado8Y = 0.0f; rotaDado8Z = 0.0f;
 				break;
 
-			case 2: 
+			case 2:
 				rotaDado8X = -1.12; rotaDado8Y = 0.0f; rotaDado8Z = 0.0f;
 				break;
 
-			case 3: 
+			case 3:
 				rotaDado8X = -0.22f; rotaDado8Y = -0.45f; rotaDado8Z = 0.0f;
 				break;
 
-			case 4: 
+			case 4:
 				rotaDado8X = 0.68f; rotaDado8Y = 0.45f; rotaDado8Z = 0.0f;
 				break;
 
-			case 5: 
+			case 5:
 				rotaDado8X = -0.22f; rotaDado8Y = 0.9f; rotaDado8Z = 0.0f;
 				break;
 
-			case 6:  
+			case 6:
 				rotaDado8X = 0.68f; rotaDado8Y = 0.9f; rotaDado8Z = 0.0f;
 				break;
 
-			case 7: 
+			case 7:
 				rotaDado8X = -0.22f; rotaDado8Y = 0.45f; rotaDado8Z = 0.0f;
 				break;
 
@@ -1240,7 +1248,7 @@ int main()
 				se hace rotacion del avatar
 
 			contador de 1 en 1 para casAct, para lograr que
-			if casAct == 40 
+			if casAct == 40
 				reiniciar a casAct = 0 y seguir sumando los restantes
 			prender bandera de paso por inicio para animaciones especiales
 		*/
@@ -1423,7 +1431,7 @@ int main()
 		MinionNormal.RenderModel();
 
 		//Instancia de maceta minion 
-		model = glm::mat4(1.0); 
+		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(90.9f, 0.5f, -60.6f));
 		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
 		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -1469,7 +1477,7 @@ int main()
 		MinionAvatarBrazoIzq.RenderModel();
 		model = modelaux;
 
-		
+
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.3f));
 		model = glm::rotate(model, cos(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1488,7 +1496,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarPiernaDer.RenderModel();
 		model = modelaux;
-		
+
 		//Iluminacion
 
 		//instancia de cacodemon
@@ -1509,7 +1517,7 @@ int main()
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionHula.RenderModel();
-    
+
 		//Iluminacion
 		// Calcular la posición en la circunferencia usando las ecuaciones paramétricas
 		float x = r * std::cos(theta);
@@ -1568,6 +1576,35 @@ int main()
 		/*
 					INSTANCIAS DE MARIO BROS
 		*/
+
+		//Modelo principal TOAD
+		// Variables para el salto y los brazos
+		float jumpHeight = 1.0f; // Altura máxima del salto
+		float jumpSpeed = 2.0f;   // Velocidad del salto
+		float armRotationAngle = 45.0f * toRadians; // Ángulo de levantamiento de los brazos en radianes
+
+		// Tiempo o fase de animación (asegúrate de actualizarla en el loop principal)
+		float animationTime = glfwGetTime();
+		float jump = sin(animationTime * jumpSpeed) * jumpHeight;
+		float armAngle = (jump > 0.1f) ? armRotationAngle : 0.0f; // Levanta brazos en el aire
+
+		// Cuerpo - Aplicamos la transformación de salto
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, jump + 1.0f, 0.0f)); // Salto en Y
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadBody.RenderModel();
+
+		// Brazo - Rotación sobre el eje Y mientras salta
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, jump + 1.0f, 0.0f)); // Salto en Y
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, armAngle, glm::vec3(0.0f, 1.0f, 0.0f)); // Levantamos los brazos solo en el eje Y
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		toadArm.RenderModel();
+
 
 		//Entorno de flores
 		model = glm::mat4(1.0);
