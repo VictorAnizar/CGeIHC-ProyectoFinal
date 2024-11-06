@@ -1167,48 +1167,48 @@ void animacionLicuadora(float posFinal, float dirFinal)
 	}
 }
  
-int pos[40][2] = 
+float pos[40][2] = 
 { 
 	{0.0f, 0.0f}, //1
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
-	{0.0f, 0.0f},
+	{10.1f, 0.0f}, //2
+	{20.2f, 0.0f}, //3	
+	{30.3f, 0.0f}, //4
+	{40.4f, 0.0f}, //5
+	{50.5f, 0.0f}, //6
+	{60.6f, 0.0f}, //7
+	{70.7f, 0.0f}, //8
+	{80.8f, 0.0f}, //9
+	{90.9f, 0.0f}, //10
+	{90.9f, -10.1f},//11
+	{90.9f, -20.2f}, //12
+	{90.9f, -30.3f}, //13
+	{90.9f, -40.4f}, //14
+	{90.9f, -50.5f}, //15
+	{90.9f, -60.6f}, //16
+	{90.9f, -70.7f}, //17
+	{90.9f, -80.8f}, //18
+	{90.9, -90.9f}, //19
+	{90.9f, -101.1f}, //20
+	{90.9f, -111.1f}, //21
+	{80.8f, -111.1f}, //22
+	{70.7f, -111.1f}, //23
+	{60.6f, -111.1f}, //24
+	{50.5f, -111.1f}, //25
+	{40.4f, -111.1f}, //26
+	{30.3f, -111.1f}, //27
+	{20.2f, -111.1f}, //28
+	{10.1f, -111.1f}, //29
+	{0.0f, -111.1f}, //30
+	{0.0f, -101.1f}, //31
+	{0.0f, -90.9f}, //32
+	{0.0f, -80.8f}, //33
+	{0.0f, -70.7f}, //34
+	{0.0f, -60.6f}, //35
+	{0.0f, -50.5f}, //36
+	{0.0f, -40.4f}, //37
+	{0.0f, -30.3f}, //38
+	{0.0f, -20.2f}, //39
+	{0.0f, -10.1f}, //40
 };
 
   
@@ -1313,13 +1313,8 @@ int main()
 		lastTime = now;
 
 		angulovaria += 0.9f * deltaTime;
+
 		
-		if (casAct >= 40) {
-			printf("Se reinicia las casillas\n");
-			int aux = casAct - 40;
-			casAct = 0;
-			casAct += aux;
-		}
 
 		if (mainWindow.getTiroDados())
 		{
@@ -1395,9 +1390,16 @@ int main()
 			printf("El personaje avanza %d casillas.\n", numTotal);
 			//aqui va llamada a animacion de caminata
 			//al terminar animacion de caminata, se llama la animacion del modelo
+			//Si se supera en 40 a la suma de las tiradas se reinicia en 0 y se suma el remanente, en caso de que lo haya.
 			
 			casAct += numTotal; //contador de casilla actual
+			if (casAct >= 40) {
+				int aux = casAct - 40;
+				casAct = 0;
+				casAct += aux;
+			}
 			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
+			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct-1][0], pos[casAct - 1][1]);
 			animActiva = true;
 			 
 		}
