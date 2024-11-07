@@ -13,7 +13,8 @@ void Model::LoadModel(const std::string & fileName)
 	const aiScene *scene = importer.ReadFile(fileName, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
 	if (!scene)
 	{	
-		printf("Falló en cargar el modelo: %s \n", fileName, importer.GetErrorString());
+		printf("Falló en cargar el modelo: %s \n", fileName.c_str());
+		//printf("Falló en cargar el modelo: %s \n", fileName, importer.GetErrorString());
 		return;
 	}
 	LoadNode(scene->mRootNode, scene);
