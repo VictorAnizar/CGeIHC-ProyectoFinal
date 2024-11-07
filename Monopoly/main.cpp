@@ -895,7 +895,7 @@ void cargarModelos()
 	DoomIIMap1Room1.LoadModel("Models/Doom/DOOMIIM1_IR.obj");
 
 	DoomIIMap1Room2= Model();
-	DoomIIMap1Room2.LoadModel("Models/DOOMIIM1_LR.obj");
+	DoomIIMap1Room2.LoadModel("Models/Doom/DOOMIIM1_LR.obj");
 
 	//Bella
 	
