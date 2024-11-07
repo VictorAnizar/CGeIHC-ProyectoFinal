@@ -5,9 +5,6 @@
 /*
 		Hacer:
 
-			meter texturas al horno
-
-			ir llenando arreglos de dir y pos para licuadora
 */
 
 //para cargar imagen
@@ -48,17 +45,17 @@
 #include "Material.h"
 const float toRadians = 3.14159265f / 180.0f;
 
-//valores especificos de posicion y rotacion para cada modelo (modificar con valores finales para cada modelo)
+//valores especificos de posicion en Y y rotacion para cada modelo (modificar con valores finales para cada modelo)
 float direcciones[40] = 
 {
-	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f,
+	360.0f, -90.0f, 90.0f, -180.0f, -90.0f, 180.0f, -90.0f, -180.0f, 90.0f, -90.0f,
 	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f,
 	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f,
 	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f
 };
 float posiciones[40]  =
 {
-	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,
+	0.2f, 2.0f, 0.0f,  0.2f,  0.0f,  0.0f,  0.5f,  0.2f,  0.2f,  0.5f,
 	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,
 	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,
 	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f
@@ -72,6 +69,7 @@ float posLamparas[4][2] =
 	{-10.0f, -120.0f} //4
 };
 
+//posiciones de casillas
 float pos[40][2] =
 {
 	{0.0f, 0.0f}, //1
@@ -132,8 +130,8 @@ float dirDado4X, dirDado4Y, dirDado4Z;
 float rotaDado8X, rotaDado8Y, rotaDado8Z;
 float dirDado8X, dirDado8Y, dirDado8Z;
 float posDados;
-float posInicMods = -3.0f;
-float posAnimMods = -3.0f;
+float posInicMods = -5.0f;
+float posAnimMods = -5.0f;
 float cambioPosMods  = 0.0f;
 float dirAnimMods = 0.0f;
 float dirAvatar=0.0f;
@@ -1137,10 +1135,31 @@ void renderizarModelosBella(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	bestiaT.RenderModel();
 
+	/*
+	if (animActiva && casAct > 1) //cambiar a casilla correspondiente
+	{
+		model = glm::translate(model, glm::vec3(-10.1f, posAnimMods, -101.1f));
+		model = glm::scale(model, glm::vec3(0.22f, 0.22f, 0.22f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(-10.1f, posInicMods, -101.1f));
+		model = glm::scale(model, glm::vec3(0.22f, 0.22f, 0.22f));
+	}*/
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 0.2f, 10.0f));
+	if (animActiva && casAct > 1) //cambiar a casilla correspondiente
+	{
+		model = glm::translate(model, glm::vec3(0.0f, posAnimMods, 10.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(0.0f, posInicMods, 10.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+	}
 
-	model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
 	
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	rosaT.RenderModel();
@@ -1444,7 +1463,7 @@ void animacionLicuadora(float posFinal, float dirFinal)
 	float aux = 0.0f;
 	if (framesLicua == 1)
 	{
-		aux = 3.0f + posFinal;
+		aux = 5.0f + posFinal;
 		cambioPosMods = aux / 100.0f;
 
 		aux = dirFinal - 720.0f;
@@ -1729,8 +1748,8 @@ int main()
 		//control para animacion licuadora
 		if (framesLicua >= 1 && framesLicua < 350)
 		{
-			//animacionLicuadora(posiciones[casAct - 1], direcciones[casAct - 1]);
-			animacionLicuadora(posiciones[1], direcciones[1]); //comentar esta y descomentar anterior cuando esten arreglos llenos
+			animacionLicuadora(posiciones[casAct - 1], direcciones[casAct - 1]);
+			//animacionLicuadora(posiciones[1], direcciones[1]); //comentar esta y descomentar anterior cuando esten arreglos llenos
 			framesLicua++;
 		}
 		else if (framesLicua >= 350)
