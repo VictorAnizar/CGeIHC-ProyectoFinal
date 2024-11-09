@@ -1517,7 +1517,13 @@ int main()
 	crearDados();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
+	// Inicializar la cámara en una posición elevada y mirando hacia abajo
+	Camera camera(glm::vec3(50.0f, 30.0f, -50.0f), // Posición inicial (10 unidades arriba)
+		glm::vec3(0.0f, 1.0f, 0.0f),   // Vector "up" (hacia arriba en Y)
+		0.0f,                          // Yaw inicial (puedes ajustarlo para rotar alrededor del eje Y)
+		-90.0f,                        // Pitch inicial (-90 grados para ver hacia abajo)
+		0.3f,                          // Velocidad de movimiento
+		0.5f);                         // Velocidad de giro
 
 	cargarTexturas();
 	cargarModelos();
@@ -1985,7 +1991,6 @@ int main()
 
 		//Cacodemon.RenderModel();
 
-
 		//Instancia del minion hula
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(70.7f, 0.5f, -111.1f));
@@ -2032,7 +2037,6 @@ int main()
 
 		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
 
-
 		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
 
 		model = glm::translate(model, glm::vec3(posicionX, 0.5f, posicionZ));
@@ -2071,7 +2075,6 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarPiernaDer.RenderModel();
 		model = modelaux;
-
 
 		//Iluminacion de personaje
 		model = glm::mat4(1.0);
@@ -2172,7 +2175,6 @@ int main()
 		bellabrazo.RenderModel();
 		model = modelaux;
 
-
 		model = glm::translate(model, glm::vec3(-0.108f, 1.415f, 0.0f));
 		model = glm::rotate(model, cos(glm::radians(angulovaria)) * 5.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -2258,8 +2260,6 @@ int main()
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		rosaRoom.RenderModel();
-
-
 
 		//Modelo principal TOAD
 	
