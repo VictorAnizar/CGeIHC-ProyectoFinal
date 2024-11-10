@@ -35,6 +35,7 @@
 #include "Mesh.h"
 #include "Shader_light.h"
 #include "Camera.h"
+#include "StaticCamera.h"
 #include "Texture.h"
 #include "Sphere.h"
 #include "Model.h" 
@@ -150,7 +151,7 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
-Camera camera;
+StaticCamera camera;
 
 //Texturas tablero
 Texture AmTexture, AzTexture, RoTexture, VeTexture, pisoTexture;
@@ -1517,13 +1518,19 @@ int main()
 	crearDados();
 	CreateShaders();
 
-	// Inicializar la cámara en una posición elevada y mirando hacia abajo
+	/*
+	Camara ortogonal
+		// Inicializar la cámara en una posición elevada y mirando hacia abajo
 	Camera camera(glm::vec3(50.0f, 30.0f, -50.0f), // Posición inicial (10 unidades arriba)
 		glm::vec3(0.0f, 1.0f, 0.0f),   // Vector "up" (hacia arriba en Y)
 		0.0f,                          // Yaw inicial (puedes ajustarlo para rotar alrededor del eje Y)
 		-90.0f,                        // Pitch inicial (-90 grados para ver hacia abajo)
 		0.3f,                          // Velocidad de movimiento
 		0.5f);                         // Velocidad de giro
+	*/
+
+	/* Camara Estatica */
+	StaticCamera camera;
 
 	cargarTexturas();
 	cargarModelos();
@@ -1804,9 +1811,8 @@ int main()
 
 		//Recibir eventos del usuario
 		glfwPollEvents();
-		camera.keyControl(mainWindow.getsKeys(), deltaTime);
-		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-
+		//camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		//camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
