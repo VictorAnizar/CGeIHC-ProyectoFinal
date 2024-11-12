@@ -30,7 +30,8 @@
 #include <gtc\type_ptr.hpp>
 //para probar el importer
 //#include<assimp/Importer.hpp>
-
+#include <irrKlang.h>
+using namespace irrklang;
 #include "Window.h"
 #include "Mesh.h"
 #include "Shader_light.h"
@@ -1464,6 +1465,18 @@ void animacionLicuadora(float posFinal, float dirFinal)
  
 int main()
 {
+	// start the sound engine with default parameters
+	ISoundEngine* engine = irrklang::createIrrKlangDevice();
+
+	if (!engine)
+	{
+		printf("Could not startup engine\n");
+		return 0; // error starting up the engine
+	}
+
+	// play some sound stream, looped
+	engine->play2D("media/getout.ogg", true);
+
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
@@ -2069,6 +2082,7 @@ int main()
 
 		mainWindow.swapBuffers();
 	}
+	engine->drop(); // delete engine
 
 	return 0;
 }
