@@ -30,7 +30,8 @@
 #include <gtc\type_ptr.hpp>
 //para probar el importer
 //#include<assimp/Importer.hpp>
-
+#include <irrKlang.h>
+using namespace irrklang;
 #include "Window.h"
 #include "Mesh.h"
 #include "Shader_light.h"
@@ -1464,6 +1465,17 @@ void animacionLicuadora(float posFinal, float dirFinal)
 
 int main()
 {
+	// start the sound engine with default parameters
+	ISoundEngine* engine = irrklang::createIrrKlangDevice();
+
+	if (!engine)
+	{
+		printf("Could not startup engine\n");
+		return 0; // error starting up the engine
+	}
+
+	
+
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
@@ -1536,6 +1548,9 @@ int main()
 	rotaDado8Y = 0.0f;
 	rotaDado8Z = 0.0f;
 	posDados = 6.35f;
+	// play some sound stream, looped
+	engine->play2D("media/getout.ogg", true);
+	engine->setSoundVolume(0.1);
 
 	printf("[F]\tTirar los dados.\n");
 
@@ -1565,8 +1580,13 @@ int main()
 
 		angulovaria += 0.9f * deltaTime;
 
+		
 		if (mainWindow.getTiroDados())
 		{
+			engine->play2D("media/DadoCaida.mp3");
+			//engine->setSoundVolume(1.0f);
+
+
 			mainWindow.resetTiroDados();
 
 			numD4 = mainWindow.getNumDado4();
@@ -1688,11 +1708,6 @@ int main()
 		if (posicionZ <= pos[casAct - 1][1]) {
 			posicionZ += movOffset * deltaTime;
 		}
-
-
-
-
-
 
 		//control para animacion de dados
 		if (framesDados == 1)
@@ -2069,6 +2084,7 @@ int main()
 
 		mainWindow.swapBuffers();
 	}
+	engine->drop(); // delete engine
 
 	return 0;
 }
