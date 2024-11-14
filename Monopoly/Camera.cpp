@@ -10,6 +10,7 @@ Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLf
     yaw = startYaw;
     pitch = startPitch;
     front = glm::vec3(0.0f, 0.0f, -1.0f);
+    
 
     moveSpeed = startMoveSpeed;
     turnSpeed = startTurnSpeed;
@@ -19,14 +20,15 @@ Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLf
 
 void Camera::keyControl(bool* keys, GLfloat deltaTime)
 {
+    
     GLfloat velocity = moveSpeed * deltaTime;
 
     if (keys[GLFW_KEY_W]) {
-        position += velocity;  // Mover hacia arriba
+        position -= velocity;  // Mover hacia arriba
     }
 
     if (keys[GLFW_KEY_S]) {
-        position -= velocity;  // Mover hacia abajo
+        position += velocity;  // Mover hacia abajo
     }
 
     if (keys[GLFW_KEY_A]) {
@@ -37,9 +39,31 @@ void Camera::keyControl(bool* keys, GLfloat deltaTime)
         position += right * velocity; // Movimiento a la derecha
     }
 
+
+
     // Asegurarse de que la altura permanezca fija
     position.y = initialPosition.y;
 }
+
+void Camera::switchCamera(bool& isStaticCamera, bool* keys)
+{
+    static bool keyKPressed = false;  // Variable estática para detectar cuando se presiona 'K'
+
+    if (keys[GLFW_KEY_K] && !keyKPressed) {
+        isStaticCamera = !isStaticCamera;  // Alterna el valor de isStaticCamera
+        keyKPressed = true;
+        if (isStaticCamera) {
+            printf("Cambiando a cámara isométrica...\n");
+        }
+        else {
+            printf("Cambiando a cámara en primera persona...\n");
+        }
+    }
+    else if (!keys[GLFW_KEY_K]) {
+        keyKPressed = false;  // Restablece cuando se suelta la tecla 'K'
+    }
+}
+
 
 void Camera::mouseControl(GLfloat xChange, GLfloat yChange)
 {
