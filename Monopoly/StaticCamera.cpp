@@ -18,9 +18,12 @@ StaticCamera::StaticCamera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat s
 {
     position = startPosition;
     worldUp = startUp;
-    front = glm::vec3(0.0f, -1.0f, 0.0f); // Cámara mirando en dirección negativa Y
-    right = glm::vec3(1.0f, 0.0f, 0.0f);  // Eje X
-    up = glm::vec3(0.0f, 0.0f, 1.0f);     // Eje Z
+
+    // Rotar 45° sobre el eje Y
+    GLfloat angle = glm::radians(45.0f);
+    front = glm::vec3(0.0f, -cos(angle), -sin(angle)); // Direccion en diagonal
+    right = glm::normalize(glm::cross(front, worldUp)); // Eje "derecha"
+    up = glm::normalize(glm::cross(right, front)); // Eje "arriba"
 }
 
 glm::mat4 StaticCamera::calculateViewMatrix()
