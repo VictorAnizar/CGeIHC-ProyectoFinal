@@ -45,32 +45,24 @@ void Camera::keyControl(bool* keys, GLfloat deltaTime)
     position.y = initialPosition.y;
 }
 
-void Camera::switchCamera(int& cameraMode, bool* keys)
+void Camera::switchCamera(bool& isStaticCamera, bool* keys)
 {
     static bool keyKPressed = false;  // Variable estática para detectar cuando se presiona 'K'
 
     if (keys[GLFW_KEY_K] && !keyKPressed) {
-        // Cambiar al siguiente modo de cámara cíclicamente (0, 1, 2)
-        cameraMode = (cameraMode + 1) % 3;  // Se asegura que los valores de cameraMode estén en 0, 1, o 2
-
+        isStaticCamera = !isStaticCamera;  // Alterna el valor de isStaticCamera
         keyKPressed = true;
-
-        // Imprimir el cambio de cámara según el valor de cameraMode
-        if (cameraMode == 0) {
-            printf("Cambiando a cámara principal (Main Camera)...\n");
+        if (isStaticCamera) {
+            printf("Cambiando a cámara isométrica...\n");
         }
-        else if (cameraMode == 1) {
-            printf("Cambiando a cámara isométrica (Iso Camera)...\n");
-        }
-        else if (cameraMode == 2) {
-            printf("Cambiando a cámara en seguimiento (Follow Camera)...\n");
+        else {
+            printf("Cambiando a cámara en primera persona...\n");
         }
     }
     else if (!keys[GLFW_KEY_K]) {
-        keyKPressed = false;  // Restablecer cuando se suelta la tecla 'K'
+        keyKPressed = false;  // Restablece cuando se suelta la tecla 'K'
     }
 }
-
 
 
 void Camera::mouseControl(GLfloat xChange, GLfloat yChange)
