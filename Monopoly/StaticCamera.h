@@ -11,8 +11,6 @@ public:
     // Constructor predeterminado
     StaticCamera();
 
-    
-
     // Constructor con parámetros
     StaticCamera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startMoveSpeed, GLfloat startTurnSpeed);
 
@@ -31,6 +29,8 @@ private:
     glm::vec3 right;
     glm::vec3 worldUp;
 
+    GLfloat moveSpeed;
+    GLfloat turnSpeed;
+
     void update();
-    void keyControl(bool* keys, GLfloat deltaTime);
 };

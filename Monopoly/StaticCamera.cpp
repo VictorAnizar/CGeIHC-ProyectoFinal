@@ -12,6 +12,9 @@ StaticCamera::StaticCamera()
 
     right = glm::vec3(1.0f, 0.0f, 0.0f);  // Eje X
     up = glm::vec3(0.0f, 0.0f, 1.0f);     // Eje Z (Arriba)
+
+    moveSpeed = 2.5f; // Velocidad de movimiento
+    turnSpeed = 0.1f; // Velocidad de rotación
 }
 
 StaticCamera::StaticCamera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startMoveSpeed, GLfloat startTurnSpeed)
@@ -21,6 +24,8 @@ StaticCamera::StaticCamera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat s
     front = glm::vec3(0.0f, -1.0f, 0.0f); // Cámara mirando en dirección negativa Y
     right = glm::vec3(1.0f, 0.0f, 0.0f);  // Eje X
     up = glm::vec3(0.0f, 0.0f, 1.0f);     // Eje Z
+    moveSpeed = startMoveSpeed;
+    turnSpeed = startTurnSpeed;
 }
 
 glm::mat4 StaticCamera::calculateViewMatrix()

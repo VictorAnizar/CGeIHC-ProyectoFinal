@@ -144,7 +144,7 @@ float anguloLuzX = 0.0f;
 float anguloLuzY = 0.0f;
 bool animActiva = false;
 bool esNoche = false;
-int cameraMode;  // Inicia con la cámara en primera persona
+bool isStaticCamera = false;
 
 int textures;
 GLfloat contadorDAYNIGHT = 0.0f;
@@ -154,7 +154,6 @@ std::vector<Shader> shaderList;
 
 Camera mainCamera(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 5.0f, 0.1f); 
 StaticCamera isoCamera(glm::vec3(10.0f, 30.0f, 10.0f), glm::vec3(0.0f, 0.0f, 1.0f), 5.0f, 0.1f);
-FollowCamera followCamera(glm::vec3(0.0f, 5.0f, -10.0f), glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 0.1f, 1.0f, 0.5f);
 
 //Texturas tablero
 Texture AmTexture, AzTexture, RoTexture, VeTexture, pisoTexture;
@@ -1521,6 +1520,20 @@ int main()
 	crearDados();
 	CreateShaders();
 
+	/*
+	Camara ortogonal
+		// Inicializar la cámara en una posición elevada y mirando hacia abajo
+	Camera camera(glm::vec3(50.0f, 30.0f, -50.0f), // Posición inicial (10 unidades arriba)
+		glm::vec3(0.0f, 1.0f, 0.0f),   // Vector "up" (hacia arriba en Y)
+		0.0f,                          // Yaw inicial (puedes ajustarlo para rotar alrededor del eje Y)
+		-90.0f,                        // Pitch inicial (-90 grados para ver hacia abajo)
+		0.3f,                          // Velocidad de movimiento
+		0.5f);                         // Velocidad de giro
+	*/
+
+	/* Camara Estatica */
+	StaticCamera camera;
+
 	cargarTexturas();
 	cargarModelos();
 
@@ -1697,6 +1710,7 @@ int main()
 			}
 
 
+
 			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
 			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct - 1][0], pos[casAct - 1][1]);
 			//Rotaciones si se llega a esquinas
@@ -1735,6 +1749,11 @@ int main()
 		if (posicionZ <= pos[casAct - 1][1]) {
 			posicionZ += movOffset * deltaTime;
 		}
+
+
+
+
+
 
 		//control para animacion de dados
 		if (framesDados == 1)
@@ -1792,34 +1811,31 @@ int main()
 			prender bandera de paso por inicio para animaciones especiales
 		*/
 
-		// Recibir eventos del usuario
+		//Recibir eventos del usuario
 		glfwPollEvents();
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Seleccionar la cámara activa
-		glm::mat4 viewMatrix;
-		glm::vec3 eyePosition;
+		mainCamera.switchCamera(isStaticCamera, mainWindow.getsKeys());
 
-		if (cameraMode == 0) { // Cámara en primera persona
-			viewMatrix = mainCamera.calculateViewMatrix();
-			eyePosition = mainCamera.getCameraPosition();
-		}
-		else if (cameraMode == 1) { // Cámara isométrica
-			viewMatrix = isoCamera.calculateViewMatrix();
-			eyePosition = isoCamera.getCameraPosition();
-		}
-		else if (cameraMode == 2) { // Cámara de seguimiento
-			followCamera.followTarget(model, 0.0f, 2.0f, 1.0f, dirAvatar); // Seguir al modelo
-			viewMatrix = followCamera.calculateViewMatrix();
-			eyePosition = followCamera.getCameraPosition();
+		if (!isStaticCamera) {
+			mainCamera.keyControl(mainWindow.getsKeys(), deltaTime);
+			mainCamera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		}
 
 		// Dibujar el Skybox con la vista de la cámara activa
-		skybox.DrawSkybox(viewMatrix, projection);
+		skybox.DrawSkybox(isStaticCamera ? isoCamera.calculateViewMatrix() : mainCamera.calculateViewMatrix(), projection);
 
 		// Usar el shader
+		//camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		//camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+
+		// Clear the window
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -1828,22 +1844,28 @@ int main()
 		uniformColor = shaderList[0].getColorLocation();
 
 		// Información en el shader de intensidad especular y brillo
+		glm::mat4 viewMatrix = isStaticCamera ? isoCamera.calculateViewMatrix() : mainCamera.calculateViewMatrix();
+		glm::vec3 eyePosition = isStaticCamera ? isoCamera.getCameraPosition() : mainCamera.getCameraPosition();
+
+		// Actualizar las matrices y la posición de la cámara activa
+		//informaci�n en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
-		// Actualizar las matrices y la posición de la cámara activa
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-		glUniform3f(uniformEyePosition, eyePosition.x, eyePosition.y, eyePosition.z);
+		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
+		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
 
-		// Luz ligada a la cámara de tipo flash
-		glm::vec3 lowerLight = eyePosition;
+		// luz ligada a la c�mara de tipo flash
+		// sirve para que en tiempo de ejecuci�n (dentro del while) se cambien propiedades de la luz
+		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
 
 		// Comprobamos si el modo de cámara es distinto de la cámara isométrica
-		if (cameraMode != 1) {  // Asumimos que la cámara isométrica (cameraMode == 1) es estática
+		if (!isStaticCamera) {
 			spotLights[0].SetFlash(lowerLight, mainCamera.getCameraDirection());
 		}
+		//spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
