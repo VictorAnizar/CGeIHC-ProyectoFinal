@@ -40,6 +40,8 @@ using namespace irrklang;
 #include "Sphere.h"
 #include "Model.h" 
 #include "Skybox.h"
+#include <thread>
+#include <chrono>
 
 //para iluminaci�n
 #include "CommonValues.h"
@@ -143,7 +145,8 @@ float rotationAngle = 0.0f;
 float anguloLuzX = 0.0f;
 float anguloLuzY = 0.0f;
 bool animActiva = false;
-<<<<<<< HEAD
+bool esNoche = false;
+//<<<<<<< HEAD
 //variables animacion hold on bella
 const GLfloat ciclo = 15.0f;  // Duración total del ciclo en segundos
 const GLfloat totalEstados = 5;  // Número total de estados
@@ -161,9 +164,9 @@ GLfloat movBellaX = 0.0f;  // Movimiento en el eje X
 GLfloat movBellaY = 0.0f;  // Movimiento en el eje Y
 GLfloat desplazamiento = 4.0f;  // Desplazamiento máximo en unidades
 
-=======
-bool esNoche = false;
->>>>>>> origin/main
+//=======
+//bool esNoche = false;
+//>>>>>>> origin/main
 
 int textures ;
 GLfloat contadorDAYNIGHT = 0.0f;
@@ -1483,6 +1486,23 @@ void animacionLicuadora(float posFinal, float dirFinal)
 		dirAnimMods -= cambioDirMods;
 	}
 }
+
+//Función para el sonido 
+void updateListenerPositionAndOrientation(Camera& camera, ISoundEngine* engine) {
+	glm::vec3 listenerPos = camera.getCameraPosition();
+	glm::vec3 listenerLookDir = camera.getCameraDirection();
+	glm::vec3 listenerUpVector(0.0f, 1.0f, 0.0f); 
+	glm::vec3 listenerVelPerSecond(0.0f, 0.0f, 0.0f);
+
+	
+	engine->setListenerPosition(
+		vec3df(listenerPos.x, listenerPos.y, listenerPos.z),
+		vec3df(listenerLookDir.x, listenerLookDir.y, listenerLookDir.z),
+		vec3df(listenerVelPerSecond.x, listenerVelPerSecond.y, listenerVelPerSecond.z),
+		vec3df(listenerUpVector.x, listenerUpVector.y, listenerUpVector.z)
+	);
+}
+
  
 int main()
 {
@@ -1503,8 +1523,16 @@ int main()
 	CreateObjects();
 	crearDados();
 	CreateShaders();
-
+	
 	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
+	// Reproducir un sonido en una posición 3D específica
+	vec3df soundPos(-10.0f, 0.2f, -40.4f); // Posición del sonido en el espacio 3D
+	ISound* sound = engine->play3D("media/DadoCaida.mp3", soundPos,true, false, true);
+	if (sound) {
+		sound->setMinDistance(1.0f); // Distancia mínima a la cual el sonido se escucha en su volumen máximo
+		sound->setMaxDistance(2.0);
+		sound->setVolume(0.1);
+	}
 
 	cargarTexturas();
 	cargarModelos();
@@ -1570,8 +1598,8 @@ int main()
 	rotaDado8Z = 0.0f;
 	posDados = 6.35f;
 	// play some sound stream, looped
-	engine->play2D("media/getout.ogg", true);
-	engine->setSoundVolume(0.1);
+	//engine->play2D("media/getout.ogg", true);
+	//engine->setSoundVolume(0.1);
 
 	printf("[F]\tTirar los dados.\n");
 
@@ -1591,6 +1619,8 @@ int main()
 	int casilla;
 	float movOffset = 0.5f;
 
+	
+
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
 	{
@@ -1601,9 +1631,15 @@ int main()
 
 		angulovaria += 0.9f * deltaTime;
 
+	
 		
 		if (mainWindow.getTiroDados())
 		{
+
+
+			
+
+
 			engine->play2D("media/DadoCaida.mp3");
 			//engine->setSoundVolume(1.0f);
 
@@ -1776,7 +1812,7 @@ int main()
 			animActiva = false;
 		}
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		/*
 		Hacer:
 			if casAct es igual a indice de una esquina
@@ -1835,12 +1871,17 @@ int main()
 			rotacion_angulo = 360.0f * ((Tiempo - 4 * duracion_estado/2) / duracion_estado);
 		}
 
-=======
->>>>>>> origin/main
-		//Recibir eventos del usuario
+//=======
+//		//Recibir eventos del usuario
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
 		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		
+		
+	
+		updateListenerPositionAndOrientation(camera, engine);
+
+			
 
 
 		// Clear the window
@@ -1940,9 +1981,6 @@ int main()
 
 		renderizarModelosBella(model, uniformModel, modelaux);
 
-<<<<<<< HEAD
-	
-=======
 		renderizarModelosMario(model, uniformModel, modelaux);
 
 		//instancia de cacodemon avatar
@@ -1953,7 +1991,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Cacodemon.RenderModel();
 
->>>>>>> origin/main
+//>>>>>>> origin/main
 		//Instancia del minion avatar
 		//Cuerpo
 		model = glm::mat4(1.0);
@@ -2187,9 +2225,7 @@ int main()
 		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
-<<<<<<< HEAD
-		
-=======
+
 		if (casAct == 30 && esNoche)
 		{
 			pointLights[2].SetPosicion(glm::vec3(posLamparas[3][0], 30.0f, posLamparas[3][1]));
@@ -2202,7 +2238,7 @@ int main()
 		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bellaT.RenderModel();*/
->>>>>>> origin/main
+//>>>>>>> origin/main
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-55.0f, 11.0f, -55.0f));
@@ -2212,6 +2248,7 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		rosaRoom.RenderModel();
 		
+
 		
 
 		glUseProgram(0);
