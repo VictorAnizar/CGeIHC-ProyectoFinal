@@ -36,7 +36,6 @@
 #include "Shader_light.h"
 #include "Camera.h"
 #include "StaticCamera.h"
-#include "FollowCamera.h"
 #include "Texture.h"
 #include "Sphere.h"
 #include "Model.h" 
