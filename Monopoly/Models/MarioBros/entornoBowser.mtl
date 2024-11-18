@@ -1,0 +1,62 @@
+# Blender 3.6.0 MTL File: 'entornoBowser.blend'
+# www.blender.org
+
+newmtl Brick
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/grey_Brick.png
+
+newmtl Grey
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/grey_Bowser.png
+
+newmtl Material
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.427273 0.427273 0.427273
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/purple_brick.png
+
+newmtl Material.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/Bowser_Pasto.png
+
+newmtl Material.002
+Ns 208.267746
+Ka 1.000000 1.000000 1.000000
+Ks 0.096364 0.096364 0.096364
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/GitHub/CGeIHC-ProyectoFinal/Monopoly/Textures/Bowser_black.png
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd D:/GitHub/CGeIHC-ProyectoFinal/Monopoly/Textures/Bowser_black.png

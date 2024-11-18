@@ -1,6 +1,15 @@
 /*
 	PROYECTO FINAL CGIHC
 */
+
+/*
+		Hacer:
+
+			meter texturas al horno
+
+			ir llenando arreglos de dir y pos para licuadora
+*/
+
 //para cargar imagen
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -10,16 +19,19 @@
 #include <vector>
 #include <math.h>
 #include <random>
+#include <string>
 
 #include <glew.h>
 #include <glfw3.h>
+#include <map>
 
 #include <glm.hpp>
 #include <gtc\matrix_transform.hpp>
 #include <gtc\type_ptr.hpp>
 //para probar el importer
 //#include<assimp/Importer.hpp>
-
+#include <irrKlang.h>
+using namespace irrklang;
 #include "Window.h"
 #include "Mesh.h"
 #include "Shader_light.h"
@@ -53,6 +65,58 @@ float posiciones[40]  =
 	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f
 };
 
+float posLamparas[4][2] = 
+{
+	{-10.0f, 10.0f}, //1
+	{100.0f, 10.0f}, //2
+	{100.0f, -120.0f}, //3	
+	{-10.0f, -120.0f} //4
+};
+
+float pos[40][2] =
+{
+	{0.0f, 0.0f}, //1
+	{10.1f, 0.0f}, //2
+	{20.2f, 0.0f}, //3	
+	{30.3f, 0.0f}, //4
+	{40.4f, 0.0f}, //5
+	{50.5f, 0.0f}, //6
+	{60.6f, 0.0f}, //7
+	{70.7f, 0.0f}, //8
+	{80.8f, 0.0f}, //9
+	{90.9f, 0.0f}, //10
+	{90.9f, -10.1f},//11
+	{90.9f, -20.2f}, //12
+	{90.9f, -30.3f}, //13
+	{90.9f, -40.4f}, //14
+	{90.9f, -50.5f}, //15
+	{90.9f, -60.6f}, //16
+	{90.9f, -70.7f}, //17
+	{90.9f, -80.8f}, //18
+	{90.9, -90.9f}, //19
+	{90.9f, -101.1f}, //20
+	{90.9f, -111.1f}, //21
+	{80.8f, -111.1f}, //22
+	{70.7f, -111.1f}, //23
+	{60.6f, -111.1f}, //24
+	{50.5f, -111.1f}, //25
+	{40.4f, -111.1f}, //26
+	{30.3f, -111.1f}, //27
+	{20.2f, -111.1f}, //28
+	{10.1f, -111.1f}, //29
+	{0.0f, -111.1f}, //30
+	{0.0f, -101.1f}, //31
+	{0.0f, -90.9f}, //32
+	{0.0f, -80.8f}, //33
+	{0.0f, -70.7f}, //34
+	{0.0f, -60.6f}, //35
+	{0.0f, -50.5f}, //36
+	{0.0f, -40.4f}, //37
+	{0.0f, -30.3f}, //38
+	{0.0f, -20.2f}, //39
+	{0.0f, -10.1f}, //40
+};
+
 //variables para animacion
 int counter = 0;
 int framesDados = 0;
@@ -62,7 +126,7 @@ int framesCamin = 0; //propuesto xd
 int numD4 = 0;
 int numD8 = 0;
 int numTotal = 0;
-int casAct = 0;
+int casAct = 1;
 int casDest = 0;
 float rotaDado4X, rotaDado4Y, rotaDado4Z;
 float dirDado4X, dirDado4Y, dirDado4Z;
@@ -73,8 +137,13 @@ float posInicMods = -3.0f;
 float posAnimMods = -3.0f;
 float cambioPosMods  = 0.0f;
 float dirAnimMods = 0.0f;
+float dirAvatar=0.0f;
 float cambioDirMods  = 0.0f;
+float rotationAngle = 0.0f;
+float anguloLuzX = 0.0f;
+float anguloLuzY = 0.0f;
 bool animActiva = false;
+<<<<<<< HEAD
 //variables animacion hold on bella
 const GLfloat ciclo = 15.0f;  // Duración total del ciclo en segundos
 const GLfloat totalEstados = 5;  // Número total de estados
@@ -92,6 +161,9 @@ GLfloat movBellaX = 0.0f;  // Movimiento en el eje X
 GLfloat movBellaY = 0.0f;  // Movimiento en el eje Y
 GLfloat desplazamiento = 4.0f;  // Desplazamiento máximo en unidades
 
+=======
+bool esNoche = false;
+>>>>>>> origin/main
 
 int textures ;
 GLfloat contadorDAYNIGHT = 0.0f;
@@ -109,7 +181,6 @@ Texture D4Texture, D8Texture;
 
 //Texturas Doom 
 Texture Doom1Tex, Doom2Tex, Doom3Tex, Doom4Tex, Doom5Tex, Doom6Tex, Doom7Tex, Doom8Tex, Doom9Tex, Doom10Tex;
-//Texture Doom11Tex;
 
 //Texturas Minion
 Texture MinionTexture, EvilMinionTexture, MaquinaDulcesMinionTexture, MacetMinionTexture, HulaMinionTexture, GruTexture, CarroGruTexture, BabyMinionTexture, VectorTexture, VectorFortressTexture;
@@ -166,33 +237,20 @@ Texture madameNC;
 Texture mrpottsNC;
 Texture chipNC;
 
+//Textures Mario
+Texture plantioFuego, mushroomKingdom, yoshiIsland, nubeReino, sorbeteTierra, sarasaLand, mundoRocoso, koppaReino, caminoEstrella, reinoLava;
+
 //Modelos Minion
 Model MinionHula, MinionNormal, MinionMorado, Vector, Gru, CarroGru, FortalezaVector, MinionBebe, MacetaMinion, MinionMaquinaDulces;
 Model MinionAvatarCuerpo, MinionAvatarBrazoIzq, MinionAvatarBrazoDer, MinionAvatarPiernaIzq, MinionAvatarPiernaDer;
 
 //Modelos Doom
-Model DoomIIMap1Room1;
-Model DoomIIMap1Room2;
-Model DoomE1M1Room1;
-Model DoomE1M1Room2;
-Model RevCuerpo;
-Model RevCanons;
-Model ZombieCuerpo;
-Model ZombiePiernaD;
-Model ZombiePiernaI;
-Model ZombieBrazoD;
-Model ZombieBrazoI;
-Model ArachCuerpo;
-Model ArachCanon;
-Model WolfCuerpo;
-Model WolfCabeza;
-Model GargCuerpo;
-Model GargAlaD;
-Model GargAlaI;
-Model GargBrazoD;
-Model GargBrazoI;
-Model Cacodemon;
-Model Dopefish;
+Model DoomIIMap1Room1, DoomIIMap1Room2, DoomE1M1Room1, DoomE1M1Room2, RevCuerpo, ZombieCuerpo, ArachCuerpo, WolfCuerpo, GargCuerpo, Cacodemon, Dopefish;
+
+//Modelos de Instancias de Mario Bros
+Model entornoArena, entornoBowser, entornoEstrella, entornoFlores, entornoGomba, entornoLava, entornoNieve, entornoNubes, entornoRocoso, entornoYoshi;
+//Modelos de Mario Bros
+Model florFlama, goomba, castilloHielo, plantaPirana, whomp, luma, lakitu, sandman, yoshi, bowser;
 
 //Bella
 Model mrpottsT;
@@ -216,7 +274,7 @@ Model bellapiernatwo;
 
 
 //Modelos entorno
-Model Lampara;
+Model Lampara, Sol;
 Model rosaRoom;
 
 
@@ -462,16 +520,18 @@ void crearCasilla(float posX, float posZ)
 
 void crearTablero()
 {
-	
+	//numeros de casillas considerando que se empieza en esquina
+	//inferior izquierda y se recorre hacia la derecha, arriba, izquierda, abajo.
+	//casillas rojas (seres vivos)
 	RoTexture.UseTexture();
 	rosa.UseTexture();
 	crearCasilla(0.0f, 0.0f); //1
 	
 	crosworth.UseTexture();
 	crearCasilla(30.3f, 0.0f); //4
-	
+	yoshiIsland.UseTexture();
 	crearCasilla(60.6f, 0.0f); //7
-	
+	nubeReino.UseTexture();
 	crearCasilla(90.9f, 0.0f); //10
 	Doom6Tex.UseTexture();
 	crearCasilla(90.9f, -30.3f); //13
@@ -479,17 +539,15 @@ void crearTablero()
 	crearCasilla(90.9f, -90.9f); //19
 	chip.UseTexture();
 	crearCasilla(60.6f, -111.1f); //24
-	
-
+	koppaReino.UseTexture();
 	crearCasilla(20.2f, -111.1f); //28
 	Doom9Tex.UseTexture();
 	crearCasilla(0.0f, -70.7f); //34
 	MinionTexture.UseTexture();
 	crearCasilla(0.0f, -30.3f); //38
 
-
 	//casillas amarillas (fauna)
-	AmTexture.UseTexture();
+	plantioFuego.UseTexture();
 	crearCasilla(10.1f, 0.0f); //2
 	EvilMinionTexture.UseTexture();
 	crearCasilla(50.5f, 0.0f); //6
@@ -499,20 +557,20 @@ void crearTablero()
 	crearCasilla(90.9f, -20.2f); //12
 	Doom4Tex.UseTexture();
 	crearCasilla(90.9f, -40.4f); //14
-	mrpotts.UseTexture();
+	sarasaLand.UseTexture();
 	crearCasilla(90.9f, -70.7f); //17
-
+	AmTexture.UseTexture();
 	crearCasilla(90.9f, -101.1f); //20
 	Doom5Tex.UseTexture();
 	crearCasilla(50.5f, -111.1f); //25
 	VectorFortressTexture.UseTexture();
 	crearCasilla(0.0f, -111.1f); //30
-	AmTexture.UseTexture();
+	caminoEstrella.UseTexture();
 	crearCasilla(0.0f, -90.9f); //32
 
 	lumiere.UseTexture();
 	crearCasilla(0.0f, -40.4f); //37
-
+	
 	//casillas azules (edificios)
 	CarroGruTexture.UseTexture();
 	crearCasilla(20.2f, 0.0f); //3
@@ -523,6 +581,7 @@ void crearTablero()
 	gaston.UseTexture();
 	crearCasilla(90.9f, -50.5f); //15
 	crearCasilla(90.9f, -80.8f); //18
+	mundoRocoso.UseTexture();
 	crearCasilla(80.8f, -111.1f); //22
 	MaquinaDulcesMinionTexture.UseTexture();
 	crearCasilla(40.4f, -111.1f); //26
@@ -530,10 +589,11 @@ void crearTablero()
 	crearCasilla(0.0f, -101.1f); //31
 		plumette.UseTexture();
 	crearCasilla(0.0f, -50.5f); //36
+	Doom1Tex.UseTexture();
 	crearCasilla(0.0f, -10.1f); //39
 
 	//casillas verdes (flora)
-	VeTexture.UseTexture();
+	mushroomKingdom.UseTexture();
 	crearCasilla(40.4f, 0.0f); //5
 	MacetMinionTexture.UseTexture();
 	crearCasilla(90.9f, -60.6f); //16
@@ -549,9 +609,8 @@ void crearTablero()
 	crearCasilla(0.0f, -80.8f); //33
 	VectorTexture.UseTexture();
 	crearCasilla(0.0f, -60.6f); //35
-	Doom1Tex.UseTexture();
+	reinoLava.UseTexture();
 	crearCasilla(0.0f, -20.2f); //39
-	VeTexture.UseTexture();
 }
 
 void cargarTexturas()
@@ -570,6 +629,11 @@ void cargarTexturas()
 	D4Texture.LoadTextureA();
 	D8Texture = Texture("Textures/dado8.png");
 	D8Texture.LoadTextureA();
+
+
+	/*
+			CARGANDO TEXTURAS DE DOOM
+	*/
 
 	Doom1Tex = Texture("Textures/casdoom0.png");
 	Doom1Tex.LoadTextureA();
@@ -712,6 +776,30 @@ void cargarTexturas()
 
 
 
+	/*
+		CARGANDO TEXTURAS DE MARIO BROS 
+	*/
+
+	plantioFuego = Texture("Textures/florFlama.png");
+	plantioFuego.LoadTextureA();
+	mushroomKingdom = Texture("Textures/goomba.png");
+	mushroomKingdom.LoadTextureA();
+	yoshiIsland = Texture("Textures/Yoshi.png");
+	yoshiIsland.LoadTextureA();
+	nubeReino = Texture("Textures/lakitu.png");
+	nubeReino.LoadTextureA();
+	sorbeteTierra = Texture("Textures/castilloSorbete.png");
+	sorbeteTierra.LoadTextureA();
+	sarasaLand = Texture("Textures/sandMan.png");
+	sarasaLand.LoadTextureA();
+	mundoRocoso = Texture("Textures/whompT.png");
+	mundoRocoso.LoadTextureA();
+	koppaReino = Texture("Textures/bowser.png");
+	koppaReino.LoadTextureA();
+	caminoEstrella = Texture("Textures/luma.png");
+	caminoEstrella.LoadTextureA();
+	reinoLava = Texture("Textures/plantaP.png");
+	reinoLava.LoadTextureA();
 
 	printf("Texturas cargadas.\n");
 }
@@ -740,113 +828,96 @@ void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 
 void cargarModelos()
 {
-
-	
 	//Iluminacion
 	Lampara = Model();
-	Lampara.LoadModel("Models/lampara.obj");
+	Lampara.LoadModel("Models/Entorno/lampara.obj");
+
+	Sol = Model();
+	Sol.LoadModel("Models/Entorno/SolTexturizado.obj");
+
+	printf("Cargo entorno\n");
 
 	//Minions
 	MinionNormal = Model();
-	MinionNormal.LoadModel("Models/MinionNormalTexturizado.obj");
+	MinionNormal.LoadModel("Models/Minions/MinionNormalTexturizado.obj");
 
 	MinionHula = Model();
-	MinionHula.LoadModel("Models/MinionHulalTexturizado.obj");
+	MinionHula.LoadModel("Models/Minions/MinionHulalTexturizado.obj");
 
 	MacetaMinion = Model();
-	MacetaMinion.LoadModel("Models/MacetaMinionTexturizada.obj");
+	MacetaMinion.LoadModel("Models/Minions/MacetaMinionTexturizada.obj");
 	
 	MinionBebe = Model();
-	MinionBebe.LoadModel("Models/MinionBebeTexturizado2.obj");
+	MinionBebe.LoadModel("Models/Minions/MinionBebeTexturizado2.obj");
 
 	MinionMorado = Model();
-	MinionMorado.LoadModel("Models/MinionMoradoTexturizado.obj");
+	MinionMorado.LoadModel("Models/Minions/MinionMoradoTexturizado.obj");
 	
 	Vector = Model();
-	Vector.LoadModel("Models/VectorTexturizado.obj");
+	Vector.LoadModel("Models/Minions/VectorTexturizado.obj");
 	
 	Gru = Model();
-	Gru.LoadModel("Models/GruTexturizado.obj");
+	Gru.LoadModel("Models/Minions/GruTexturizado.obj");
 	
 	CarroGru = Model();
-	CarroGru.LoadModel("Models/CarroGruTexturizado3.obj");
+	CarroGru.LoadModel("Models/Minions/CarroGruTexturizado3.obj");
 	
 	FortalezaVector = Model();
-	FortalezaVector.LoadModel("Models/FortalezaVectorTexturizada4.obj");
+	FortalezaVector.LoadModel("Models/Minions/FortalezaVectorTexturizada4.obj");
 	
 	MinionMaquinaDulces = Model();
-	MinionMaquinaDulces.LoadModel("Models/MinionMaquinaDulcesTexturizado.obj");
+	MinionMaquinaDulces.LoadModel("Models/Minions/MinionMaquinaDulcesTexturizado.obj");
 
 	MinionAvatarCuerpo = Model();
-	MinionAvatarCuerpo.LoadModel("Models/MinionAvatarCuerpo.obj");
+	MinionAvatarCuerpo.LoadModel("Models/Minions/MinionAvatarCuerpo.obj");
 
 	MinionAvatarBrazoIzq = Model();
-	MinionAvatarBrazoIzq.LoadModel("Models/MinionAvatarBrazoIzq.obj");
+	MinionAvatarBrazoIzq.LoadModel("Models/Minions/MinionAvatarBrazoIzq.obj");
 
 	MinionAvatarBrazoDer = Model();
-	MinionAvatarBrazoDer.LoadModel("Models/MinionAvatarBrazoIzqDer.obj");
+	MinionAvatarBrazoDer.LoadModel("Models/Minions/MinionAvatarBrazoIzqDer.obj");
 
 	MinionAvatarPiernaDer = Model();
-	MinionAvatarPiernaDer.LoadModel("Models/MinionAvatarPiernaDer.obj");
+	MinionAvatarPiernaDer.LoadModel("Models/Minions/MinionAvatarPiernaDer.obj");
 
 	MinionAvatarPiernaIzq = Model();
-	MinionAvatarPiernaIzq.LoadModel("Models/MinionAvatarPiernaIzq.obj");
+	MinionAvatarPiernaIzq.LoadModel("Models/Minions/MinionAvatarPiernaIzq.obj");
+
+	printf("Cargo minions\n");
 
 	//Doom
 	GargCuerpo = Model();
-	GargCuerpo.LoadModel("Models/Gargoyle_Cuerpo.obj"); 
-	GargAlaI = Model();
-	GargAlaI.LoadModel("Models/Gargoyle_AlaIzq.obj");
-	GargAlaD = Model();
-	GargAlaD.LoadModel("Models/Gargoyle_AlaDer.obj");
-	GargBrazoI = Model();
-	GargBrazoI.LoadModel("Models/Gargoyle_BrIzq.obj");
-	GargBrazoD = Model();
-	GargBrazoD.LoadModel("Models/Gargoyle_BrDer.obj");
+	GargCuerpo.LoadModel("Models/Doom/Gargoyle.obj"); 
 	
 	Cacodemon = Model();
-	Cacodemon.LoadModel("Models/Cacodemon.obj");
+	Cacodemon.LoadModel("Models/Doom/Cacodemon.obj");
 
 	WolfCuerpo = Model();
-	WolfCuerpo.LoadModel("Models/Wolf_Cuerpo.obj");
-	WolfCabeza = Model();
-	WolfCabeza.LoadModel("Models/Wolf_Cabeza.obj");
+	WolfCuerpo.LoadModel("Models/Doom/SentinelWolf.obj");
 	
 	RevCuerpo = Model();
-	RevCuerpo.LoadModel("Models/Rev_Cuerpo.obj");
-	RevCanons = Model();
-	RevCanons.LoadModel("Models/Rev_Canons.obj");
+	RevCuerpo.LoadModel("Models/Doom/Revenant.obj");
 	
 	ZombieCuerpo = Model();
-	ZombieCuerpo.LoadModel("Models/Zombie_Cuerpo.obj");
-	ZombiePiernaD = Model();
-	ZombiePiernaD.LoadModel("Models/Zombie_PiernaDer.obj");
-	ZombiePiernaI = Model();
-	ZombiePiernaI.LoadModel("Models/Zombie_PiernaIzq.obj");
-	ZombieBrazoD = Model();
-	ZombieBrazoD.LoadModel("Models/Zombie_BrDer.obj");
-	ZombieBrazoI = Model();
-	ZombieBrazoI.LoadModel("Models/Zombie_BrIzq.obj");
+	ZombieCuerpo.LoadModel("Models/Doom/Zombie.obj");
 
 	ArachCuerpo = Model();
-	ArachCuerpo.LoadModel("Models/Arach_Cuerpo.obj");
-	ArachCanon = Model();
-	ArachCanon.LoadModel("Models/Arach_Canon.obj");
+	ArachCuerpo.LoadModel("Models/Doom/Arachnotron.obj");
 
 	Dopefish = Model();
-	Dopefish.LoadModel("Models/Dopefish.obj");
+	Dopefish.LoadModel("Models/Doom/Dopefish.obj");
 
 	DoomE1M1Room1 = Model();
-	DoomE1M1Room1.LoadModel("Models/DOOMM1_IR.obj");
+	DoomE1M1Room1.LoadModel("Models/Doom/DOOMM1_IR.obj");
 
 	DoomE1M1Room2 = Model();
-	DoomE1M1Room2.LoadModel("Models/DOOMM1_GR.obj");
+	DoomE1M1Room2.LoadModel("Models/Doom/DOOMM1_GR.obj");
 
 	DoomIIMap1Room1 = Model();
-	DoomIIMap1Room1.LoadModel("Models/DOOMIIM1_IR.obj");
+	DoomIIMap1Room1.LoadModel("Models/Doom/DOOMIIM1_IR.obj");
 
 	DoomIIMap1Room2= Model();
-	DoomIIMap1Room2.LoadModel("Models/DOOMIIM1_LR.obj");
+	DoomIIMap1Room2.LoadModel("Models/Doom/DOOMIIM1_LR.obj");
 
 	//Bella
 	
@@ -906,13 +977,74 @@ void cargarModelos()
 
 	
 
+	printf("Cargo doom\n");
+
+	//Cargando Modelos de entornos de Mario Bros
+	entornoArena = Model();
+	entornoArena.LoadModel("Models/MarioBros/entornoArena.obj");
+
+	entornoBowser = Model();
+	entornoBowser.LoadModel("Models/MarioBros/entornoBowser.obj");
+
+	entornoEstrella = Model();
+	entornoEstrella.LoadModel("Models/MarioBros/entornoEstrella.obj");
+
+	entornoFlores = Model();
+	entornoFlores.LoadModel("Models/MarioBros/entornoFlores.obj");
+
+	entornoGomba = Model();
+	entornoGomba.LoadModel("Models/MarioBros/entornoGomba.obj");
+
+	entornoLava = Model();
+	entornoLava.LoadModel("Models/MarioBros/entornoLava.obj");
+
+	entornoNieve = Model();
+	entornoNieve.LoadModel("Models/MarioBros/entornoNieve.obj");
+
+	entornoNubes = Model();
+	entornoNubes.LoadModel("Models/MarioBros/entornoNubes.obj");
+
+	entornoRocoso = Model();
+	entornoRocoso.LoadModel("Models/MarioBros/entornoRocoso.obj");
+
+	entornoYoshi = Model();
+	entornoYoshi.LoadModel("Models/MarioBros/entornoYoshi.obj");
+
+	//Cargando Modelos de elementos de casilla MarioBros
+	florFlama = Model();
+	florFlama.LoadModel("Models/MarioBros/florFlama.obj");
+
+	goomba = Model();
+	goomba.LoadModel("Models/MarioBros/goomba.obj");
+
+	yoshi = Model();
+	yoshi.LoadModel("Models/MarioBros/yoshi.obj");
+
+	lakitu = Model();
+	lakitu.LoadModel("Models/MarioBros/lakitu.obj");
+
+	//aqui escribe el castillo cuando lo tengas xd
+
+	sandman = Model();
+	sandman.LoadModel("Models/MarioBros/sandMan.obj");
+
+	whomp = Model();
+	whomp.LoadModel("Models/MarioBros/whomp.obj");
+
+	bowser = Model();
+	bowser.LoadModel("Models/MarioBros/bowserhigh.obj");
+
+	luma = Model();
+	luma.LoadModel("Models/MarioBros/luma.obj");
+
+	//lanza excepcion cuando intenta cargar este
+	//plantaPirana = Model();
+	//plantaPirana.LoadModel("Models/MarioBros/plantaPiranha.obj");
+
 	printf("Modelos cargados.\n");
 }
 
 void renderizarModelosMinion(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux){
-
-	
-
 	//Instancia del minion hula
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(70.7f, 0.5f, -121.0f));
@@ -1095,7 +1227,6 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 		model = glm::translate(model, glm::vec3(-10.1f, posInicMods, -101.1f));
 		model = glm::scale(model, glm::vec3(0.22f, 0.22f, 0.22f));
 	}
-	//model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	DoomE1M1Room1.RenderModel();
 
@@ -1108,7 +1239,7 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 
 	//Instancia de doom II mapa 1 cuarto inicial 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-12.5f, 0.5f, -18.9f));
+	model = glm::translate(model, glm::vec3(-12.5f, 0.5f, -8.8f));
 	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -1125,64 +1256,42 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 	//Instancia de gargoyle 
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(100.0f, 3.5f, -30.3f));
-	model = glm::scale(model, glm::vec3(0.6f, 0.6f, 0.6f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, 30 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	GargCuerpo.RenderModel();
-	model = glm::translate(model, glm::vec3(0.0f, 2.2f, 0.0f));
-	modelaux = model;
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	GargAlaI.RenderModel();
-	model = modelaux;
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	GargAlaD.RenderModel();
-	model = modelaux;
-	model = glm::translate(model, glm::vec3(-1.0f, 1.0f, -0.5f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	GargBrazoD.RenderModel();
-	model = modelaux;
-	model = glm::translate(model, glm::vec3(-1.0f, 1.0f, 0.5f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	GargBrazoI.RenderModel();
 
 	//instancia de sentinel wolf 
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(50.5f, 0.2f, -120.0f));
-	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	WolfCuerpo.RenderModel();
-	WolfCabeza.RenderModel();
 
 	//instancia de zombie 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.0f, 6.0f, -10.0f));
-	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(100.0f, 0.2f, -10.0f));
+	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	ZombieCuerpo.RenderModel();
-	ZombieBrazoD.RenderModel();
-	ZombieBrazoI.RenderModel();
-	ZombiePiernaD.RenderModel();
-	ZombiePiernaI.RenderModel();
 
 	//instancia de revenant 
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(80.8f, 0.2f, 9.0f));
 	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	RevCuerpo.RenderModel();
-	RevCanons.RenderModel();
 
 	//instancia de arachnotron 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-10.1f, 3.7f, -70.7f));
+	model = glm::translate(model, glm::vec3(-10.1f, 0.2f, -70.7f));
 	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	ArachCuerpo.RenderModel();
-	ArachCanon.RenderModel();
 
 	//instancia de dopefish 
 	model = glm::mat4(1.0);
@@ -1190,14 +1299,166 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Dopefish.RenderModel();
+}
 
-	//instancia de cacodemon (avatar)
+void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
+	/*
+			INSTANCIAS DE MARIO BROS
+*/
+
+//Entorno de flores
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 0.5f, 55.0f));
-	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+	model = glm::translate(model, glm::vec3(10.0f, 0.5f, 10.0f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//Cacodemon.RenderModel();
+	entornoFlores.RenderModel();
+
+	//Flor flama
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(10.0f, 2.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	florFlama.RenderModel();
+
+	//Reino champiñon
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(40.0f, 0.2f, 10.5f));
+	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoGomba.RenderModel();
+
+	//Gomba
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(40.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	goomba.RenderModel();
+
+	//Isla de Yoshi
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(60.0f, 0.5f, 10.0f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoYoshi.RenderModel();
+
+	//Yoshi
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(60.0f, 0.5f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	yoshi.RenderModel();
+
+	//Reino de nube
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.9f, 0.5f, 10.5f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoNubes.RenderModel();
+
+	//Lakitu
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.9f, 0.5f, -0.5f));
+	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	lakitu.RenderModel();
+
+	//Tierra sorbete
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.9f, 0.5f, -80.0f));
+	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoNieve.RenderModel();
+
+	//Castillo
+
+	//Entorno de piramide
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(100.0f, 0.0f, -100.0f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoArena.RenderModel();
+
+	//Sand
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(90.0f, 0.0f, -100.0f));
+	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	sandman.RenderModel();
+
+	//Mundo rocoso
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(80.5f, 0.2f, -120.5f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoRocoso.RenderModel();
+
+	//Whomp
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(80.5f, 0.0f, -110.0f));
+	model = glm::scale(model, glm::vec3(1.5f, 1.50f, 1.5f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	whomp.RenderModel();
+
+	//Reino Koopa 
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(20.5f, 0.0f, -120.5f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoBowser.RenderModel();
+
+	//Bowser
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(20.5f, 0.0f, -110.5f));
+	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	bowser.RenderModel();
+
+	//Camino estrella 
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -90.5f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoEstrella.RenderModel();
+
+	//Luma
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 2.0f, -90.5f));
+	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	luma.RenderModel();
+
+	// Reino de lava
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -20.5f));
+	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoLava.RenderModel();
+
+	//Planta Piraña
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -20.5f));
+	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	//plantaPirana.RenderModel();
 }
 
 void animacionLicuadora(float posFinal, float dirFinal)
@@ -1216,15 +1477,26 @@ void animacionLicuadora(float posFinal, float dirFinal)
 		posAnimMods += cambioPosMods;
 		dirAnimMods += cambioDirMods;
 	}
-	else if (framesLicua > 150 && framesLicua <= 250) //animacion de "regreso"
+	else if (framesLicua > 250 && framesLicua <= 350) //animacion de "regreso"
 	{
 		posAnimMods -= cambioPosMods;
 		dirAnimMods -= cambioDirMods;
 	}
 }
-
+ 
 int main()
 {
+	// start the sound engine with default parameters
+	ISoundEngine* engine = irrklang::createIrrKlangDevice();
+
+	if (!engine)
+	{
+		printf("Could not startup engine\n");
+		return 0; // error starting up the engine
+	}
+
+	
+
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
@@ -1250,29 +1522,39 @@ int main()
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
-	//luz direccional, s�lo 1 y siempre debe de existir
+	//luz direccional, solo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
-		0.6f, 0.6f, //atenuacion
-		450.0f, 75.0f, 0.0f);
+		0.6f, 0.6f,
+		0.0f, 0.0f, -1.0f);
+
 	//contador de luces puntuales
 
 
 	unsigned int pointLightCount = 0;
 
-	unsigned int spotLightCount = 0;
-	//linterna
-	spotLights[0] = SpotLight(1.0f, 1.0f, 1.0f,
-		0.0f, 2.0f,
+	//Luz blanca que ilumina al modelo del sol
+	pointLights[0] = PointLight(1.0f, 1.0f, 1.0f,
+		0.5f, 0.3f,
 		0.0f, 0.0f, 0.0f,
-		0.0f, -1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		5.0f);
-	spotLightCount++;
+		0.2f, 0.01f, 0.001f);
+	pointLightCount++;
 
+	//Luz azul que seguira al avatar
+	pointLights[1] = PointLight(0.0f, 0.0f, 1.0f,
+		0.5f, 0.3f,
+		0.0f, 0.0f, 0.0f,
+		0.2f, 0.01f, 0.001f);
+	pointLightCount++;
 
+	//luz amarilla para las lamparas
+	pointLights[2] = PointLight(1.0f, 1.0f, 0.4f,
+		0.5f, 0.3f,
+		0.0f, 0.0f, 0.0f,
+		0.2f, 0.01f, 0.001f);
+	pointLightCount++;
 
-	//se crean mas luces puntuales y spotlight 
-
+	unsigned int spotLightCount = 0;
+	
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	GLuint uniformColor = 0;
@@ -1287,6 +1569,9 @@ int main()
 	rotaDado8Y = 0.0f;
 	rotaDado8Z = 0.0f;
 	posDados = 6.35f;
+	// play some sound stream, looped
+	engine->play2D("media/getout.ogg", true);
+	engine->setSoundVolume(0.1);
 
 	printf("[F]\tTirar los dados.\n");
 
@@ -1296,6 +1581,15 @@ int main()
 
 	float angulovaria = 0.0f;
 
+	// Variables para el movimiento circular
+	float r = 250.0f;     // Radio constante de la circunferencia
+	float theta = 0.0f; // Ángulo polar inicial
+	float deltaTheta = 0.003f; // Incremento del ángulo en cada frame (velocidad angular)
+
+	float posicionX=0.0f ;
+	float posicionZ=0.0f ;
+	int casilla;
+	float movOffset = 0.5f;
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -1307,9 +1601,13 @@ int main()
 
 		angulovaria += 0.9f * deltaTime;
 
-
+		
 		if (mainWindow.getTiroDados())
 		{
+			engine->play2D("media/DadoCaida.mp3");
+			//engine->setSoundVolume(1.0f);
+
+
 			mainWindow.resetTiroDados();
 
 			numD4 = mainWindow.getNumDado4();
@@ -1382,10 +1680,54 @@ int main()
 			printf("El personaje avanza %d casillas.\n", numTotal);
 			//aqui va llamada a animacion de caminata
 			//al terminar animacion de caminata, se llama la animacion del modelo
+			//Si se supera en 40 a la suma de las tiradas se reinicia en 0 y se suma el remanente, en caso de que lo haya.
+			
 			casAct += numTotal; //contador de casilla actual
+			if (casAct >= 40) {
+				int aux = casAct - 40;
+				casAct = 1;
+				casAct += aux-1;
+			}
+
+			
+
 			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
-			animActiva = true;
-			 
+			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct-1][0], pos[casAct-1][1]);
+			//Rotaciones si se llega a esquinas
+			//Esquina 1 (casilla 10)
+			if (posicionX > 85.0f && posicionX < 95.0f && posicionZ <= -5.0f) {
+				dirAvatar += 90.0f;
+			}
+
+			if (posicionZ > -115.0f && posicionZ <105.0 && posicionX>=0.0f ) {
+				dirAvatar += 90.0f;
+			}
+
+			if (posicionX > -5.0f && posicionX < 5.0f && posicionZ >= -111.0f) {
+				dirAvatar += 90.0f;
+			}
+
+			if (posicionZ > -5.0f && posicionZ < 5.0 && posicionX >= 0.0f) {
+				dirAvatar += 90.0f;
+			}
+
+			
+			animActiva = true;	 
+		}
+
+
+		//Desplazamientos del avatar en X y Z
+		if (posicionX <= pos[casAct-1][0]) {
+			posicionX += movOffset * deltaTime;
+		}
+		if (posicionX >= pos[casAct-1][0]) {
+			posicionX -= movOffset * deltaTime;
+		}
+		if (posicionZ >= pos[casAct-1][1]) {
+			posicionZ -= movOffset * deltaTime;
+		}
+		if (posicionZ <= pos[casAct-1][1]) {
+			posicionZ += movOffset * deltaTime;
 		}
 
 		
@@ -1422,18 +1764,19 @@ int main()
 		}
 
 		//control para animacion licuadora
-		if (framesLicua >= 1 && framesLicua < 250)
+		if (framesLicua >= 1 && framesLicua < 350)
 		{
 			//animacionLicuadora(posiciones[casAct - 1], direcciones[casAct - 1]);
-			animacionLicuadora(posiciones[1], direcciones[1]);
+			animacionLicuadora(posiciones[1], direcciones[1]); //comentar esta y descomentar anterior cuando esten arreglos llenos
 			framesLicua++;
 		}
-		else if (framesLicua >= 250)
+		else if (framesLicua >= 350)
 		{
 			framesLicua = 0;
 			animActiva = false;
 		}
 
+<<<<<<< HEAD
 		/*
 		Hacer:
 			if casAct es igual a indice de una esquina
@@ -1492,6 +1835,8 @@ int main()
 			rotacion_angulo = 360.0f * ((Tiempo - 4 * duracion_estado/2) / duracion_estado);
 		}
 
+=======
+>>>>>>> origin/main
 		//Recibir eventos del usuario
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
@@ -1521,11 +1866,26 @@ int main()
 		// sirve para que en tiempo de ejecuci�n (dentro del while) se cambien propiedades de la luz
 		glm::vec3 lowerLight = camera.getCameraPosition();
 		lowerLight.y -= 0.3f;
-		spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		//spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
-		//shaderList[0].SetPointLights(pointLights, pointLightCount);
+		if (esNoche)
+		{
+			if (casAct == 1 || casAct == 10 || casAct == 20 || casAct == 30)
+			{
+				shaderList[0].SetPointLights(pointLights, pointLightCount);
+			}
+			else
+			{
+				shaderList[0].SetPointLights(pointLights, pointLightCount-1);
+			}
+		}
+		else
+		{
+			shaderList[0].SetPointLights(pointLights, pointLightCount-2);
+		}
+		
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
 		glm::mat4 model(1.0);
@@ -1580,11 +1940,26 @@ int main()
 
 		renderizarModelosBella(model, uniformModel, modelaux);
 
+<<<<<<< HEAD
 	
+=======
+		renderizarModelosMario(model, uniformModel, modelaux);
+
+		//instancia de cacodemon avatar
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-25.0f, 6.0f + (sin(glm::radians(angulovaria * 2))), -55.0f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, (90 + (5 * cos(glm::radians(angulovaria * 2.5f)))) * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Cacodemon.RenderModel();
+
+>>>>>>> origin/main
 		//Instancia del minion avatar
 		//Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
+		model = glm::translate(model, glm::vec3(posicionX, 0.5f, posicionZ));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, dirAvatar * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		modelaux = model;
 
@@ -1617,6 +1992,72 @@ int main()
 		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		MinionAvatarPiernaDer.RenderModel();
+
+		//Iluminacion de personaje
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(pos[casAct - 1][0], 0.2f, pos[casAct - 1][1])); //para mover todo el tablero se restan o suman valores a posX y posZ
+		model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		meshList[3]->RenderMesh();
+		if (esNoche)
+		{
+			pointLights[1].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 20.0f, model[3][2] + 0.0f));
+		}
+
+		// Calcular la posición en la circunferencia usando las ecuaciones paramétricas
+		float x = r * std::cos(theta);
+		float y = r * std::sin(theta);
+
+		// Incrementar theta para el siguiente frame
+		theta += deltaTheta;
+
+		// Calcular la rotación necesaria para que el modelo mire hacia el centro
+		// La rotación es igual a -theta en este caso
+		rotationAngle = theta + glm::half_pi<float>(); // Ajuste de 90° para "mirar" al centro
+		
+		//Sol
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(x, y, 0.0f));
+		model = glm::rotate(model, rotationAngle, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::half_pi<float>(), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		Sol.RenderModel();
+		//Luz para que el sol siempre se vea iluminado
+		pointLights[0].SetPosicion(glm::vec3(model[3][0] + 0.0f, model[3][1] + 5.0f, model[3][2] + 0.0f));
+
+		//angulo de iluminacion del sol
+		anguloLuzY = -round(y) / 250;
+		anguloLuzX = 1.0f - anguloLuzY;
+
+		//ciclo de dia y noche, cambia color y direccion de luz global sol
+		if (y > 125.0f) //iluminacion max
+		{
+			mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
+				0.6f, 0.6f,
+				anguloLuzX, anguloLuzY, 0.0f);
+			esNoche = false;
+		}
+		else if (y > 0.0f && y <= 125.0f) //max disminuida
+		{
+			mainLight = DirectionalLight(0.5f, 0.6f, 0.95f,
+				0.6f, 0.6f,
+				anguloLuzX, anguloLuzY, 0.0f);
+			esNoche = false;
+		}
+		else if (y < 0.0f && y >= -125.0f) //max mas disminuida
+		{
+			mainLight = DirectionalLight(0.5f, 0.6f, 0.875f,
+				0.6f, 0.6f,
+				anguloLuzX, anguloLuzY, 0.0f);
+			esNoche = true;
+		}
+		else if (y < -125.0f) //iluminacion min
+		{
+			mainLight = DirectionalLight(0.5f, 0.6f, 0.70f,
+				0.6f, 0.6f,
+				anguloLuzX, anguloLuzY, 0.0f);
+			esNoche = true;
+		}
 		model = modelaux;
 
 		//instancia de Bella avatar animacion para tablero 
@@ -1703,38 +2144,65 @@ int main()
 		
 		//Iluminacion
 
-		//Instancia de lampara 1
+		//Instancia de lampara 1 azul
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-15.0f, 0.5f, 10.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, 135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+		if (casAct == 1 && esNoche)
+		{
+			pointLights[2].SetPosicion(glm::vec3(posLamparas[0][0], 30.0f, posLamparas[0][1]));
+		}
 
-		//Instancia de lampara 2
+		//Instancia de lampara 2 amarilla
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(100.0f, 0.5f, 10.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, -135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+		if (casAct == 10 && esNoche)
+		{
+			pointLights[2].SetPosicion(glm::vec3(posLamparas[1][0], 30.0f, posLamparas[1][1]));
+		}
 
-		//Instancia de lampara 3
+		//Instancia de lampara 3 verde
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(100.0f, 0.5f, -120.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, -45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+		if (casAct == 20 && esNoche)
+		{
+			pointLights[2].SetPosicion(glm::vec3(posLamparas[2][0], 30.0f, posLamparas[2][1]));
+		}
 
-		//Instancia de lampara 4
+		//Instancia de lampara 4 roja
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-10.0f, 0.5f, -120.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+<<<<<<< HEAD
 		
+=======
+		if (casAct == 30 && esNoche)
+		{
+			pointLights[2].SetPosicion(glm::vec3(posLamparas[3][0], 30.0f, posLamparas[3][1]));
+		}
+		/*
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		modelaux = model;
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bellaT.RenderModel();*/
+>>>>>>> origin/main
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-55.0f, 11.0f, -55.0f));
@@ -1744,11 +2212,13 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		rosaRoom.RenderModel();
 		
+		
 
 		glUseProgram(0);
 
 		mainWindow.swapBuffers();
 	}
+	engine->drop(); // delete engine
 
 	return 0;
 }
