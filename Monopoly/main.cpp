@@ -75,6 +75,23 @@ float cambioPosMods  = 0.0f;
 float dirAnimMods = 0.0f;
 float cambioDirMods  = 0.0f;
 bool animActiva = false;
+//variables animacion hold on bella
+const GLfloat ciclo = 15.0f;  // Duración total del ciclo en segundos
+const GLfloat totalEstados = 5;  // Número total de estados
+const GLfloat duracion_estado = ciclo / totalEstados;  // Duración de cada estado
+GLfloat rotacion_angulo = 0.0f; // Ángulo de rotación inferior
+
+
+GLfloat Time = 0.0f;
+GLfloat pasTime = 0.0f;
+GLfloat lapso = 0.0f;
+
+
+// Variables de movimiento y rotación
+GLfloat movBellaX = 0.0f;  // Movimiento en el eje X
+GLfloat movBellaY = 0.0f;  // Movimiento en el eje Y
+GLfloat desplazamiento = 4.0f;  // Desplazamiento máximo en unidades
+
 
 int textures ;
 GLfloat contadorDAYNIGHT = 0.0f;
@@ -201,6 +218,7 @@ Model bellapiernatwo;
 //Modelos entorno
 Model Lampara;
 Model rosaRoom;
+
 
 Skybox skybox;
 
@@ -1427,6 +1445,53 @@ int main()
 			prender bandera de paso por inicio para animaciones especiales
 		*/
 
+		//ANIMACION PAARA HOLD ON BELLA
+		Time = now - pasTime;
+		//Time += (now - pasTime) / limitFPS;
+		pasTime = now;
+
+		// Actualizar el tiempo transcurrido
+		lapso += Time;
+
+		// Verificar si hemos completado un ciclo completo
+		if (lapso >= ciclo) {
+			lapso = 0.0f;  // Resetear el tiempo transcurrido después de un ciclo completo
+		}
+
+		GLfloat Tiempo = fmod(lapso, ciclo);
+
+		if (Tiempo < duracion_estado) {
+			// Moviendo en el eje X hacia la derecha
+			movBellaX = 4.0f * (Tiempo / duracion_estado);
+			
+			rotacion_angulo = 0.0f;
+		}
+		else if (Tiempo < 2 * duracion_estado) {
+			// Moviendo en el eje X hacia el centro
+			movBellaX = 4.0f * (1.0f - (Tiempo - duracion_estado) / duracion_estado);
+			rotacion_angulo = 360.0f * ((Tiempo - duracion_estado) / duracion_estado);
+			//rotacion_angulo = 0.0f;
+		}
+		else if (Tiempo < 3 * duracion_estado) {
+			// Moviendo en el eje X hacia la izquierda
+			movBellaX = -4.0f * ((Tiempo - 2 * duracion_estado) / duracion_estado);
+			rotacion_angulo = 0.0f;
+		}
+		else if (Tiempo < 4 * duracion_estado) {
+			// Moviendo en el eje X hacia el centro
+			movBellaX = -4.0f * (1.0f - (Tiempo - 3 * duracion_estado) / duracion_estado);
+			rotacion_angulo = 360.0f * ((Tiempo - 3 * duracion_estado) / duracion_estado);
+		//	rotacion_angulo = 0.0f;
+		}
+		
+		
+		else {
+			// Rotación de 360 grados
+			movBellaX = 0.0f;
+		
+			rotacion_angulo = 360.0f * ((Tiempo - 4 * duracion_estado/2) / duracion_estado);
+		}
+
 		//Recibir eventos del usuario
 		glfwPollEvents();
 		camera.keyControl(mainWindow.getsKeys(), deltaTime);
@@ -1516,8 +1581,6 @@ int main()
 		renderizarModelosBella(model, uniformModel, modelaux);
 
 	
-
-
 		//Instancia del minion avatar
 		//Cuerpo
 		model = glm::mat4(1.0);
@@ -1556,8 +1619,9 @@ int main()
 		MinionAvatarPiernaDer.RenderModel();
 		model = modelaux;
 
-		//instancia de Bella avatar
+		//instancia de Bella avatar animacion para tablero 
 		//Cuerpo
+		/*
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-15.0f, 0.30f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.7f, 1.7f, 1.7f));
@@ -1590,6 +1654,48 @@ int main()
 
 		model = glm::translate(model, glm::vec3(-0.01f, 0.950f, -0.20f));
 		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bellapiernatwo.RenderModel();
+		model = modelaux; */
+
+		//INSTANCIA DE BELLA ANIMACION HOLD ON
+		// 
+		// model = glm::rotate(model, rotacion_angulo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//Cuerpo
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(-3.0, 0.0, movBellaX));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotacion_angulo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.7f, 1.7f, 1.7f));
+		modelaux = model;
+
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bellatronco.RenderModel();
+		model = modelaux;
+
+		//Brazos
+		model = glm::translate(model, glm::vec3(0.108f, 1.42f, 0.0f));
+		//model = glm::rotate(model, sin(glm::radians(angulovaria)) * 5.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bellabrazo.RenderModel();
+		model = modelaux;
+
+
+		model = glm::translate(model, glm::vec3(-0.108f, 1.415f, 0.0f));
+		//model = glm::rotate(model, cos(glm::radians(angulovaria)) * 5.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bellabrazotwo.RenderModel();
+		model = modelaux;
+
+		//Piernas
+		model = glm::translate(model, glm::vec3(0.05f, 0.950f, -0.20f));
+		//model = glm::rotate(model, cos(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		bellapierna1.RenderModel();
+		model = modelaux;
+
+		model = glm::translate(model, glm::vec3(-0.01f, 0.950f, -0.20f));
+		//model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bellapiernatwo.RenderModel();
 		model = modelaux;
@@ -1628,14 +1734,7 @@ int main()
 		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
-		/*
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bellaT.RenderModel();*/
+		
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-55.0f, 11.0f, -55.0f));
