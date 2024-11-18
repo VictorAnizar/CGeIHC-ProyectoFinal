@@ -36,7 +36,6 @@
 #include "Shader_light.h"
 #include "Camera.h"
 #include "StaticCamera.h"
-#include "FollowCamera.h"
 #include "Texture.h"
 #include "Sphere.h"
 #include "Model.h" 
@@ -155,7 +154,6 @@ std::vector<Shader> shaderList;
 
 Camera mainCamera(glm::vec3(0.0f, 2.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 5.0f, 0.1f); 
 StaticCamera isoCamera(glm::vec3(10.0f, 30.0f, 10.0f), glm::vec3(0.0f, 0.0f, 1.0f), 5.0f, 0.1f);
-//FollowCamera followCamera(glm::vec3(0.0f, 5.0f, -10.0f), glm::vec3(0.0f, 1.0f, 0.0f), 5.0f, 0.1f);
 
 //Texturas tablero
 Texture AmTexture, AzTexture, RoTexture, VeTexture, pisoTexture;
