@@ -10,6 +10,7 @@ Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLf
     yaw = startYaw;
     pitch = startPitch;
     front = glm::vec3(0.0f, 0.0f, -1.0f);
+    
 
     moveSpeed = startMoveSpeed;
     turnSpeed = startTurnSpeed;
@@ -19,6 +20,7 @@ Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLf
 
 void Camera::keyControl(bool* keys, GLfloat deltaTime)
 {
+    
     GLfloat velocity = moveSpeed * deltaTime;
 
     if (keys[GLFW_KEY_W]) {
@@ -37,28 +39,39 @@ void Camera::keyControl(bool* keys, GLfloat deltaTime)
         position += right * velocity; // Movimiento a la derecha
     }
 
+
+
     // Asegurarse de que la altura permanezca fija
     position.y = initialPosition.y;
 }
 
-void Camera::switchCamera(bool& isStaticCamera, bool* keys)
+void Camera::switchCamera(int& cameraMode, bool* keys)
 {
-    static bool keyKPressed = false;  // Variable est?tica para detectar cuando se presiona 'K'
+    static bool keyKPressed = false;  // Variable estática para detectar cuando se presiona 'K'
 
     if (keys[GLFW_KEY_K] && !keyKPressed) {
-        isStaticCamera = !isStaticCamera;  // Alterna el valor de isStaticCamera
+        // Cambiar al siguiente modo de cámara cíclicamente (0, 1, 2)
+        cameraMode = (cameraMode + 1) % 3;  // Se asegura que los valores de cameraMode estén en 0, 1, o 2
+
         keyKPressed = true;
-        if (isStaticCamera) {
-            printf("Cambiando a c?mara isom?trica...\n");
+
+        // Imprimir el cambio de cámara según el valor de cameraMode
+        if (cameraMode == 0) {
+            printf("Cambiando a cámara principal (Main Camera)...\n");
         }
-        else {
-            printf("Cambiando a c?mara en primera persona...\n");
+        else if (cameraMode == 1) {
+            printf("Cambiando a cámara isométrica (Iso Camera)...\n");
+        }
+        else if (cameraMode == 2) {
+            printf("Cambiando a cámara en seguimiento (Follow Camera)...\n");
         }
     }
     else if (!keys[GLFW_KEY_K]) {
-        keyKPressed = false;  // Restablece cuando se suelta la tecla 'K'
+        keyKPressed = false;  // Restablecer cuando se suelta la tecla 'K'
     }
 }
+
+
 
 void Camera::mouseControl(GLfloat xChange, GLfloat yChange)
 {
