@@ -144,7 +144,8 @@ float anguloLuzX = 0.0f;
 float anguloLuzY = 0.0f;
 bool animActiva = false;
 bool esNoche = false;
-bool isStaticCamera = false;  // Inicia con la cámara en primera persona
+bool isStaticCamera = false;  // Inicia con la camara que es ortogonal
+bool isFollowCamera = false;  // Inicia con la camara que es ortogonal
 
 int textures;
 GLfloat contadorDAYNIGHT = 0.0f;
@@ -153,6 +154,7 @@ std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
 Camera mainCamera(glm::vec3(0.0f, 40.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 0.5f, 0.1f); 
+//Aqui declaramos la camara de Follow
 StaticCamera isoCamera(glm::vec3(10.0f, 30.0f, 10.0f), glm::vec3(0.0f, 0.0f, 1.0f), 5.0f, 0.1f);
 
 //Texturas tablero
@@ -1794,8 +1796,9 @@ int main()
 		// Recibir eventos del usuario
 		glfwPollEvents();
 		mainCamera.switchCamera(isStaticCamera, mainWindow.getsKeys());
+		mainCamera.switchCamera(isFollowCamera, mainWindow.getsKeys());
 
-		if (!isStaticCamera) {
+		if (!isStaticCamera && !isFollowCamera) {
 			mainCamera.keyControl(mainWindow.getsKeys(), deltaTime);
 			mainCamera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		}
@@ -1826,10 +1829,9 @@ int main()
 		// Luz ligada a la cámara de tipo flash
 		glm::vec3 lowerLight = eyePosition;
 		lowerLight.y -= 0.3f;
-		if (!isStaticCamera) {
+		if (!isStaticCamera && !isFollowCamera) {
 			spotLights[0].SetFlash(lowerLight, mainCamera.getCameraDirection());
 		}
-
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
