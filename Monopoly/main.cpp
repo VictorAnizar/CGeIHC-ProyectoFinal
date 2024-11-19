@@ -35,7 +35,7 @@ using namespace irrklang;
 #include "Window.h"
 #include "Mesh.h"
 #include "Shader_light.h"
-#include "Camera.h"
+#include "FollowCamera.h"
 #include "Texture.h"
 #include "Sphere.h"
 #include "Model.h" 
@@ -151,7 +151,7 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
-Camera camera;
+FollowCamera camera;
 
 //Texturas tablero
 Texture AmTexture, AzTexture, RoTexture, VeTexture, pisoTexture;
@@ -1474,8 +1474,6 @@ int main()
 		return 0; // error starting up the engine
 	}
 
-	
-
 	mainWindow = Window(1366, 768); // 1280, 1024 or 1024, 768
 	mainWindow.Initialise();
 
@@ -1483,7 +1481,7 @@ int main()
 	crearDados();
 	CreateShaders();
 
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
+	camera = FollowCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.1f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
 
 	cargarTexturas();
 	cargarModelos();
@@ -1580,7 +1578,7 @@ int main()
 
 		angulovaria += 0.9f * deltaTime;
 
-		
+
 		if (mainWindow.getTiroDados())
 		{
 			engine->play2D("media/DadoCaida.mp3");
@@ -1756,9 +1754,6 @@ int main()
 
 		//Recibir eventos del usuario
 		glfwPollEvents();
-		camera.keyControl(mainWindow.getsKeys(), deltaTime);
-		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -1871,14 +1866,16 @@ int main()
 		//Cuerpo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(posicionX, 0.5f, posicionZ));
+
+		// Llama a `followTarget` usando `model` y `dirAvatar`
+		camera.followTarget(model, 0.0f, 2.0f, 1.0f, dirAvatar);
+
+		// Aplica transformaciones adicionales al modelo del Minion
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, dirAvatar * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		modelaux = model;
 
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		MinionAvatarCuerpo.RenderModel();
-		model = modelaux;
 
 		//Brazos
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.3f));
@@ -2088,4 +2085,3 @@ int main()
 
 	return 0;
 }
-
