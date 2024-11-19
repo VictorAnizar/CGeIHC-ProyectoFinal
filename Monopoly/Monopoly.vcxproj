@@ -133,6 +133,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="Light.cpp" />

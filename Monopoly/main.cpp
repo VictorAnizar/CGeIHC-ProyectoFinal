@@ -35,6 +35,8 @@ using namespace irrklang;
 #include "Window.h"
 #include "Mesh.h"
 #include "Shader_light.h"
+#include "Camera.h"
+#include "StaticCamera.h"
 #include "FollowCamera.h"
 #include "Texture.h"
 #include "Sphere.h"
@@ -144,6 +146,7 @@ float anguloLuzX = 0.0f;
 float anguloLuzY = 0.0f;
 bool animActiva = false;
 bool esNoche = false;
+bool isStaticCamera = false;
 
 int textures;
 GLfloat contadorDAYNIGHT = 0.0f;
@@ -151,7 +154,9 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
-FollowCamera camera;
+Camera mainCamera(glm::vec3(0.0f, 40.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 0.5f, 0.1f);
+//FollowCamera followCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.1f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
+StaticCamera isoCamera(glm::vec3(10.0f, 30.0f, 10.0f), glm::vec3(0.0f, 0.0f, 1.0f), 5.0f, 0.1f);
 
 //Texturas tablero
 Texture AmTexture, AzTexture, RoTexture, VeTexture, pisoTexture;
@@ -1481,8 +1486,6 @@ int main()
 	crearDados();
 	CreateShaders();
 
-	camera = FollowCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.1f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
-
 	cargarTexturas();
 	cargarModelos();
 
@@ -1752,13 +1755,19 @@ int main()
 			animActiva = false;
 		}
 
-		//Recibir eventos del usuario
+		// Recibir eventos del usuario
 		glfwPollEvents();
+		mainCamera.switchCamera(isStaticCamera, mainWindow.getsKeys());
+
+		if (!isStaticCamera) {
+			mainCamera.keyControl(mainWindow.getsKeys(), deltaTime);
+			mainCamera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		}
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		skybox.DrawSkybox(camera.calculateViewMatrix(), projection);
+		skybox.DrawSkybox(isStaticCamera ? isoCamera.calculateViewMatrix() : mainCamera.calculateViewMatrix(), projection);
 		shaderList[0].UseShader();
 		uniformModel = shaderList[0].GetModelLocation();
 		uniformProjection = shaderList[0].GetProjectionLocation();
@@ -1766,19 +1775,24 @@ int main()
 		uniformEyePosition = shaderList[0].GetEyePositionLocation();
 		uniformColor = shaderList[0].getColorLocation();
 
-		//informaci�n en el shader de intensidad especular y brillo
+		// información en el shader de intensidad especular y brillo
 		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
 		uniformShininess = shaderList[0].GetShininessLocation();
 
-		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
-		glUniform3f(uniformEyePosition, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);
+		// Obtener la vista y posición de la cámara activa
+		glm::mat4 viewMatrix = isStaticCamera ? isoCamera.calculateViewMatrix() : mainCamera.calculateViewMatrix();
+		glm::vec3 eyePosition = isStaticCamera ? isoCamera.getCameraPosition() : mainCamera.getCameraPosition();
 
-		// luz ligada a la c�mara de tipo flash
-		// sirve para que en tiempo de ejecuci�n (dentro del while) se cambien propiedades de la luz
-		glm::vec3 lowerLight = camera.getCameraPosition();
+		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+		glUniform3f(uniformEyePosition, eyePosition.x, eyePosition.y, eyePosition.z);
+
+		// Luz ligada a la cámara de tipo flash
+		glm::vec3 lowerLight = eyePosition;
 		lowerLight.y -= 0.3f;
-		//spotLights[0].SetFlash(lowerLight, camera.getCameraDirection());
+		if (!isStaticCamera) {
+			spotLights[0].SetFlash(lowerLight, mainCamera.getCameraDirection());
+		}
 
 		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
@@ -1868,7 +1882,7 @@ int main()
 		model = glm::translate(model, glm::vec3(posicionX, 0.5f, posicionZ));
 
 		// Llama a `followTarget` usando `model` y `dirAvatar`
-		camera.followTarget(model, 0.0f, 2.0f, 1.0f, dirAvatar);
+		//camera.followTarget(model, 0.0f, 2.0f, 1.0f, dirAvatar);
 
 		// Aplica transformaciones adicionales al modelo del Minion
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
