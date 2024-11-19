@@ -12,7 +12,7 @@ public:
     Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLfloat startPitch, GLfloat startMoveSpeed, GLfloat startTurnSpeed);
 
     void keyControl(bool* keys, GLfloat deltaTime);
-    void switchCamera(bool& isStaticCamera, bool* keys);
+    void switchCamera(bool& isStaticCamera, bool& isFollowCamera, bool& isMainCamera, bool* keys);
     void mouseControl(GLfloat xChange, GLfloat yChange);
 
     glm::vec3 getCameraPosition();
