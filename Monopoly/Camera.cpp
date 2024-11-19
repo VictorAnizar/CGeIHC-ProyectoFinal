@@ -45,43 +45,30 @@ void Camera::keyControl(bool* keys, GLfloat deltaTime)
     position.y = initialPosition.y;
 }
 
-void Camera::switchCamera(bool& isStaticCamera, bool* keys)
+void Camera::switchCameraMode(int& cameraMode, bool* keys)
 {
-    static bool keyKPressed = false;  // Variable estática para detectar cuando se presiona 'K'
+    static bool keyJPressed = false;
 
-    if (keys[GLFW_KEY_K] && !keyKPressed) {
-        isStaticCamera = !isStaticCamera;  // Alterna el valor de isStaticCamera
-        keyKPressed = true;
-        if (isStaticCamera) {
-            printf("Cambiando a cámara isométrica...\n");
-        }
-        else {
-            printf("Cambiando a cámara en primera persona...\n");
+    if (keys[GLFW_KEY_J] && !keyJPressed) {
+        cameraMode = (cameraMode + 1) % 3;  // Alternar entre 3 modos de cámara
+        keyJPressed = true;
+
+        switch (cameraMode) {
+        case 0:
+            printf("Modo estatica...\n");
+            break;
+        case 1:
+            printf("Modo en primera persona...\n");
+            break;
+        case 2:
+            printf("Modo follow minion...\n");
+            break;
         }
     }
-    else if (!keys[GLFW_KEY_K]) {
-        keyKPressed = false;  // Restablece cuando se suelta la tecla 'K'
-    }
-}
-
-void Camera::switchToMain(bool& isFollowCamera, bool* keys) {
-    static bool keyKPressed = false;
-
-    if (keys[GLFW_KEY_F] && !keyKPressed) { // Cambia 'F' a la tecla deseada
-        isFollowCamera = !isFollowCamera; // Alterna entre las cámaras
-        if (isFollowCamera) {
-            printf("Cambiando a cámara de seguimiento...\n");
-        }
-        else {
-            printf("Cambiando a cámara principal...\n");
-        }
-        keyKPressed = true;
-    }
-    else if (!keys[GLFW_KEY_F]) {
-        keyKPressed = false; // Detecta cuándo se suelta la tecla
+    else if (!keys[GLFW_KEY_J]) {
+        keyJPressed = false;
     }
 }
-
 
 
 void Camera::mouseControl(GLfloat xChange, GLfloat yChange)
