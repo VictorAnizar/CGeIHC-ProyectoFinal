@@ -148,7 +148,6 @@ bool animActiva = false;
 bool esNoche = false;
 bool isStaticCamera = false;   // Cámara isométrica (inactiva al inicio)
 bool isFollowCamera = false;   // Cámara de seguimiento (inactiva al inicio)
-bool isMainCamera = true;      // Cámara principal (activa al inicio)
 
 int textures;
 GLfloat contadorDAYNIGHT = 0.0f;
@@ -156,7 +155,7 @@ Window mainWindow;
 std::vector<Mesh*> meshList;
 std::vector<Shader> shaderList;
 
-Camera mainCamera(glm::vec3(0.0f, -40.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 0.5f, 0.1f);
+Camera mainCamera(glm::vec3(0.0f, 40.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 0.5f, 0.1f);
 FollowCamera followCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.1f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
 StaticCamera isoCamera(glm::vec3(10.0f, 30.0f, 10.0f), glm::vec3(0.0f, 0.0f, 1.0f), 5.0f, 0.1f);
 
@@ -1759,57 +1758,63 @@ int main()
 
 		// Recibir eventos del usuario
 		glfwPollEvents();
-		mainCamera.switchCamera(isStaticCamera, isFollowCamera, isMainCamera, mainWindow.getsKeys());
+		mainCamera.switchCamera(isStaticCamera, mainWindow.getsKeys());
+		//followCamera.switchToMain(isFollowCamera, mainWindow.getsKeys());
 
-		// Control de la cámara activa
-		if (isMainCamera) {
+		if (!isStaticCamera) {
 			mainCamera.keyControl(mainWindow.getsKeys(), deltaTime);
 			mainCamera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
-		}
-		else if (isFollowCamera) {
-			followCamera.followTarget(model, 0.0f, 2.0f, 1.0f, dirAvatar);
 		}
 
 		// Clear the window
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		// Matriz de vista y posición de la cámara activa
-		glm::mat4 viewMatrix;
-		glm::vec3 eyePosition;
-
-		if (isStaticCamera) {
-			viewMatrix = isoCamera.calculateViewMatrix();
-			eyePosition = isoCamera.getCameraPosition();
-		}
-		else if (isFollowCamera) {
-			viewMatrix = followCamera.calculateViewMatrix();
-			eyePosition = followCamera.getCameraPosition();
-		}
-		else if (isMainCamera) {
-			viewMatrix = mainCamera.calculateViewMatrix();
-			eyePosition = mainCamera.getCameraPosition();
-		}
-
-		// Dibujar Skybox y actualizar los shaders
-		skybox.DrawSkybox(viewMatrix, projection);
+		skybox.DrawSkybox(isStaticCamera ? isoCamera.calculateViewMatrix() : mainCamera.calculateViewMatrix(), projection);
 		shaderList[0].UseShader();
+		uniformModel = shaderList[0].GetModelLocation();
+		uniformProjection = shaderList[0].GetProjectionLocation();
+		uniformView = shaderList[0].GetViewLocation();
+		uniformEyePosition = shaderList[0].GetEyePositionLocation();
+		uniformColor = shaderList[0].getColorLocation();
+
+		// información en el shader de intensidad especular y brillo
+		uniformSpecularIntensity = shaderList[0].GetSpecularIntensityLocation();
+		uniformShininess = shaderList[0].GetShininessLocation();
+
+		// Obtener la vista y posición de la cámara activa
+		glm::mat4 viewMatrix = isStaticCamera ? isoCamera.calculateViewMatrix() : mainCamera.calculateViewMatrix();
+		glm::vec3 eyePosition = isStaticCamera ? isoCamera.getCameraPosition() : mainCamera.getCameraPosition();
+
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 		glUniform3f(uniformEyePosition, eyePosition.x, eyePosition.y, eyePosition.z);
 
-		// Luz ligada a la cámara activa
-		if (isMainCamera) {
-			glm::vec3 lowerLight = eyePosition;
-			lowerLight.y -= 0.3f;
+		// Luz ligada a la cámara de tipo flash
+		glm::vec3 lowerLight = eyePosition;
+		lowerLight.y -= 0.3f;
+		if (!isStaticCamera) {
 			spotLights[0].SetFlash(lowerLight, mainCamera.getCameraDirection());
 		}
 
-		// Actualización de luces
+		//informaci�n al shader de fuentes de iluminaci�n
 		shaderList[0].SetDirectionalLight(&mainLight);
-		shaderList[0].SetPointLights(pointLights, pointLightCount);
-		shaderList[0].SetSpotLights(spotLights, spotLightCount);
+		if (esNoche)
+		{
+			if (casAct == 1 || casAct == 10 || casAct == 20 || casAct == 30)
+			{
+				shaderList[0].SetPointLights(pointLights, pointLightCount);
+			}
+			else
+			{
+				shaderList[0].SetPointLights(pointLights, pointLightCount - 1);
+			}
+		}
+		else
+		{
+			shaderList[0].SetPointLights(pointLights, pointLightCount - 2);
+		}
 
+		shaderList[0].SetSpotLights(spotLights, spotLightCount);
 
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);
@@ -1877,6 +1882,9 @@ int main()
 		//Cuerpo
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(posicionX, 0.5f, posicionZ));
+
+		// Llama a `followTarget` usando `model` y `dirAvatar`
+		//followcamera.followTarget(model, 0.0f, 2.0f, 1.0f, dirAvatar);
 
 		// Aplica transformaciones adicionales al modelo del Minion
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
