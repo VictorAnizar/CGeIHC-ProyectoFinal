@@ -1917,6 +1917,10 @@ int main()
 		modelaux = model;
 
 
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		MinionAvatarCuerpo.RenderModel();
+		model = modelaux;
+
 		//Brazos
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.3f));
 		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
