@@ -179,6 +179,13 @@ Texture Doom1Tex, Doom2Tex, Doom3Tex, Doom4Tex, Doom5Tex, Doom6Tex, Doom7Tex, Do
 //Texturas Minion
 Texture MinionTexture, EvilMinionTexture, MaquinaDulcesMinionTexture, MacetMinionTexture, HulaMinionTexture, GruTexture, CarroGruTexture, BabyMinionTexture, VectorTexture, VectorFortressTexture;
 
+//Texturas Minion Noche cocinadas
+Texture MinionTextureNight, EvilMinionTextureNight, MaquinaDulcesMinionTextureNight, MacetMinionTextureNight, HulaMinionTextureNight, GruTextureNight, CarroGruTextureNight, BabyMinionTextureNight, VectorTextureNight, VectorFortressTextureNight;
+
+//Texturas Minion Dia cocinadas
+Texture MinionTextureDay, EvilMinionTextureDay, MaquinaDulcesMinionTextureDay, MacetMinionTextureDay, HulaMinionTextureDay, GruTextureDay, CarroGruTextureDay, BabyMinionTextureDay, VectorTextureDay, VectorFortressTextureDay;
+
+
 //MUNDO BELLA 
 
 //TEXTURAS DIA
@@ -506,99 +513,195 @@ void crearCasilla(float posX, float posZ)
 	meshList[3]->RenderMesh();
 }
 
-void crearTablero()
+void crearTablero(bool esNoche)
 {
-	//numeros de casillas considerando que se empieza en esquina
+	if (esNoche) {
+		//numeros de casillas considerando que se empieza en esquina
 	//inferior izquierda y se recorre hacia la derecha, arriba, izquierda, abajo.
 	//casillas rojas (seres vivos)
-	RoTexture.UseTexture();
-	rosa.UseTexture();
-	crearCasilla(0.0f, 0.0f); //1
-	crosworth.UseTexture();
-	crearCasilla(30.3f, 0.0f); //4
-	yoshiIsland.UseTexture();
-	crearCasilla(60.6f, 0.0f); //7
-	nubeReino.UseTexture();
-	crearCasilla(90.9f, 0.0f); //10
-	Doom6Tex.UseTexture();
-	crearCasilla(90.9f, -30.3f); //13
-	GruTexture.UseTexture();
-	crearCasilla(90.9f, -90.9f); //19
-	chip.UseTexture();
-	crearCasilla(60.6f, -111.1f); //24
-	koppaReino.UseTexture();
-	crearCasilla(20.2f, -111.1f); //28
-	Doom9Tex.UseTexture();
-	crearCasilla(0.0f, -70.7f); //34
-	MinionTexture.UseTexture();
-	crearCasilla(0.0f, -30.3f); //38
+		RoTexture.UseTexture();
+		rosaNC.UseTexture();
+		crearCasilla(0.0f, 0.0f); //1
+		crosworthNC.UseTexture();
+		crearCasilla(30.3f, 0.0f); //4
+		yoshiIsland.UseTexture();
+		crearCasilla(60.6f, 0.0f); //7
+		nubeReino.UseTexture();
+		crearCasilla(90.9f, 0.0f); //10
+		Doom6Tex.UseTexture();
+		crearCasilla(90.9f, -30.3f); //13
+		GruTextureNight.UseTexture();
+		crearCasilla(90.9f, -90.9f); //19
+		chipNC.UseTexture();
+		crearCasilla(60.6f, -111.1f); //24
+		koppaReino.UseTexture();
+		crearCasilla(20.2f, -111.1f); //28
+		Doom9Tex.UseTexture();
+		crearCasilla(0.0f, -70.7f); //34
+		MinionTextureNight.UseTexture();
+		crearCasilla(0.0f, -30.3f); //38
 
-	//casillas amarillas (fauna)
-	plantioFuego.UseTexture();
-	crearCasilla(10.1f, 0.0f); //2
-	EvilMinionTexture.UseTexture();
-	crearCasilla(50.5f, 0.0f); //6
-	Doom8Tex.UseTexture();
-	crearCasilla(80.8f, 0.0f); //9
-	BabyMinionTexture.UseTexture();
-	crearCasilla(90.9f, -20.2f); //12
-	Doom4Tex.UseTexture();
-	crearCasilla(90.9f, -40.4f); //14
-	mrpotts.UseTexture();
-	crearCasilla(90.9f, -70.7f); //17
-	sarasaLand.UseTexture();
-	crearCasilla(90.9f, -101.1f); //20
-	Doom5Tex.UseTexture();
-	crearCasilla(50.5f, -111.1f); //25
-	VectorFortressTexture.UseTexture();
-	crearCasilla(0.0f, -111.1f); //30
-	caminoEstrella.UseTexture();
-	crearCasilla(0.0f, -90.9f); //32
-	lumiere.UseTexture();
-	crearCasilla(0.0f, -40.4f); //37
+		//casillas amarillas (fauna)
+		plantioFuego.UseTexture();
+		crearCasilla(10.1f, 0.0f); //2
+		EvilMinionTextureNight.UseTexture();
+		crearCasilla(50.5f, 0.0f); //6
+		Doom8Tex.UseTexture();
+		crearCasilla(80.8f, 0.0f); //9
+		BabyMinionTextureNight.UseTexture();
+		crearCasilla(90.9f, -20.2f); //12
+		Doom4Tex.UseTexture();
+		crearCasilla(90.9f, -40.4f); //14
+		mrpottsNC.UseTexture();
+		crearCasilla(90.9f, -70.7f); //17
+		sarasaLand.UseTexture();
+		crearCasilla(90.9f, -101.1f); //20
+		Doom5Tex.UseTexture();
+		crearCasilla(50.5f, -111.1f); //25
+		VectorFortressTextureNight.UseTexture();
+		crearCasilla(0.0f, -111.1f); //30
+		caminoEstrella.UseTexture();
+		crearCasilla(0.0f, -90.9f); //32
+		lumiereNC.UseTexture();
+		crearCasilla(0.0f, -40.4f); //37
 
-	//casillas azules (edificios)
-	CarroGruTexture.UseTexture();
-	crearCasilla(20.2f, 0.0f); //3
-	castillo.UseTexture();
-	crearCasilla(70.7f, 0.0f); //8
-	Doom7Tex.UseTexture();
-	crearCasilla(90.9f, -10.1f); //11
-	gaston.UseTexture();
-	crearCasilla(90.9f, -50.5f); //15
-	sorbeteTierra.UseTexture();
-	crearCasilla(90.9f, -80.8f); //18
-	mundoRocoso.UseTexture();
-	crearCasilla(80.8f, -111.1f); //22
-	MaquinaDulcesMinionTexture.UseTexture();
-	crearCasilla(40.4f, -111.1f); //26
-	Doom2Tex.UseTexture();
-	crearCasilla(0.0f, -101.1f); //31
-	plumette.UseTexture();
-	crearCasilla(0.0f, -50.5f); //36
-	Doom1Tex.UseTexture();
-	crearCasilla(0.0f, -10.1f); //39
+		//casillas azules (edificios)
+		CarroGruTextureNight.UseTexture();
+		crearCasilla(20.2f, 0.0f); //3
+		castilloNC.UseTexture();
+		crearCasilla(70.7f, 0.0f); //8
+		Doom7Tex.UseTexture();
+		crearCasilla(90.9f, -10.1f); //11
+		gastonNC.UseTexture();
+		crearCasilla(90.9f, -50.5f); //15
+		sorbeteTierra.UseTexture();
+		crearCasilla(90.9f, -80.8f); //18
+		mundoRocoso.UseTexture();
+		crearCasilla(80.8f, -111.1f); //22
+		MaquinaDulcesMinionTextureNight.UseTexture();
+		crearCasilla(40.4f, -111.1f); //26
+		Doom2Tex.UseTexture();
+		crearCasilla(0.0f, -101.1f); //31
+		plumetteNC.UseTexture();
+		crearCasilla(0.0f, -50.5f); //36
+		Doom1Tex.UseTexture();
+		crearCasilla(0.0f, -10.1f); //39
 
-	RoTexture.UseTexture();
-	//casillas verdes (flora)
-	mushroomKingdom.UseTexture();
-	crearCasilla(40.4f, 0.0f); //5
-	MacetMinionTexture.UseTexture();
-	crearCasilla(90.9f, -60.6f); //16
-	Doom10Tex.UseTexture();
-	crearCasilla(90.9f, -111.1f); //21
-	HulaMinionTexture.UseTexture();
-	crearCasilla(70.7f, -111.1f); //23
-	bestia.UseTexture();
-	crearCasilla(30.3f, -111.1f); //27
-	Doom3Tex.UseTexture();
-	crearCasilla(10.1f, -111.1f); //29
-	madame.UseTexture();
-	crearCasilla(0.0f, -80.8f); //33
-	VectorTexture.UseTexture();
-	crearCasilla(0.0f, -60.6f); //35
-	reinoLava.UseTexture();
-	crearCasilla(0.0f, -20.2f); //39
+		RoTexture.UseTexture();
+		//casillas verdes (flora)
+		mushroomKingdom.UseTexture();
+		crearCasilla(40.4f, 0.0f); //5
+		MacetMinionTextureNight.UseTexture();
+		crearCasilla(90.9f, -60.6f); //16
+		Doom10Tex.UseTexture();
+		crearCasilla(90.9f, -111.1f); //21
+		HulaMinionTextureNight.UseTexture();
+		crearCasilla(70.7f, -111.1f); //23
+		bestiaNC.UseTexture();
+		crearCasilla(30.3f, -111.1f); //27
+		Doom3Tex.UseTexture();
+		crearCasilla(10.1f, -111.1f); //29
+		madameNC.UseTexture();
+		crearCasilla(0.0f, -80.8f); //33
+		VectorTextureNight.UseTexture();
+		crearCasilla(0.0f, -60.6f); //35
+		reinoLava.UseTexture();
+		crearCasilla(0.0f, -20.2f); //39
+	}
+	else {
+		//numeros de casillas considerando que se empieza en esquina
+	//inferior izquierda y se recorre hacia la derecha, arriba, izquierda, abajo.
+	//casillas rojas (seres vivos)
+		RoTexture.UseTexture();
+		rosaC.UseTexture();
+		crearCasilla(0.0f, 0.0f); //1
+		crosworthC.UseTexture();
+		crearCasilla(30.3f, 0.0f); //4
+		yoshiIsland.UseTexture();
+		crearCasilla(60.6f, 0.0f); //7
+		nubeReino.UseTexture();
+		crearCasilla(90.9f, 0.0f); //10
+		Doom6Tex.UseTexture();
+		crearCasilla(90.9f, -30.3f); //13
+		GruTextureDay.UseTexture();
+		crearCasilla(90.9f, -90.9f); //19
+		chipC.UseTexture();
+		crearCasilla(60.6f, -111.1f); //24
+		koppaReino.UseTexture();
+		crearCasilla(20.2f, -111.1f); //28
+		Doom9Tex.UseTexture();
+		crearCasilla(0.0f, -70.7f); //34
+		MinionTextureDay.UseTexture();
+		crearCasilla(0.0f, -30.3f); //38
+
+		//casillas amarillas (fauna)
+		plantioFuego.UseTexture();
+		crearCasilla(10.1f, 0.0f); //2
+		EvilMinionTextureDay.UseTexture();
+		crearCasilla(50.5f, 0.0f); //6
+		Doom8Tex.UseTexture();
+		crearCasilla(80.8f, 0.0f); //9
+		BabyMinionTextureDay.UseTexture();
+		crearCasilla(90.9f, -20.2f); //12
+		Doom4Tex.UseTexture();
+		crearCasilla(90.9f, -40.4f); //14
+		mrpottsC.UseTexture();
+		crearCasilla(90.9f, -70.7f); //17
+		sarasaLand.UseTexture();
+		crearCasilla(90.9f, -101.1f); //20
+		Doom5Tex.UseTexture();
+		crearCasilla(50.5f, -111.1f); //25
+		VectorFortressTextureDay.UseTexture();
+		crearCasilla(0.0f, -111.1f); //30
+		caminoEstrella.UseTexture();
+		crearCasilla(0.0f, -90.9f); //32
+		lumiereC.UseTexture();
+		crearCasilla(0.0f, -40.4f); //37
+
+		//casillas azules (edificios)
+		CarroGruTextureDay.UseTexture();
+		crearCasilla(20.2f, 0.0f); //3
+		castilloC.UseTexture();
+		crearCasilla(70.7f, 0.0f); //8
+		Doom7Tex.UseTexture();
+		crearCasilla(90.9f, -10.1f); //11
+		gastonC.UseTexture();
+		crearCasilla(90.9f, -50.5f); //15
+		sorbeteTierra.UseTexture();
+		crearCasilla(90.9f, -80.8f); //18
+		mundoRocoso.UseTexture();
+		crearCasilla(80.8f, -111.1f); //22
+		MaquinaDulcesMinionTextureDay.UseTexture();
+		crearCasilla(40.4f, -111.1f); //26
+		Doom2Tex.UseTexture();
+		crearCasilla(0.0f, -101.1f); //31
+		plumetteC.UseTexture();
+		crearCasilla(0.0f, -50.5f); //36
+		Doom1Tex.UseTexture();
+		crearCasilla(0.0f, -10.1f); //39
+
+		RoTexture.UseTexture();
+		//casillas verdes (flora)
+		mushroomKingdom.UseTexture();
+		crearCasilla(40.4f, 0.0f); //5
+		MacetMinionTextureDay.UseTexture();
+		crearCasilla(90.9f, -60.6f); //16
+		Doom10Tex.UseTexture();
+		crearCasilla(90.9f, -111.1f); //21
+		HulaMinionTextureDay.UseTexture();
+		crearCasilla(70.7f, -111.1f); //23
+		bestiaC.UseTexture();
+		crearCasilla(30.3f, -111.1f); //27
+		Doom3Tex.UseTexture();
+		crearCasilla(10.1f, -111.1f); //29
+		madameC.UseTexture();
+		crearCasilla(0.0f, -80.8f); //33
+		VectorTextureDay.UseTexture();
+		crearCasilla(0.0f, -60.6f); //35
+		reinoLava.UseTexture();
+		crearCasilla(0.0f, -20.2f); //39
+	}
+	
 }
 
 void cargarTexturas()
@@ -642,36 +745,49 @@ void cargarTexturas()
 	Doom10Tex = Texture("Textures/10_FISH_D.png");
 	Doom10Tex.LoadTextureA();
 
-	printf("Cargando texturas de Minions...\n");
-	MinionTexture = Texture("Textures/MinionNormal.png");
-	MinionTexture.LoadTextureA();
+	printf("Cargando texturas de Minions Dia...\n");
+	MinionTextureDay = Texture("Textures/MinionNormal.png");
+	MinionTextureDay.LoadTextureA();
+	EvilMinionTextureDay = Texture("Textures/MinionMoradoC.png");
+	EvilMinionTextureDay.LoadTextureA();
+	MaquinaDulcesMinionTextureDay = Texture("Textures/MaquinaDulcesMinion.png");
+	MaquinaDulcesMinionTextureDay.LoadTextureA();
+	MacetMinionTextureDay = Texture("Textures/MacetaMinionC.png");
+	MacetMinionTextureDay.LoadTextureA();
+	HulaMinionTextureDay = Texture("Textures/HulaMinionC.png");
+	HulaMinionTextureDay.LoadTextureA();
+	GruTextureDay = Texture("Textures/GruC.png");
+	GruTextureDay.LoadTextureA();
+	CarroGruTextureDay = Texture("Textures/CarroGruC.png");
+	CarroGruTextureDay.LoadTextureA();
+	VectorTextureDay = Texture("Textures/VectorC.png");
+	VectorTextureDay.LoadTextureA();
+	BabyMinionTextureDay = Texture("Textures/BabyMinionC.png");
+	BabyMinionTextureDay.LoadTextureA();
+	VectorFortressTextureDay = Texture("Textures/VectorFortressC.png");
+	VectorFortressTextureDay.LoadTextureA();
 
-	EvilMinionTexture = Texture("Textures/MinionMorado.png");
-	EvilMinionTexture.LoadTextureA();
-
-	MaquinaDulcesMinionTexture = Texture("Textures/MaquinaDulcesMinion.png");
-	MaquinaDulcesMinionTexture.LoadTextureA();
-
-	MacetMinionTexture = Texture("Textures/MacetaMinion.png");
-	MacetMinionTexture.LoadTextureA();
-
-	HulaMinionTexture = Texture("Textures/HulaMinion.png");
-	HulaMinionTexture.LoadTextureA();
-
-	GruTexture = Texture("Textures/Gru.png");
-	GruTexture.LoadTextureA();
-
-	CarroGruTexture = Texture("Textures/CarroGru.png");
-	CarroGruTexture.LoadTextureA();
-
-	VectorTexture = Texture("Textures/Vector.png");
-	VectorTexture.LoadTextureA();
-
-	BabyMinionTexture = Texture("Textures/BabyMinion.png");
-	BabyMinionTexture.LoadTextureA();
-
-	VectorFortressTexture = Texture("Textures/VectorFortress.png");
-	VectorFortressTexture.LoadTextureA();
+	printf("Cargando texturas de Minions noche...\n");
+	MinionTextureNight = Texture("Textures/MinionNormalNoche.png");
+	MinionTextureNight.LoadTextureA();
+	EvilMinionTextureNight = Texture("Textures/MinionMoradoNoche.png");
+	EvilMinionTextureNight.LoadTextureA();
+	MaquinaDulcesMinionTextureNight = Texture("Textures/MaquinaDulcesMinionNoche.png");
+	MaquinaDulcesMinionTextureNight.LoadTextureA();
+	MacetMinionTextureNight = Texture("Textures/MacetaMinionNoche.png");
+	MacetMinionTextureNight.LoadTextureA();
+	HulaMinionTextureNight = Texture("Textures/HulaMinionNoche.png");
+	HulaMinionTextureNight.LoadTextureA();
+	GruTextureNight = Texture("Textures/GruNoche.png");
+	GruTextureNight.LoadTextureA();
+	CarroGruTextureNight = Texture("Textures/CarroGruNoche.png");
+	CarroGruTextureNight.LoadTextureA();
+	VectorTextureNight = Texture("Textures/VectorNoche.png");
+	VectorTextureNight.LoadTextureA();
+	BabyMinionTextureNight = Texture("Textures/BabyMinionNoche.png");
+	BabyMinionTextureNight.LoadTextureA();
+	VectorFortressTextureNight = Texture("Textures/VectorFortressNoche.png");
+	VectorFortressTextureNight.LoadTextureA();
 
 	//TEXTURAS MUNDO BELLA
 	printf("Cargando texturas de Bella...\n");
@@ -2218,7 +2334,7 @@ int main()
 
 		meshList[2]->RenderMesh();
 
-		crearTablero();
+		crearTablero(esNoche);
 
 		D8Texture.UseTexture();
 
