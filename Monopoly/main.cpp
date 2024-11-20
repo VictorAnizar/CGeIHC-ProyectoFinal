@@ -125,11 +125,13 @@ int framesDados = 0;
 int framesMov = 0;
 int framesLicua = 0;
 int framesCamin = 0; //propuesto xd
+int maxFramesCamin = 30;
 int numD4 = 0;
 int numD8 = 0;
 int numTotal = 0;
-int casAct = 1;
-int casDest = 0;
+int casAct = 1; //casilla actual
+int casDest = 0; //casilla destino
+int casRest = 0; //casillas restantes por avanzar
 float rotaDado4X, rotaDado4Y, rotaDado4Z;
 float dirDado4X, dirDado4Y, dirDado4Z;
 float rotaDado8X, rotaDado8Y, rotaDado8Z;
@@ -139,6 +141,8 @@ float posInicMods = -3.0f;
 float posAnimMods = -3.0f;
 float cambioPosMods = 0.0f;
 float dirAnimMods = 0.0f;
+float posAvatarX = 0.0f;
+float posAvatarZ = 0.0f;
 float dirAvatar = 0.0f;
 float cambioDirMods = 0.0f;
 float rotationAngle = 0.0f;
@@ -146,6 +150,7 @@ float anguloLuzX = 0.0f;
 float anguloLuzY = 0.0f;
 bool animActiva = false;
 bool esNoche = false;
+bool caminando = false;
 int cameraMode = 0;
 
 int textures;
@@ -788,23 +793,23 @@ void cargarTexturas()
 
 void animacionCaida()
 {
-	posDados = posDados - 0.025f;
+	posDados = posDados - 0.1f;
 	//printf("[Frame %d] Pos dado: %f\n", framesDados, posDadoY);
 }
 
 void animacionGiroD4(float rotaX, float rotaY, float rotaZ)
 {
-	dirDado4X = dirDado4X + rotaX;
-	dirDado4Y = dirDado4Y + rotaY;
-	dirDado4Z = dirDado4Z + rotaZ;
+	dirDado4X = dirDado4X + (rotaX * 4.0f);
+	dirDado4Y = dirDado4Y + (rotaY * 4.0f);
+	dirDado4Z = dirDado4Z + (rotaZ * 4.0f);
 	//printf("[Frame %d] Dir dado: %f, %f, %f\n", framesDados, dirDadoX, dirDadoY, dirDadoZ);
 }
 
 void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 {
-	dirDado8X = dirDado8X + rotaX;
-	dirDado8Y = dirDado8Y + rotaY;
-	dirDado8Z = dirDado8Z + rotaZ;
+	dirDado8X = dirDado8X + (rotaX * 4.0f);
+	dirDado8Y = dirDado8Y + (rotaY * 4.0f);
+	dirDado8Z = dirDado8Z + (rotaZ * 4.0f);
 	//printf("[Frame %d] Dir dado: %f, %f, %f\n", framesDados, dirDadoX, dirDadoY, dirDadoZ);
 }
 
@@ -1787,6 +1792,28 @@ void animacionLicuadora(float posFinal, float dirFinal)
 	}
 }
 
+void animacionCaminata()
+{
+	float paso = 10.1f / (float) maxFramesCamin; //distancia que camina por cada "paso" que da
+
+	if (casAct >= 1 && casAct <= 9)
+	{
+		posAvatarX += paso;
+	}
+	if (casAct >= 10 && casAct <= 20)
+	{
+		posAvatarZ -= paso;
+	}
+	if (casAct >= 21 && casAct <= 29)
+	{
+		posAvatarX -= paso;
+	}
+	if (casAct >= 30 && casAct <= 40)
+	{
+		posAvatarZ += paso;
+	}
+}
+
 int main()
 {
 	// start the sound engine with default parameters
@@ -1885,8 +1912,6 @@ int main()
 	float theta = 0.0f; // Ángulo polar inicial
 	float deltaTheta = 0.003f; // Incremento del ángulo en cada frame (velocidad angular)
 
-	float posicionX = 0.0f;
-	float posicionZ = 0.0f;
 	int casilla;
 	float movOffset = 0.5f;
 
@@ -1975,58 +2000,72 @@ int main()
 				break;
 			}
 			numTotal = numD4 + numD8;
+			casRest = numTotal;
+
+			//calcular la casilla destino
+			casDest = casAct + numTotal;
+			if (casDest >= 40) {
+				int aux = casDest - 40;
+				casDest = aux + 1;
+			}
+
 			framesDados = 1;
-			printf("El personaje avanza %d casillas.\n", numTotal);
+			
 			//aqui va llamada a animacion de caminata
 			//al terminar animacion de caminata, se llama la animacion del modelo
 			//Si se supera en 40 a la suma de las tiradas se reinicia en 0 y se suma el remanente, en caso de que lo haya.
 
-			casAct += numTotal; //contador de casilla actual
-			if (casAct >= 40) {
-				int aux = casAct - 40;
-				casAct = 1;
-				casAct += aux - 1;
-			}
-
-
+			//casAct += numTotal; //contador de casilla actual
+			
 
 			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
 			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct - 1][0], pos[casAct - 1][1]);
-			//Rotaciones si se llega a esquinas
-			//Esquina 1 (casilla 10)
-			if (posicionX > 85.0f && posicionX < 95.0f && posicionZ <= -5.0f) {
-				dirAvatar += 90.0f;
-			}
-
-			if (posicionZ > -115.0f && posicionZ < 105.0 && posicionX >= 0.0f) {
-				dirAvatar += 90.0f;
-			}
-
-			if (posicionX > -5.0f && posicionX < 5.0f && posicionZ >= -111.0f) {
-				dirAvatar += 90.0f;
-			}
-
-			if (posicionZ > -5.0f && posicionZ < 5.0 && posicionX >= 0.0f) {
-				dirAvatar += 90.0f;
-			}
-
-
 			animActiva = true;
 		}
 
+		//Control de caminata
+		if (caminando)
+		{
+			if (casRest > 0)
+			{
+				if (framesCamin < 30)
+				{
+					animacionCaminata();
+					framesCamin++;
+				}
+				else
+				{
+					framesCamin = 0;
+					casRest--;
 
-		//Desplazamientos del avatar en X y Z
-		if (posicionX <= pos[casAct - 1][0]) {
-			posicionX += movOffset * deltaTime;
-		}
-		if (posicionX >= pos[casAct - 1][0]) {
-			posicionX -= movOffset * deltaTime;
-		}
-		if (posicionZ >= pos[casAct - 1][1]) {
-			posicionZ -= movOffset * deltaTime;
-		}
-		if (posicionZ <= pos[casAct - 1][1]) {
-			posicionZ += movOffset * deltaTime;
+					casAct++;
+					if (casAct == 40) 
+						casAct = 1;
+
+					switch (casAct)
+					{
+						case 1: 
+							dirAvatar = 90.0f;
+							break;
+						case 10:
+							dirAvatar = 180.0f;
+							break;
+						case 21:
+							dirAvatar = -90.0f;
+							break;
+						case 30:
+							dirAvatar = 0.0f;
+							break;
+						default:
+							break;
+					}
+				}
+			}
+			else
+			{
+				caminando = false;
+				framesLicua = 1; //al terminar caminata, comienza animacion de modelo de casilla
+			}
 		}
 
 		//control para animacion de dados
@@ -2042,23 +2081,23 @@ int main()
 			dirDado8Z = 0.0f;
 			framesDados = 2;
 		}
-		else if (framesDados >= 2 && framesDados < 200)
+		else if (framesDados >= 2 && framesDados < 50)
 		{
 			animacionCaida();
 			framesDados++;
 		}
-		else if (framesDados >= 200 && framesDados < 400)
+		else if (framesDados >= 50 && framesDados < 100)
 		{
 			animacionGiroD4(rotaDado4X, rotaDado4Y, rotaDado4Z);
 			animacionGiroD8(rotaDado8X, rotaDado8Y, rotaDado8Z);
 			framesDados++;
 		}
-		else if (framesDados == 400)
+		else if (framesDados == 100)
 		{
 			printf("[Animacion terminada]\n\n\n");
+			printf("El personaje avanza %d casillas.\n", numTotal);
 			framesDados = 0;
-			framesCamin = 1; //cuando termine la animacion de los dados, comienza la caminata
-			framesLicua = 1; //temporalmente aqui, quitar y poner cuando termine caminata
+			caminando = true; //cuando termine la animacion de los dados, comienza la caminata
 		}
 
 		//control para animacion licuadora
@@ -2221,7 +2260,7 @@ int main()
 		//Instancia del minion avatar
 		//Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(posicionX, 0.5f, posicionZ));
+		model = glm::translate(model, glm::vec3(posAvatarX, 0.5f, posAvatarZ));
 
 		// Llama a `followTarget` usando `model` y `dirAvatar`
 		if (cameraMode == 2) {
@@ -2229,7 +2268,7 @@ int main()
 		}
 
 		// Aplica transformaciones adicionales al modelo del Minion
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, dirAvatar * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		modelaux = model;
