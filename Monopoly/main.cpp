@@ -322,6 +322,7 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 
 void CreateObjects()
 {
+	printf("Creando objetos...\n");
 	unsigned int indices[] = {
 		0, 3, 1,
 		1, 3, 2,
@@ -383,21 +384,19 @@ void CreateObjects()
 	meshList.push_back(obj4);
 
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
-
-	printf("Objetos creados.\n");
 }
 
 void CreateShaders()
 {
+	printf("Creando shader...\n");
 	Shader* shader1 = new Shader();
 	shader1->CreateFromFiles(vShader, fShader);
 	shaderList.push_back(*shader1);
-
-	printf("Shader creado.\n");
 }
 
 void crearDados()
 {
+	printf("Creando Dados...\n");
 	GLfloat verticesOcta[] =
 	{
 		// tras sup 5
@@ -486,8 +485,6 @@ void crearDados()
 	Mesh* obj6 = new Mesh();
 	obj6->CreateMesh(verticesCuad, indicesCuad, 96, 12);
 	meshList.push_back(obj6);
-
-	printf("Dados creados.\n");
 }
 
 void crearCasilla(float posX, float posZ)
@@ -507,7 +504,6 @@ void crearCasilla(float posX, float posZ)
 	model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	meshList[3]->RenderMesh();
-	//printf("+");
 }
 
 void crearTablero()
@@ -518,7 +514,6 @@ void crearTablero()
 	RoTexture.UseTexture();
 	rosa.UseTexture();
 	crearCasilla(0.0f, 0.0f); //1
-
 	crosworth.UseTexture();
 	crearCasilla(30.3f, 0.0f); //4
 	yoshiIsland.UseTexture();
@@ -549,7 +544,7 @@ void crearTablero()
 	crearCasilla(90.9f, -20.2f); //12
 	Doom4Tex.UseTexture();
 	crearCasilla(90.9f, -40.4f); //14
-	AmTexture.UseTexture();
+	mrpotts.UseTexture();
 	crearCasilla(90.9f, -70.7f); //17
 	sarasaLand.UseTexture();
 	crearCasilla(90.9f, -101.1f); //20
@@ -559,7 +554,6 @@ void crearTablero()
 	crearCasilla(0.0f, -111.1f); //30
 	caminoEstrella.UseTexture();
 	crearCasilla(0.0f, -90.9f); //32
-
 	lumiere.UseTexture();
 	crearCasilla(0.0f, -40.4f); //37
 
@@ -585,6 +579,7 @@ void crearTablero()
 	Doom1Tex.UseTexture();
 	crearCasilla(0.0f, -10.1f); //39
 
+	RoTexture.UseTexture();
 	//casillas verdes (flora)
 	mushroomKingdom.UseTexture();
 	crearCasilla(40.4f, 0.0f); //5
@@ -608,6 +603,7 @@ void crearTablero()
 
 void cargarTexturas()
 {
+	printf("Cargando texturas de entorno...\n");
 	pisoTexture = Texture("Textures/pisonuevo.tga");
 	pisoTexture.LoadTextureA();
 	AmTexture = Texture("Textures/amarillo.png");
@@ -622,11 +618,9 @@ void cargarTexturas()
 	D4Texture.LoadTextureA();
 	D8Texture = Texture("Textures/dado8.png");
 	D8Texture.LoadTextureA();
-
-	/*
-			CARGANDO TEXTURAS DE DOOM
-	*/
-
+	
+	//TEXTURAS DE DOOM
+	printf("Cargando texturas de Doom...\n");
 	Doom1Tex = Texture("Textures/1_M1CIN_D.png");
 	Doom1Tex.LoadTextureA();
 	Doom2Tex = Texture("Textures/2_E1M1CIN_D.png");
@@ -648,6 +642,7 @@ void cargarTexturas()
 	Doom10Tex = Texture("Textures/10_FISH_D.png");
 	Doom10Tex.LoadTextureA();
 
+	printf("Cargando texturas de Minions...\n");
 	MinionTexture = Texture("Textures/MinionNormal.png");
 	MinionTexture.LoadTextureA();
 
@@ -679,7 +674,7 @@ void cargarTexturas()
 	VectorFortressTexture.LoadTextureA();
 
 	//TEXTURAS MUNDO BELLA
-
+	printf("Cargando texturas de Bella...\n");
 	lumiereN = Texture("Textures/lumierenight.png");
 	lumiereN.LoadTextureA();
 	rosaN = Texture("Textures/inicionight.png");
@@ -765,11 +760,8 @@ void cargarTexturas()
 	chipC = Texture("Textures/chipdaycook.png");
 	chipC.LoadTextureA();
 
-
-
-	/*
-		CARGANDO TEXTURAS DE MARIO BROS
-	*/
+	//TEXTURAS MARIO BROS
+	printf("Cargando texturas de Mario Bros...\n");
 
 	plantioFuego = Texture("Textures/florFlama.png");
 	plantioFuego.LoadTextureA();
@@ -792,7 +784,6 @@ void cargarTexturas()
 	reinoLava = Texture("Textures/plantaP.png");
 	reinoLava.LoadTextureA();
 
-	printf("Texturas cargadas.\n");
 }
 
 void animacionCaida()
@@ -820,15 +811,15 @@ void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 void cargarModelos()
 {
 	//Iluminacion
+	printf("Cargando modelos de entorno...\n");
 	Lampara = Model();
 	Lampara.LoadModel("Models/Entorno/lampara.obj");
 
 	Sol = Model();
 	Sol.LoadModel("Models/Entorno/SolTexturizado.obj");
 
-	printf("Cargo entorno\n");
-
 	//Minions
+	printf("Cargando modelos de Minions...\n");
 	MinionNormal = Model();
 	MinionNormal.LoadModel("Models/Minions/MinionNormalTexturizado.obj");
 
@@ -874,9 +865,8 @@ void cargarModelos()
 	MinionAvatarPiernaIzq = Model();
 	MinionAvatarPiernaIzq.LoadModel("Models/Minions/MinionAvatarPiernaIzq.obj");
 
-	printf("Cargo minions\n");
-
 	//Doom
+	printf("Cargando modelos de Doom...\n");
 	GargCuerpo = Model();
 	GargCuerpo.LoadModel("Models/Doom/Gargoyle.obj");
 
@@ -912,17 +902,15 @@ void cargarModelos()
 
 	//Bella
 
-
+	printf("Cargando modelos de Bella...\n");
 	mrpottsT = Model();
 	mrpottsT.LoadModel("Models/mrpotts.obj");
 
 	madameT = Model();
 	madameT.LoadModel("Models/ropero.obj");
 
-
 	plumetteT = Model();
-	plumetteT.LoadModel("Models/plumette.obj");
-
+	plumetteT.LoadModel("Models/plum.obj");
 
 	gastonT = Model();
 	gastonT.LoadModel("Models/gaston2.obj");
@@ -967,10 +955,8 @@ void cargarModelos()
 	rosaRoom.LoadModel("Models/rosaroom.obj");
 
 
-
-	printf("Cargo doom\n");
-
 	//Cargando Modelos de entornos de Mario Bros
+	printf("Cargando modelos de Mario Bros...\n");
 	entornoArena = Model();
 	entornoArena.LoadModel("Models/MarioBros/entornoArena.obj");
 
@@ -1032,7 +1018,6 @@ void cargarModelos()
 	plantaPirana = Model();
 	plantaPirana.LoadModel("Models/MarioBros/plantaPirana.obj");
 
-	printf("Modelos cargados.\n");
 }
 
 void renderizarModelosMinion(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) 
@@ -1839,6 +1824,7 @@ int main()
 	cargarTexturas();
 	cargarModelos();
 
+	printf("Cargando skybox...\n");
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/newsb1.tga");
 	skyboxFaces.push_back("Textures/Skybox/newsb2.tga");
@@ -1852,6 +1838,7 @@ int main()
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
+	printf("Creando luces...\n");
 	//luz direccional, solo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.6f, 0.6f,
@@ -1885,6 +1872,7 @@ int main()
 
 	unsigned int spotLightCount = 0;
 
+	printf("Inicializando variables...\n");
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	GLuint uniformColor = 0;
@@ -1903,7 +1891,7 @@ int main()
 	engine->play2D("media/getout.ogg", true);
 	engine->setSoundVolume(0.1);
 
-	printf("[F]\tTirar los dados.\n");
+	
 
 	glm::mat4 model(1.0);
 	glm::mat4 modelaux(1.0);
@@ -1918,6 +1906,16 @@ int main()
 
 	int casilla;
 	float movOffset = 0.5f;
+
+	printf("Comenzando ejecucion...\n\n");
+
+	printf(" [F]\tTirar los dados.\n");
+	printf(" [K]\tAlternar entre camaras.\n\n");
+	printf(" ===== En camara ortogonal =====\n");
+	printf(" [W]+[D]\tAdelante.\n");
+	printf(" [A]\t\tIzquierda.\n");
+	printf(" [S]+[A]\tAtras.\n");
+	printf(" [D]\t\tDerecha.\n");
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -1939,7 +1937,7 @@ int main()
 			mainWindow.resetTiroDados();
 
 			numD4 = mainWindow.getNumDado4();
-			printf(">>Numero de dado blanco: [%d]\n", numD4);
+			printf(" >>Numero de dado blanco: [%d]\n", numD4);
 
 			switch (numD4)
 			{
@@ -1964,7 +1962,7 @@ int main()
 			}
 
 			numD8 = mainWindow.getNumDado8();
-			printf(">>Numero de dado negro: [%d]\n", numD8);
+			printf(" >>Numero de dado negro: [%d]\n", numD8);
 
 			switch (numD8)
 			{
@@ -2015,15 +2013,15 @@ int main()
 
 			framesDados = 1;
 			
-			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
-			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct - 1][0], pos[casAct - 1][1]);
+			//printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
+			//printf("La ubicacion de la casilla es [%f, %f]", pos[casAct - 1][0], pos[casAct - 1][1]);
 			animActiva = true;
 		}
 
 		//control para animacion de dados
 		if (framesDados == 1)
 		{
-			printf("[Animacion comenzada]\n");
+			//printf("[Animacion comenzada]\n");
 			posDados = 6.35f;
 			dirDado4X = 0.0f;
 			dirDado4Y = 0.0f;
@@ -2046,8 +2044,8 @@ int main()
 		}
 		else if (framesDados == 100)
 		{
-			printf("[Animacion terminada]\n\n\n");
-			printf("El personaje avanza %d casillas.\n", numTotal);
+			//printf("[Animacion terminada]\n\n\n");
+			printf(" >>El personaje avanza %d casillas.\n", numTotal);
 			framesDados = 0;
 			caminando = true; //cuando termine la animacion de los dados, comienza la caminata
 		}
