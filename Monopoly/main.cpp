@@ -156,7 +156,7 @@ std::vector<Shader> shaderList;
 
 Camera mainCamera(glm::vec3(0.0f, 40.0f, 3.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 0.5f, 0.1f);
 FollowCamera followCamera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.1f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
-StaticCamera isoCamera(glm::vec3(10.0f, 30.0f, 10.0f), glm::vec3(0.0f, 0.0f, 1.0f), 5.0f, 0.1f);
+StaticCamera isoCamera(glm::vec3(60.0f, 50.0f, -140.0f), glm::vec3(0.0f, 0.0f, 1.0f), 5.0f, 0.1f);
 
 //Texturas tablero
 Texture AmTexture, AzTexture, RoTexture, VeTexture, pisoTexture;
@@ -1770,7 +1770,7 @@ int main()
 			eyePosition = mainCamera.getCameraPosition();
 			break;
 		case 2: // Follow Camera
-			viewMatrix = followCamera.calculateViewMatrix(); // Si tienes un followCamera
+			viewMatrix = followCamera.calculateViewMatrix();
 			eyePosition = followCamera.getCameraPosition();
 			break;
 		}
@@ -1830,7 +1830,6 @@ int main()
 
 		// Configurar las luces tipo spot (flash) en función de la cámara activa
 		shaderList[0].SetSpotLights(spotLights, spotLightCount);
-
 
 		glm::mat4 model(1.0);
 		glm::mat4 modelaux(1.0);

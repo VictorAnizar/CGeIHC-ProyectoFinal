@@ -39,19 +39,17 @@ void Camera::keyControl(bool* keys, GLfloat deltaTime)
         position += right * velocity; // Movimiento a la derecha
     }
 
-
-
     // Asegurarse de que la altura permanezca fija
     position.y = initialPosition.y;
 }
 
 void Camera::switchCameraMode(int& cameraMode, bool* keys)
 {
-    static bool keyJPressed = false;
+    static bool keyKPressed = false;
 
-    if (keys[GLFW_KEY_J] && !keyJPressed) {
+    if (keys[GLFW_KEY_K] && !keyKPressed) {
         cameraMode = (cameraMode + 1) % 3;  // Alternar entre 3 modos de cámara
-        keyJPressed = true;
+        keyKPressed = true;
 
         switch (cameraMode) {
         case 0:
@@ -65,8 +63,8 @@ void Camera::switchCameraMode(int& cameraMode, bool* keys)
             break;
         }
     }
-    else if (!keys[GLFW_KEY_J]) {
-        keyJPressed = false;
+    else if (!keys[GLFW_KEY_K]) {
+        keyKPressed = false;
     }
 }
 

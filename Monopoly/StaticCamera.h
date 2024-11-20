@@ -11,8 +11,6 @@ public:
     // Constructor predeterminado
     StaticCamera();
 
-
-
     // Constructor con parámetros
     StaticCamera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startMoveSpeed, GLfloat startTurnSpeed);
 
