@@ -54,17 +54,17 @@ const float toRadians = 3.14159265f / 180.0f;
 //valores especificos de posicion y rotacion para cada modelo (modificar con valores finales para cada modelo)
 float direcciones[40] =
 {
-	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f,
-	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f,
-	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f,
-	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f
+	360.0f, -90.0f, 90.0f, -180.0f, 360.0f, 90.0f, 180.0f, -180.0f, 90.0f, 180.0f,
+	180.0f, 180.0f, 180.0f, 90.0f, -90.0f, -180.0f, 360.0f, -180.0f, -90.0f, -180.0f,
+	360.0f, -90.0f, 360.0f, 90.0f, 360.0f, 360.0f, 360.0f, 360.0f, 360.0f, 360.0f,
+	-180.0f, 360.0f, 2.0f, 360.0f, 90.0f, -90.0f, 360.0f, 90.0f, 0.0f, -90.0f
 };
 float posiciones[40] =
 {
-	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,
-	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,
-	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,
-	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f
+	0.2f, 2.0f, 0.0f,  0.2f,  0.0f,  0.0f,  0.5f,  0.2f,  0.2f,  0.5f,
+	0.2f, 0.0f, 3.5f,  0.2f,  0.2f,  0.5f,  0.2f,  0.0f,  0.0f,  0.0f,
+	1.0f, 0.0f, 0.5f,  0.2f,  0.2f,  0.0f,  0.2f,  0.0f,  0.2f,  0.5f,
+	0.2f, 2.0f, 4.0f,  0.2f,  0.0f,  0.2f,  0.2f,  0.5f,  0.0f,  0.5f
 };
 
 float posLamparas[4][2] =
@@ -137,17 +137,21 @@ float dirDado4X, dirDado4Y, dirDado4Z;
 float rotaDado8X, rotaDado8Y, rotaDado8Z;
 float dirDado8X, dirDado8Y, dirDado8Z;
 float posDados;
-float posInicMods = -3.0f;
-float posAnimMods = -3.0f;
+float posInicMods = -10.0f;
+float posAnimMods = -10.0f;
 float cambioPosMods = 0.0f;
 float dirAnimMods = 0.0f;
 float posAvatarX = 0.0f;
 float posAvatarZ = 0.0f;
-float dirAvatar = 0.0f;
+float dirAvatar = 90.0f;
 float cambioDirMods = 0.0f;
 float rotationAngle = 0.0f;
 float anguloLuzX = 0.0f;
 float anguloLuzY = 0.0f;
+float offsetCamaraX = -15.0f;
+float offsetCamaraY = 5.0f;
+float offsetCamaraZ = 0.0f;
+float dirCamara = 0.0f;
 bool animActiva = false;
 bool esNoche = false;
 bool caminando = false;
@@ -1774,7 +1778,7 @@ void animacionLicuadora(float posFinal, float dirFinal)
 	float aux = 0.0f;
 	if (framesLicua == 1)
 	{
-		aux = 3.0f + posFinal;
+		aux = 10.0f + posFinal;
 		cambioPosMods = aux / 100.0f;
 
 		aux = dirFinal - 720.0f;
@@ -2011,61 +2015,9 @@ int main()
 
 			framesDados = 1;
 			
-			//aqui va llamada a animacion de caminata
-			//al terminar animacion de caminata, se llama la animacion del modelo
-			//Si se supera en 40 a la suma de las tiradas se reinicia en 0 y se suma el remanente, en caso de que lo haya.
-
-			//casAct += numTotal; //contador de casilla actual
-			
-
 			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
 			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct - 1][0], pos[casAct - 1][1]);
 			animActiva = true;
-		}
-
-		//Control de caminata
-		if (caminando)
-		{
-			if (casRest > 0)
-			{
-				if (framesCamin < 30)
-				{
-					animacionCaminata();
-					framesCamin++;
-				}
-				else
-				{
-					framesCamin = 0;
-					casRest--;
-
-					casAct++;
-					if (casAct == 40) 
-						casAct = 1;
-
-					switch (casAct)
-					{
-						case 1: 
-							dirAvatar = 90.0f;
-							break;
-						case 10:
-							dirAvatar = 180.0f;
-							break;
-						case 21:
-							dirAvatar = -90.0f;
-							break;
-						case 30:
-							dirAvatar = 0.0f;
-							break;
-						default:
-							break;
-					}
-				}
-			}
-			else
-			{
-				caminando = false;
-				framesLicua = 1; //al terminar caminata, comienza animacion de modelo de casilla
-			}
 		}
 
 		//control para animacion de dados
@@ -2100,11 +2052,68 @@ int main()
 			caminando = true; //cuando termine la animacion de los dados, comienza la caminata
 		}
 
+		//Control de caminata
+		if (caminando)
+		{
+			if (casRest > 0)
+			{
+				if (framesCamin < 30)
+				{
+					animacionCaminata();
+					framesCamin++;
+				}
+				else
+				{
+					float auxSwap;
+					framesCamin = 0;
+					casRest--;
+
+					casAct++;
+					if (casAct == 41)
+						casAct = 1;
+
+					switch (casAct) //manejar rotaciones de personaje y camara
+					{
+						case 1:
+							dirAvatar = 90.0f;
+							offsetCamaraZ = 15.0f;
+							offsetCamaraX = 0.0f;
+							dirCamara = 0.0f;
+							break;
+						case 10:
+							dirAvatar = 180.0f;
+							offsetCamaraZ = 15.0f;
+							offsetCamaraX = 0.0f;
+							dirCamara = -90.0f;
+							break;
+						case 21:
+							dirAvatar = -90.0f;
+							offsetCamaraZ = 0.0f;
+							offsetCamaraX = 15.0f;
+							dirCamara = 180.0f;
+							break;
+						case 30:
+							dirAvatar = 0.0f;
+							offsetCamaraZ = -15.0f;
+							offsetCamaraX = 0.0f;
+							dirCamara = 90.0f;
+							break;
+						default:
+							break;
+					}
+				}
+			}
+			else
+			{
+				caminando = false;
+				framesLicua = 1; //al terminar caminata, comienza animacion de modelo de casilla
+			}
+		}
+
 		//control para animacion licuadora
 		if (framesLicua >= 1 && framesLicua < 350)
 		{
-			//animacionLicuadora(posiciones[casAct - 1], direcciones[casAct - 1]);
-			animacionLicuadora(posiciones[1], direcciones[1]); //comentar esta y descomentar anterior cuando esten arreglos llenos
+			animacionLicuadora(posiciones[casAct - 1], direcciones[casAct - 1]);
 			framesLicua++;
 		}
 		else if (framesLicua >= 350)
@@ -2262,13 +2271,12 @@ int main()
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(posAvatarX, 0.5f, posAvatarZ));
 
-		// Llama a `followTarget` usando `model` y `dirAvatar`
+		// Llama a `followTarget` usando `model` y `dirCamara`
 		if (cameraMode == 2) {
-			followCamera.followTarget(model, 0.0f, 2.0f, 1.0f, dirAvatar);
+			followCamera.followTarget(model, offsetCamaraX, offsetCamaraY, offsetCamaraZ, dirCamara);
 		}
 
 		// Aplica transformaciones adicionales al modelo del Minion
-		//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, dirAvatar * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		modelaux = model;
@@ -2459,14 +2467,6 @@ int main()
 		{
 			pointLights[2].SetPosicion(glm::vec3(posLamparas[3][0], 30.0f, posLamparas[3][1]));
 		}
-		/*
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bellaT.RenderModel();*/
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-55.0f, 11.0f, -55.0f));
