@@ -540,9 +540,9 @@ void crearTablero()
 	crearCasilla(90.9f, -20.2f); //12
 	Doom4Tex.UseTexture();
 	crearCasilla(90.9f, -40.4f); //14
-	sarasaLand.UseTexture();
-	crearCasilla(90.9f, -70.7f); //17
 	AmTexture.UseTexture();
+	crearCasilla(90.9f, -70.7f); //17
+	sarasaLand.UseTexture();
 	crearCasilla(90.9f, -101.1f); //20
 	Doom5Tex.UseTexture();
 	crearCasilla(50.5f, -111.1f); //25
@@ -563,6 +563,7 @@ void crearTablero()
 	crearCasilla(90.9f, -10.1f); //11
 	gaston.UseTexture();
 	crearCasilla(90.9f, -50.5f); //15
+	sorbeteTierra.UseTexture();
 	crearCasilla(90.9f, -80.8f); //18
 	mundoRocoso.UseTexture();
 	crearCasilla(80.8f, -111.1f); //22
@@ -1004,7 +1005,8 @@ void cargarModelos()
 	lakitu = Model();
 	lakitu.LoadModel("Models/MarioBros/lakitu.obj");
 
-	//aqui escribe el castillo cuando lo tengas xd
+	castilloHielo = Model();
+	castilloHielo.LoadModel("Models/MarioBros/castilloSorbete.obj");
 
 	sandman = Model();
 	sandman.LoadModel("Models/MarioBros/sandMan.obj");
@@ -1018,9 +1020,8 @@ void cargarModelos()
 	luma = Model();
 	luma.LoadModel("Models/MarioBros/luma.obj");
 
-	//lanza excepcion cuando intenta cargar este
-	//plantaPirana = Model();
-	//plantaPirana.LoadModel("Models/MarioBros/plantaPiranha.obj");
+	plantaPirana = Model();
+	plantaPirana.LoadModel("Models/MarioBros/plantaPirana.obj");
 
 	printf("Modelos cargados.\n");
 }
@@ -1350,13 +1351,19 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 
 	//Tierra sorbete
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.9f, 0.5f, -80.0f));
+	model = glm::translate(model, glm::vec3(110.9f, 0.5f, -80.0f));
 	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoNieve.RenderModel();
 
 	//Castillo
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(100.9f, 0.5f, -80.0f));
+	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	castilloHielo.RenderModel();
 
 	//Entorno de piramide
 	model = glm::mat4(1.0);
@@ -1364,7 +1371,7 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoArena.RenderModel();
+	entornoNieve.RenderModel();
 
 	//Sand
 	model = glm::mat4(1.0);
@@ -1433,10 +1440,10 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	//Planta Piraña
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -20.5f));
-	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
+	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//plantaPirana.RenderModel();
+	plantaPirana.RenderModel();
 }
 
 void animacionLicuadora(float posFinal, float dirFinal)
