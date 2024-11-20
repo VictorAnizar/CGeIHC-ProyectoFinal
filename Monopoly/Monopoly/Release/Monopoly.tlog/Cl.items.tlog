@@ -1,4 +1,5 @@
 C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Camera.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\Camera.obj
+C:\Repos\CGeIHC-ProyectoFinal\Monopoly\FollowCamera.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\FollowCamera.obj
 C:\Repos\CGeIHC-ProyectoFinal\Monopoly\DirectionalLight.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\DirectionalLight.obj
 C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Light.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\Light.obj
 C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Material.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\Material.obj
@@ -10,5 +11,6 @@ C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Shader_light.cpp;C:\Repos\CGeIHC-Proyecto
 C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Skybox.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\Skybox.obj
 C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Sphere.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\Sphere.obj
 C:\Repos\CGeIHC-ProyectoFinal\Monopoly\SpotLight.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\SpotLight.obj
+C:\Repos\CGeIHC-ProyectoFinal\Monopoly\StaticCamera.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\StaticCamera.obj
 C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Texture.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\Texture.obj
 C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Window.cpp;C:\Repos\CGeIHC-ProyectoFinal\Monopoly\Monopoly\Release\Window.obj

@@ -54,17 +54,17 @@ const float toRadians = 3.14159265f / 180.0f;
 //valores especificos de posicion y rotacion para cada modelo (modificar con valores finales para cada modelo)
 float direcciones[40] =
 {
-	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f,
-	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f,
-	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f,
-	-180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f, -180.0f
+	360.0f, -90.0f, 90.0f, -180.0f, 360.0f, 90.0f, 180.0f, -180.0f, 90.0f, 180.0f,
+	180.0f, 180.0f, 180.0f, 90.0f, -90.0f, -180.0f, 360.0f, -180.0f, -90.0f, -180.0f,
+	360.0f, -90.0f, 360.0f, 90.0f, 360.0f, 360.0f, 360.0f, 360.0f, 360.0f, 360.0f,
+	-180.0f, 360.0f, 2.0f, 360.0f, 90.0f, -90.0f, 360.0f, 90.0f, 0.0f, -90.0f
 };
 float posiciones[40] =
 {
-	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,
-	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,
-	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,
-	0.2f, 0.2f, 0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f,  0.2f
+	0.2f, 2.0f, 0.0f,  0.2f,  0.0f,  0.0f,  0.5f,  0.2f,  0.2f,  0.5f,
+	0.2f, 0.0f, 3.5f,  0.2f,  0.2f,  0.5f,  0.2f,  0.0f,  0.0f,  0.0f,
+	1.0f, 0.0f, 0.5f,  0.2f,  0.2f,  0.0f,  0.2f,  0.0f,  0.2f,  0.5f,
+	0.2f, 2.0f, 4.0f,  0.2f,  0.0f,  0.2f,  0.2f,  0.5f,  0.0f,  0.5f
 };
 
 float posLamparas[4][2] =
@@ -125,27 +125,36 @@ int framesDados = 0;
 int framesMov = 0;
 int framesLicua = 0;
 int framesCamin = 0; //propuesto xd
+int maxFramesCamin = 30;
 int numD4 = 0;
 int numD8 = 0;
 int numTotal = 0;
-int casAct = 1;
-int casDest = 0;
+int casAct = 1; //casilla actual
+int casDest = 0; //casilla destino
+int casRest = 0; //casillas restantes por avanzar
 float rotaDado4X, rotaDado4Y, rotaDado4Z;
 float dirDado4X, dirDado4Y, dirDado4Z;
 float rotaDado8X, rotaDado8Y, rotaDado8Z;
 float dirDado8X, dirDado8Y, dirDado8Z;
 float posDados;
-float posInicMods = -3.0f;
-float posAnimMods = -3.0f;
+float posInicMods = -10.0f;
+float posAnimMods = -10.0f;
 float cambioPosMods = 0.0f;
 float dirAnimMods = 0.0f;
-float dirAvatar = 0.0f;
+float posAvatarX = 0.0f;
+float posAvatarZ = 0.0f;
+float dirAvatar = 90.0f;
 float cambioDirMods = 0.0f;
 float rotationAngle = 0.0f;
 float anguloLuzX = 0.0f;
 float anguloLuzY = 0.0f;
+float offsetCamaraX = -15.0f;
+float offsetCamaraY = 5.0f;
+float offsetCamaraZ = 0.0f;
+float dirCamara = 0.0f;
 bool animActiva = false;
 bool esNoche = false;
+bool caminando = false;
 int cameraMode = 0;
 
 int textures;
@@ -313,6 +322,7 @@ void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat
 
 void CreateObjects()
 {
+	printf("Creando objetos...\n");
 	unsigned int indices[] = {
 		0, 3, 1,
 		1, 3, 2,
@@ -374,21 +384,19 @@ void CreateObjects()
 	meshList.push_back(obj4);
 
 	calcAverageNormals(indices, 12, vertices, 32, 8, 5);
-
-	printf("Objetos creados.\n");
 }
 
 void CreateShaders()
 {
+	printf("Creando shader...\n");
 	Shader* shader1 = new Shader();
 	shader1->CreateFromFiles(vShader, fShader);
 	shaderList.push_back(*shader1);
-
-	printf("Shader creado.\n");
 }
 
 void crearDados()
 {
+	printf("Creando Dados...\n");
 	GLfloat verticesOcta[] =
 	{
 		// tras sup 5
@@ -477,8 +485,6 @@ void crearDados()
 	Mesh* obj6 = new Mesh();
 	obj6->CreateMesh(verticesCuad, indicesCuad, 96, 12);
 	meshList.push_back(obj6);
-
-	printf("Dados creados.\n");
 }
 
 void crearCasilla(float posX, float posZ)
@@ -498,7 +504,6 @@ void crearCasilla(float posX, float posZ)
 	model = glm::scale(model, glm::vec3(0.5f, 0.0f, 0.5f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	meshList[3]->RenderMesh();
-	//printf("+");
 }
 
 void crearTablero()
@@ -509,7 +514,6 @@ void crearTablero()
 	RoTexture.UseTexture();
 	rosa.UseTexture();
 	crearCasilla(0.0f, 0.0f); //1
-
 	crosworth.UseTexture();
 	crearCasilla(30.3f, 0.0f); //4
 	yoshiIsland.UseTexture();
@@ -540,7 +544,7 @@ void crearTablero()
 	crearCasilla(90.9f, -20.2f); //12
 	Doom4Tex.UseTexture();
 	crearCasilla(90.9f, -40.4f); //14
-	AmTexture.UseTexture();
+	mrpotts.UseTexture();
 	crearCasilla(90.9f, -70.7f); //17
 	sarasaLand.UseTexture();
 	crearCasilla(90.9f, -101.1f); //20
@@ -550,7 +554,6 @@ void crearTablero()
 	crearCasilla(0.0f, -111.1f); //30
 	caminoEstrella.UseTexture();
 	crearCasilla(0.0f, -90.9f); //32
-
 	lumiere.UseTexture();
 	crearCasilla(0.0f, -40.4f); //37
 
@@ -576,6 +579,7 @@ void crearTablero()
 	Doom1Tex.UseTexture();
 	crearCasilla(0.0f, -10.1f); //39
 
+	RoTexture.UseTexture();
 	//casillas verdes (flora)
 	mushroomKingdom.UseTexture();
 	crearCasilla(40.4f, 0.0f); //5
@@ -599,6 +603,7 @@ void crearTablero()
 
 void cargarTexturas()
 {
+	printf("Cargando texturas de entorno...\n");
 	pisoTexture = Texture("Textures/pisonuevo.tga");
 	pisoTexture.LoadTextureA();
 	AmTexture = Texture("Textures/amarillo.png");
@@ -613,32 +618,31 @@ void cargarTexturas()
 	D4Texture.LoadTextureA();
 	D8Texture = Texture("Textures/dado8.png");
 	D8Texture.LoadTextureA();
-
-	/*
-			CARGANDO TEXTURAS DE DOOM
-	*/
-
-	Doom1Tex = Texture("Textures/casdoom0.png");
+	
+	//TEXTURAS DE DOOM
+	printf("Cargando texturas de Doom...\n");
+	Doom1Tex = Texture("Textures/1_M1CIN_D.png");
 	Doom1Tex.LoadTextureA();
-	Doom2Tex = Texture("Textures/casdoom1.png");
+	Doom2Tex = Texture("Textures/2_E1M1CIN_D.png");
 	Doom2Tex.LoadTextureA();
-	Doom3Tex = Texture("Textures/casdoom2.png");
+	Doom3Tex = Texture("Textures/3_E1M1CIC_D.png");
 	Doom3Tex.LoadTextureA();
-	Doom4Tex = Texture("Textures/casdoom3.png");
+	Doom4Tex = Texture("Textures/4_M1CIC_D.png");
 	Doom4Tex.LoadTextureA();
-	Doom5Tex = Texture("Textures/casdoom4.png");
+	Doom5Tex = Texture("Textures/5_WOLF_D.png");
 	Doom5Tex.LoadTextureA();
-	Doom6Tex = Texture("Textures/casdoom5.png");
+	Doom6Tex = Texture("Textures/6_GARG_D.png");
 	Doom6Tex.LoadTextureA();
-	Doom7Tex = Texture("Textures/casdoom6.png");
+	Doom7Tex = Texture("Textures/7_ZOM_D.png");
 	Doom7Tex.LoadTextureA();
-	Doom8Tex = Texture("Textures/casdoom7.png");
+	Doom8Tex = Texture("Textures/8_REV_D.png");
 	Doom8Tex.LoadTextureA();
-	Doom9Tex = Texture("Textures/casdoom8.png");
+	Doom9Tex = Texture("Textures/9_ARACH_D.png");
 	Doom9Tex.LoadTextureA();
-	Doom10Tex = Texture("Textures/casdoom9.png");
+	Doom10Tex = Texture("Textures/10_FISH_D.png");
 	Doom10Tex.LoadTextureA();
 
+	printf("Cargando texturas de Minions...\n");
 	MinionTexture = Texture("Textures/MinionNormal.png");
 	MinionTexture.LoadTextureA();
 
@@ -670,7 +674,7 @@ void cargarTexturas()
 	VectorFortressTexture.LoadTextureA();
 
 	//TEXTURAS MUNDO BELLA
-
+	printf("Cargando texturas de Bella...\n");
 	lumiereN = Texture("Textures/lumierenight.png");
 	lumiereN.LoadTextureA();
 	rosaN = Texture("Textures/inicionight.png");
@@ -756,11 +760,8 @@ void cargarTexturas()
 	chipC = Texture("Textures/chipdaycook.png");
 	chipC.LoadTextureA();
 
-
-
-	/*
-		CARGANDO TEXTURAS DE MARIO BROS
-	*/
+	//TEXTURAS MARIO BROS
+	printf("Cargando texturas de Mario Bros...\n");
 
 	plantioFuego = Texture("Textures/florFlama.png");
 	plantioFuego.LoadTextureA();
@@ -783,43 +784,42 @@ void cargarTexturas()
 	reinoLava = Texture("Textures/plantaP.png");
 	reinoLava.LoadTextureA();
 
-	printf("Texturas cargadas.\n");
 }
 
 void animacionCaida()
 {
-	posDados = posDados - 0.025f;
+	posDados = posDados - 0.1f;
 	//printf("[Frame %d] Pos dado: %f\n", framesDados, posDadoY);
 }
 
 void animacionGiroD4(float rotaX, float rotaY, float rotaZ)
 {
-	dirDado4X = dirDado4X + rotaX;
-	dirDado4Y = dirDado4Y + rotaY;
-	dirDado4Z = dirDado4Z + rotaZ;
+	dirDado4X = dirDado4X + (rotaX * 4.0f);
+	dirDado4Y = dirDado4Y + (rotaY * 4.0f);
+	dirDado4Z = dirDado4Z + (rotaZ * 4.0f);
 	//printf("[Frame %d] Dir dado: %f, %f, %f\n", framesDados, dirDadoX, dirDadoY, dirDadoZ);
 }
 
 void animacionGiroD8(float rotaX, float rotaY, float rotaZ)
 {
-	dirDado8X = dirDado8X + rotaX;
-	dirDado8Y = dirDado8Y + rotaY;
-	dirDado8Z = dirDado8Z + rotaZ;
+	dirDado8X = dirDado8X + (rotaX * 4.0f);
+	dirDado8Y = dirDado8Y + (rotaY * 4.0f);
+	dirDado8Z = dirDado8Z + (rotaZ * 4.0f);
 	//printf("[Frame %d] Dir dado: %f, %f, %f\n", framesDados, dirDadoX, dirDadoY, dirDadoZ);
 }
 
 void cargarModelos()
 {
 	//Iluminacion
+	printf("Cargando modelos de entorno...\n");
 	Lampara = Model();
 	Lampara.LoadModel("Models/Entorno/lampara.obj");
 
 	Sol = Model();
 	Sol.LoadModel("Models/Entorno/SolTexturizado.obj");
 
-	printf("Cargo entorno\n");
-
 	//Minions
+	printf("Cargando modelos de Minions...\n");
 	MinionNormal = Model();
 	MinionNormal.LoadModel("Models/Minions/MinionNormalTexturizado.obj");
 
@@ -865,9 +865,8 @@ void cargarModelos()
 	MinionAvatarPiernaIzq = Model();
 	MinionAvatarPiernaIzq.LoadModel("Models/Minions/MinionAvatarPiernaIzq.obj");
 
-	printf("Cargo minions\n");
-
 	//Doom
+	printf("Cargando modelos de Doom...\n");
 	GargCuerpo = Model();
 	GargCuerpo.LoadModel("Models/Doom/Gargoyle.obj");
 
@@ -903,17 +902,15 @@ void cargarModelos()
 
 	//Bella
 
-
+	printf("Cargando modelos de Bella...\n");
 	mrpottsT = Model();
 	mrpottsT.LoadModel("Models/mrpotts.obj");
 
 	madameT = Model();
 	madameT.LoadModel("Models/ropero.obj");
 
-
 	plumetteT = Model();
-	plumetteT.LoadModel("Models/plumette.obj");
-
+	plumetteT.LoadModel("Models/plum.obj");
 
 	gastonT = Model();
 	gastonT.LoadModel("Models/gaston2.obj");
@@ -958,10 +955,8 @@ void cargarModelos()
 	rosaRoom.LoadModel("Models/rosaroom.obj");
 
 
-
-	printf("Cargo doom\n");
-
 	//Cargando Modelos de entornos de Mario Bros
+	printf("Cargando modelos de Mario Bros...\n");
 	entornoArena = Model();
 	entornoArena.LoadModel("Models/MarioBros/entornoArena.obj");
 
@@ -1023,179 +1018,344 @@ void cargarModelos()
 	plantaPirana = Model();
 	plantaPirana.LoadModel("Models/MarioBros/plantaPirana.obj");
 
-	printf("Modelos cargados.\n");
 }
 
-void renderizarModelosMinion(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
+void renderizarModelosMinion(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) 
+{
 	//Instancia del minion hula
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(70.7f, 0.5f, -121.0f));
-	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	if (animActiva && casAct == 23) 
+	{
+		model = glm::translate(model, glm::vec3(70.7f, posAnimMods, -121.0f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(70.7f, posInicMods, -121.0f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	MinionHula.RenderModel();
+	MinionHula.RenderModel(); // casilla23
 
-	//Instancia de minion normal 
+	//Instancia de minion normal
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-10.1f, 0.5f, -30.3f));
-	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 38) 
+	{
+		model = glm::translate(model, glm::vec3(-10.1f, posAnimMods, -30.3f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(-10.1f, posInicMods, -30.3f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	MinionNormal.RenderModel();
+	MinionNormal.RenderModel(); // casilla38
 
-	//Instancia de maceta minion 
+	//Instancia de maceta minion
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.0f, 0.5f, -60.6f));
-	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 16) 
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posAnimMods, -60.6f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posInicMods, -60.6f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	MacetaMinion.RenderModel();
+	MacetaMinion.RenderModel(); // casilla16
 
 	//Instancia del minion morado
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(50.5f, 0.0f, 10.0f));
-	model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
-	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 6) 
+	{
+		model = glm::translate(model, glm::vec3(50.5f, posAnimMods, 10.0f));
+		model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(50.5f, posInicMods, 10.0f));
+		model = glm::scale(model, glm::vec3(5.5f, 5.5f, 5.5f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	MinionMorado.RenderModel();
+	MinionMorado.RenderModel(); //casilla6
 
 	//Instancia del Dany flow (trash)
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-10.1f, 0.0f, -60.6f));
-	model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 35) 
+	{
+		model = glm::translate(model, glm::vec3(-10.1f, posAnimMods, -60.6f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(-10.1f, posInicMods, -60.6f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	Vector.RenderModel();
+	Vector.RenderModel(); // casilla35
 
 	//Instancia de gru
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.0f, 0.0f, -90.9f));
-	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 19) 
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posAnimMods, -90.9f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posInicMods, -90.9f));
+		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	Gru.RenderModel();
+	Gru.RenderModel(); // casilla19
 
 	//Instancia de carro de gru
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(20.0f, 0.0f, 10.0f));
-	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 3) 
+	{
+		model = glm::translate(model, glm::vec3(20.0f, posAnimMods, 10.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(20.0f, posInicMods, 10.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	CarroGru.RenderModel();
+	CarroGru.RenderModel(); //casilla3
 
 	//Instancia de maquina dulces minion
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(40.4f, 0.0f, -121.0f));
-	model = glm::scale(model, glm::vec3(0.12f, 0.12f, 0.12f));
+	if (animActiva && casAct == 26) 
+	{
+		model = glm::translate(model, glm::vec3(40.4f, posAnimMods, -121.0f));
+		model = glm::scale(model, glm::vec3(0.12f, 0.12f, 0.12f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(40.4f, posInicMods, -121.0f));
+		model = glm::scale(model, glm::vec3(0.12f, 0.12f, 0.12f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	MinionMaquinaDulces.RenderModel();
+	MinionMaquinaDulces.RenderModel(); // casilla26
 
 	//Instancia de Fortaleza de vector
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 0.5f, -121.0f));
-	model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
+	if (animActiva && casAct == 30) 
+	{
+		model = glm::translate(model, glm::vec3(0.0f, posAnimMods, -121.0f));
+		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(0.0f, posInicMods, -121.0f));
+		model = glm::scale(model, glm::vec3(0.07f, 0.07f, 0.07f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	FortalezaVector.RenderModel();
+	FortalezaVector.RenderModel(); // casilla30
 
-	//Instancia del minion bebe 
+	//Instancia del minion bebe
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.0f, 0.0f, -20.2f));
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 12) 
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posAnimMods, -20.2f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posInicMods, -20.2f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	MinionBebe.RenderModel();
+	MinionBebe.RenderModel(); // casilla12
 }
 
-void renderizarModelosBella(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
-	//INSTANCIAS MUNDO BELLA 
+void renderizarModelosBella(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) 
+{
+	//INSTANCIAS MUNDO BELLA
 		//Instancia mrpotts
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(98.9f, 0.20f, -70.70f));
-
-	model = glm::scale(model, glm::vec3(0.80f, 0.80f, 0.80f));
-
+	if (animActiva && casAct == 17) 
+	{
+		model = glm::translate(model, glm::vec3(98.9f, posAnimMods, -70.70f));
+		model = glm::scale(model, glm::vec3(0.80f, 0.80f, 0.80f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(98.9f, posInicMods, -70.70f));
+		model = glm::scale(model, glm::vec3(0.80f, 0.80f, 0.80f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	mrpottsT.RenderModel();
+	mrpottsT.RenderModel(); // casilla17
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(30.3f, 0.2f, 10.0f));
-
-	model = glm::scale(model, glm::vec3(.08f, .08f, .08f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 4) 
+	{
+		model = glm::translate(model, glm::vec3(30.3f, posAnimMods, 10.0f));
+		model = glm::scale(model, glm::vec3(.08f, .08f, .08f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(30.3f, posInicMods, 10.0f));
+		model = glm::scale(model, glm::vec3(.08f, .08f, .08f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	cogsworthT.RenderModel();
+	cogsworthT.RenderModel(); // casilla4
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.9f, 0.20f, -50.50f));
-
-	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 15) 
+	{
+		model = glm::translate(model, glm::vec3(100.9f, posAnimMods, -50.50f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(100.9f, posInicMods, -50.50f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	gastonT.RenderModel();
+	gastonT.RenderModel(); // casilla15
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(30.3f, 0.2f, -120.1f));
-
-	model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-
+	if (animActiva && casAct == 27) 
+	{
+		model = glm::translate(model, glm::vec3(30.3f, posAnimMods, -120.1f));
+		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(30.3f, posInicMods, -120.1f));
+		model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	bestiaT.RenderModel();
+	bestiaT.RenderModel(); // casilla27
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(0.0f, 0.2f, 10.0f));
-
-	model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-
+	if (animActiva && casAct == 1)
+	{
+		model = glm::translate(model, glm::vec3(0.0f, posAnimMods, 10.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(0.0f, posInicMods, 10.0f));
+		model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	rosaT.RenderModel();
+	rosaT.RenderModel(); //casilla1
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(70.7f, 0.2f, 10.0f));
-
-	model = glm::scale(model, glm::vec3(.05f, .05f, .05f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 8) 
+	{
+		model = glm::translate(model, glm::vec3(70.7f, posAnimMods, 10.0f));
+		model = glm::scale(model, glm::vec3(.05f, .05f, .05f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(70.7f, posInicMods, 10.0f));
+		model = glm::scale(model, glm::vec3(.05f, .05f, .05f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	castilloT.RenderModel();
+	castilloT.RenderModel(); //casilla8
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(60.6f, 0.2f, -120.1f));
-
-	model = glm::scale(model, glm::vec3(.8f, .8f, .8f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 24) 
+	{
+		model = glm::translate(model, glm::vec3(60.6f, posAnimMods, -120.1f));
+		model = glm::scale(model, glm::vec3(.8f, .8f, .8f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(60.6f, posInicMods, -120.1f));
+		model = glm::scale(model, glm::vec3(.8f, .8f, .8f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	chipT.RenderModel();
-
+	chipT.RenderModel(); // casilla24
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-10.0f, 2.30f, -50.5f));
-
-	model = glm::scale(model, glm::vec3(0.40f, 0.40f, 0.40f));
-
+	if (animActiva && casAct == 36) 
+	{
+		model = glm::translate(model, glm::vec3(-10.0f, posAnimMods, -40.4f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(-10.0f, posInicMods, -40.4f));
+		model = glm::scale(model, glm::vec3(0.05f, 0.05f, 0.05f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	plumetteT.RenderModel();
+	plumetteT.RenderModel(); // casilla36
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-10.0f, 4.0f, -80.4f));
-
-	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-	model = glm::rotate(model, 2 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	if (animActiva && casAct == 33) 
+	{
+		model = glm::translate(model, glm::vec3(-10.0f, posAnimMods, -80.4f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(-10.0f, posInicMods, -80.4f));
+		model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+		model = glm::rotate(model, 2 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	madameT.RenderModel();
-
+	madameT.RenderModel(); // casilla33
 
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-10.0f, 0.2f, -40.4f));
-
-	model = glm::scale(model, glm::vec3(.20f, .20f, .20f));
-
+	if (animActiva && casAct == 37) 
+	{
+		model = glm::translate(model, glm::vec3(-10.0f, posAnimMods, -40.4f));
+		model = glm::scale(model, glm::vec3(.20f, .20f, .20f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(-10.0f, posInicMods, -40.4f));
+		model = glm::scale(model, glm::vec3(.20f, .20f, .20f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	lumiereT.RenderModel();
+	lumiereT.RenderModel(); // casilla37
 }
 
 void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
-	//instancia de doom E1M1 cuarto inicial 
+	//instancia de doom E1M1 cuarto inicial
 	model = glm::mat4(1.0);
-	if (animActiva && casAct > 1) //cambiar a casilla correspondiente
+	if (animActiva && casAct == 31) 
 	{
 		model = glm::translate(model, glm::vec3(-10.1f, posAnimMods, -101.1f));
 		model = glm::scale(model, glm::vec3(0.22f, 0.22f, 0.22f));
@@ -1207,232 +1367,384 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 		model = glm::scale(model, glm::vec3(0.22f, 0.22f, 0.22f));
 	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	DoomE1M1Room1.RenderModel();
+	DoomE1M1Room1.RenderModel(); //casilla31
 
 	//instancia de doom E1M1 cuarto iconico
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(11.1f, 0.2f, -120.0f));
-	model = glm::scale(model, glm::vec3(0.23f, 0.23f, 0.23f));
+	if (animActiva && casAct == 29) 
+	{
+		model = glm::translate(model, glm::vec3(11.1f, posAnimMods, -120.0f));
+		model = glm::scale(model, glm::vec3(0.23f, 0.23f, 0.23f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(11.1f, posInicMods, -120.0f));
+		model = glm::scale(model, glm::vec3(0.23f, 0.23f, 0.23f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	DoomE1M1Room2.RenderModel();
+	DoomE1M1Room2.RenderModel(); // casilla29
 
-	//Instancia de doom II mapa 1 cuarto inicial 
+	//Instancia de doom II mapa 1 cuarto inicial
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-12.5f, 0.5f, -8.8f));
-	model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 40) 
+	{
+		model = glm::translate(model, glm::vec3(-12.5f, posAnimMods, -8.8f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(-12.5f, posInicMods, -8.8f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	DoomIIMap1Room1.RenderModel();
+	DoomIIMap1Room1.RenderModel(); // casilla40
 
-	//Instancia de doom II mapa 1 cuarto iconico 
+	//Instancia de doom II mapa 1 cuarto iconico
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.0f, 0.2f, -40.4f));
-	model = glm::scale(model, glm::vec3(0.28f, 0.28f, 0.28f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 14) 
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posAnimMods, -40.4f));
+		model = glm::scale(model, glm::vec3(0.28f, 0.28f, 0.28f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posInicMods, -40.4f));
+		model = glm::scale(model, glm::vec3(0.28f, 0.28f, 0.28f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	DoomIIMap1Room2.RenderModel();
+	DoomIIMap1Room2.RenderModel(); // casilla14
 
-	//Instancia de gargoyle 
+	//Instancia de gargoyle
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.0f, 3.5f, -30.3f));
-	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-	model = glm::rotate(model, 180 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, 30 * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+	if (animActiva && casAct == 13) 
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posAnimMods, -30.3f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -40 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posInicMods, -30.3f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, -40 * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	GargCuerpo.RenderModel();
+	GargCuerpo.RenderModel(); // casilla13
 
-	//instancia de sentinel wolf 
+	//instancia de sentinel wolf
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(50.5f, 0.2f, -120.0f));
-	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
+	if (animActiva && casAct == 25) 
+	{
+		model = glm::translate(model, glm::vec3(50.5f, posAnimMods, -120.0f));
+		model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(50.5f, posInicMods, -120.0f));
+		model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	WolfCuerpo.RenderModel();
+	WolfCuerpo.RenderModel(); // casilla25
 
-	//instancia de zombie 
+	//instancia de zombie
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.0f, 0.2f, -10.0f));
-	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-	model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 11) 
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posAnimMods, -10.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posInicMods, -10.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	ZombieCuerpo.RenderModel();
+	ZombieCuerpo.RenderModel(); //casilla11
 
-	//instancia de revenant 
+	//instancia de revenant
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(80.8f, 0.2f, 9.0f));
-	model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 9) 
+	{
+		model = glm::translate(model, glm::vec3(80.8f, posAnimMods, 9.0f));
+		model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(80.8f, posInicMods, 9.0f));
+		model = glm::scale(model, glm::vec3(0.35f, 0.35f, 0.35f));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	RevCuerpo.RenderModel();
+	RevCuerpo.RenderModel(); //casilla9
 
-	//instancia de arachnotron 
+	//instancia de arachnotron
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-10.1f, 0.2f, -70.7f));
-	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-	//model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 34) 
+	{
+		model = glm::translate(model, glm::vec3(-10.1f, posAnimMods, -70.7f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(-10.1f, posInicMods, -70.7f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	ArachCuerpo.RenderModel();
+	ArachCuerpo.RenderModel(); // casilla34
 
-	//instancia de dopefish 
+	//instancia de dopefish
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(90.9f, 1.0f, -120.0f));
-	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+	if (animActiva && casAct == 21) 
+	{
+		model = glm::translate(model, glm::vec3(90.9f, posAnimMods, -120.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(90.9f, posInicMods, -120.0f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	Dopefish.RenderModel();
+	Dopefish.RenderModel(); // casilla21
 }
 
 void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
-	/*
-			INSTANCIAS DE MARIO BROS
-*/
+	//INSTANCIAS DE MARIO BROS
 
-//Entorno de flores
+	//Entorno de flores
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(10.0f, 0.5f, 20.0f));
-	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::translate(model, glm::vec3(-20.0f, 0.5f, 40.0f));
+	model = glm::scale(model, glm::vec3(3.6f, 3.6f, 3.6f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoFlores.RenderModel();
 
 	//Flor flama
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(10.0f, 2.0f, 10.0f));
-	model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 2)
+	{
+		model = glm::translate(model, glm::vec3(10.0f, posAnimMods, 10.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(10.0f, posInicMods, 10.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	florFlama.RenderModel();
+	florFlama.RenderModel(); // casilla2
 
 	//Reino champiñon
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(40.0f, 0.2f, 20.5f));
-	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(26.0f, 0.2f, 40.5f));
+	model = glm::scale(model, glm::vec3(6.5f, 6.5, 6.5f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoGomba.RenderModel();
 
 	//Gomba
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(40.0f, 0.0f, 10.0f));
-	model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 5)
+	{
+		model = glm::translate(model, glm::vec3(40.0f, posAnimMods, 10.5f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(40.0f, posInicMods, 10.5f));
+		model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	goomba.RenderModel();
+	goomba.RenderModel(); // casilla5
 
 	//Isla de Yoshi
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(60.0f, 0.5f, 20.0f));
-	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(70.0f, 0.5f, 40.0f));
+	model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoYoshi.RenderModel();
 
 	//Yoshi
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(60.0f, 0.5f, 10.0f));
-	model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 7)
+	{
+		model = glm::translate(model, glm::vec3(60.0f, posAnimMods, 10.0f));
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(60.0f, posInicMods, 10.0f));
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	yoshi.RenderModel();
+	yoshi.RenderModel(); //casilla7
 
 	//Reino de nube
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(90.9f, 0.5f, 20.5f));
-	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(120.9f, 0.5f, 40.5f));
+	model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoNubes.RenderModel();
 
 	//Lakitu
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(90.9f, 0.5f, 10.5f));
-	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 10)
+	{
+		model = glm::translate(model, glm::vec3(90.9f, posAnimMods, 10.5f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(90.9f, posInicMods, 10.5f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, 180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	lakitu.RenderModel();
+	lakitu.RenderModel(); // casilla10
 
 	//Tierra sorbete
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(110.0f, 0.0f, -80.0f));
-	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(130.0f, 0.5f, -80.0f));
+	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoNieve.RenderModel();
 
 	//Castillo
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.9f, 0.5f, -80.0f));
-	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	castilloHielo.RenderModel();
 
 	//Entorno de piramide
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(110.0f, 0.0f, -100.0f));
-	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(130.0f, 0.0f, -90.0f));
+	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoArena.RenderModel();
 
-	//Sand
+	//Sandman
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(100.0f, 0.0f, -100.0f));
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 20)
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posAnimMods, -100.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(100.0f, posInicMods, -100.0f));
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	castilloHielo.RenderModel();
+	sandman.RenderModel(); // casilla20
 
 	//Mundo rocoso
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(80.5f, 0.2f, -130.5f));
-	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+	model = glm::translate(model, glm::vec3(80.5f, 0.2f, -140.5f));
+	model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoRocoso.RenderModel();
 
 	//Whomp
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(80.5f, 0.0f, -120.0f));
-	model = glm::scale(model, glm::vec3(1.5f, 1.50f, 1.5f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 22)
+	{
+		model = glm::translate(model, glm::vec3(80.5f, posAnimMods, -120.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.50f, 1.5f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(80.5f, posInicMods, -120.0f));
+		model = glm::scale(model, glm::vec3(1.5f, 1.50f, 1.5f));
+		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	whomp.RenderModel();
+	whomp.RenderModel(); // casilla22
 
-	//Reino Koopa 
+	//Reino Koopa
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(20.5f, 0.0f, -130.5f));
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 18)
+	{
+		model = glm::translate(model, glm::vec3(101.0f, posAnimMods, -80.8f));
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(101.0f, posInicMods, -80.8f));
+		model = glm::scale(model, glm::vec3(0.7f, 0.7f, 0.7f));
+		model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoBowser.RenderModel();
+	entornoBowser.RenderModel(); // casilla18
 
 	//Bowser
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(20.5f, 0.0f, -120.5f));
-	model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	bowser.RenderModel();
+	if (animActiva && casAct == 28)
+	{
+		model = glm::translate(model, glm::vec3(20.5f, posAnimMods, -120.5f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(20.5f, posInicMods, -120.5f));
+		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
 
-	//Camino estrella 
+	}
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	bowser.RenderModel(); // casilla28
+
+	//Camino estrella
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-20.0f, 0.0f, -90.5f));
-	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::translate(model, glm::vec3(130.0f, 0.0f, -20.5f));
+	model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoEstrella.RenderModel();
 
 	//Luma
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-10.0f, 2.0f, -90.5f));
-	model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (animActiva && casAct == 32)
+	{
+		model = glm::translate(model, glm::vec3(-10.0f, posAnimMods, -90.5f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+		model = glm::rotate(model, dirAnimMods * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else
+	{
+		model = glm::translate(model, glm::vec3(-10.0f, posInicMods, -90.5f));
+		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
+
+	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	luma.RenderModel();
+	luma.RenderModel(); // casilla32
 
 	// Reino de lava
 	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-20.0f, 0.0f, -20.5f));
-	model = glm::scale(model, glm::vec3(0.9f, 0.9f, 0.9f));
+	model = glm::translate(model, glm::vec3(20.0f, 0.0f, -140.5f));
+	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoLava.RenderModel();
@@ -1440,10 +1752,10 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	//Planta Piraña
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(-10.0f, 0.0f, -20.5f));
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	model = glm::scale(model, glm::vec3(10.0f, 10.0f, 10.0f));
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	plantaPirana.RenderModel();
+	//plantaPirana.RenderModel();
 }
 
 void animacionLicuadora(float posFinal, float dirFinal)
@@ -1451,7 +1763,7 @@ void animacionLicuadora(float posFinal, float dirFinal)
 	float aux = 0.0f;
 	if (framesLicua == 1)
 	{
-		aux = 3.0f + posFinal;
+		aux = 10.0f + posFinal;
 		cambioPosMods = aux / 100.0f;
 
 		aux = dirFinal - 720.0f;
@@ -1466,6 +1778,28 @@ void animacionLicuadora(float posFinal, float dirFinal)
 	{
 		posAnimMods -= cambioPosMods;
 		dirAnimMods -= cambioDirMods;
+	}
+}
+
+void animacionCaminata()
+{
+	float paso = 10.1f / (float) maxFramesCamin; //distancia que camina por cada "paso" que da
+
+	if (casAct >= 1 && casAct <= 9)
+	{
+		posAvatarX += paso;
+	}
+	if (casAct >= 10 && casAct <= 20)
+	{
+		posAvatarZ -= paso;
+	}
+	if (casAct >= 21 && casAct <= 29)
+	{
+		posAvatarX -= paso;
+	}
+	if (casAct >= 30 && casAct <= 40)
+	{
+		posAvatarZ += paso;
 	}
 }
 
@@ -1490,6 +1824,7 @@ int main()
 	cargarTexturas();
 	cargarModelos();
 
+	printf("Cargando skybox...\n");
 	std::vector<std::string> skyboxFaces;
 	skyboxFaces.push_back("Textures/Skybox/newsb1.tga");
 	skyboxFaces.push_back("Textures/Skybox/newsb2.tga");
@@ -1503,6 +1838,7 @@ int main()
 	Material_brillante = Material(4.0f, 256);
 	Material_opaco = Material(0.3f, 4);
 
+	printf("Creando luces...\n");
 	//luz direccional, solo 1 y siempre debe de existir
 	mainLight = DirectionalLight(1.0f, 1.0f, 1.0f,
 		0.6f, 0.6f,
@@ -1536,6 +1872,7 @@ int main()
 
 	unsigned int spotLightCount = 0;
 
+	printf("Inicializando variables...\n");
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0, uniformEyePosition = 0,
 		uniformSpecularIntensity = 0, uniformShininess = 0;
 	GLuint uniformColor = 0;
@@ -1554,7 +1891,7 @@ int main()
 	engine->play2D("media/getout.ogg", true);
 	engine->setSoundVolume(0.1);
 
-	printf("[F]\tTirar los dados.\n");
+	
 
 	glm::mat4 model(1.0);
 	glm::mat4 modelaux(1.0);
@@ -1567,10 +1904,18 @@ int main()
 	float theta = 0.0f; // Ángulo polar inicial
 	float deltaTheta = 0.003f; // Incremento del ángulo en cada frame (velocidad angular)
 
-	float posicionX = 0.0f;
-	float posicionZ = 0.0f;
 	int casilla;
 	float movOffset = 0.5f;
+
+	printf("Comenzando ejecucion...\n\n");
+
+	printf(" [F]\tTirar los dados.\n");
+	printf(" [K]\tAlternar entre camaras.\n\n");
+	printf(" ===== En camara ortogonal =====\n");
+	printf(" [W]+[D]\tAdelante.\n");
+	printf(" [A]\t\tIzquierda.\n");
+	printf(" [S]+[A]\tAtras.\n");
+	printf(" [D]\t\tDerecha.\n");
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -1592,7 +1937,7 @@ int main()
 			mainWindow.resetTiroDados();
 
 			numD4 = mainWindow.getNumDado4();
-			printf(">>Numero de dado blanco: [%d]\n", numD4);
+			printf(" >>Numero de dado blanco: [%d]\n", numD4);
 
 			switch (numD4)
 			{
@@ -1617,7 +1962,7 @@ int main()
 			}
 
 			numD8 = mainWindow.getNumDado8();
-			printf(">>Numero de dado negro: [%d]\n", numD8);
+			printf(" >>Numero de dado negro: [%d]\n", numD8);
 
 			switch (numD8)
 			{
@@ -1657,64 +2002,26 @@ int main()
 				break;
 			}
 			numTotal = numD4 + numD8;
+			casRest = numTotal;
+
+			//calcular la casilla destino
+			casDest = casAct + numTotal;
+			if (casDest >= 40) {
+				int aux = casDest - 40;
+				casDest = aux + 1;
+			}
+
 			framesDados = 1;
-			printf("El personaje avanza %d casillas.\n", numTotal);
-			//aqui va llamada a animacion de caminata
-			//al terminar animacion de caminata, se llama la animacion del modelo
-			//Si se supera en 40 a la suma de las tiradas se reinicia en 0 y se suma el remanente, en caso de que lo haya.
-
-			casAct += numTotal; //contador de casilla actual
-			if (casAct >= 40) {
-				int aux = casAct - 40;
-				casAct = 1;
-				casAct += aux - 1;
-			}
-
-
-
-			printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
-			printf("La ubicacion de la casilla es [%f, %f]", pos[casAct - 1][0], pos[casAct - 1][1]);
-			//Rotaciones si se llega a esquinas
-			//Esquina 1 (casilla 10)
-			if (posicionX > 85.0f && posicionX < 95.0f && posicionZ <= -5.0f) {
-				dirAvatar += 90.0f;
-			}
-
-			if (posicionZ > -115.0f && posicionZ < 105.0 && posicionX >= 0.0f) {
-				dirAvatar += 90.0f;
-			}
-
-			if (posicionX > -5.0f && posicionX < 5.0f && posicionZ >= -111.0f) {
-				dirAvatar += 90.0f;
-			}
-
-			if (posicionZ > -5.0f && posicionZ < 5.0 && posicionX >= 0.0f) {
-				dirAvatar += 90.0f;
-			}
-
-
+			
+			//printf("El personaje se encuentra en la casilla [%d]\n\n", casAct);
+			//printf("La ubicacion de la casilla es [%f, %f]", pos[casAct - 1][0], pos[casAct - 1][1]);
 			animActiva = true;
-		}
-
-
-		//Desplazamientos del avatar en X y Z
-		if (posicionX <= pos[casAct - 1][0]) {
-			posicionX += movOffset * deltaTime;
-		}
-		if (posicionX >= pos[casAct - 1][0]) {
-			posicionX -= movOffset * deltaTime;
-		}
-		if (posicionZ >= pos[casAct - 1][1]) {
-			posicionZ -= movOffset * deltaTime;
-		}
-		if (posicionZ <= pos[casAct - 1][1]) {
-			posicionZ += movOffset * deltaTime;
 		}
 
 		//control para animacion de dados
 		if (framesDados == 1)
 		{
-			printf("[Animacion comenzada]\n");
+			//printf("[Animacion comenzada]\n");
 			posDados = 6.35f;
 			dirDado4X = 0.0f;
 			dirDado4Y = 0.0f;
@@ -1724,30 +2031,87 @@ int main()
 			dirDado8Z = 0.0f;
 			framesDados = 2;
 		}
-		else if (framesDados >= 2 && framesDados < 200)
+		else if (framesDados >= 2 && framesDados < 50)
 		{
 			animacionCaida();
 			framesDados++;
 		}
-		else if (framesDados >= 200 && framesDados < 400)
+		else if (framesDados >= 50 && framesDados < 100)
 		{
 			animacionGiroD4(rotaDado4X, rotaDado4Y, rotaDado4Z);
 			animacionGiroD8(rotaDado8X, rotaDado8Y, rotaDado8Z);
 			framesDados++;
 		}
-		else if (framesDados == 400)
+		else if (framesDados == 100)
 		{
-			printf("[Animacion terminada]\n\n\n");
+			//printf("[Animacion terminada]\n\n\n");
+			printf(" >>El personaje avanza %d casillas.\n", numTotal);
 			framesDados = 0;
-			framesCamin = 1; //cuando termine la animacion de los dados, comienza la caminata
-			framesLicua = 1; //temporalmente aqui, quitar y poner cuando termine caminata
+			caminando = true; //cuando termine la animacion de los dados, comienza la caminata
+		}
+
+		//Control de caminata
+		if (caminando)
+		{
+			if (casRest > 0)
+			{
+				if (framesCamin < 30)
+				{
+					animacionCaminata();
+					framesCamin++;
+				}
+				else
+				{
+					float auxSwap;
+					framesCamin = 0;
+					casRest--;
+
+					casAct++;
+					if (casAct == 41)
+						casAct = 1;
+
+					switch (casAct) //manejar rotaciones de personaje y camara
+					{
+						case 1:
+							dirAvatar = 90.0f;
+							offsetCamaraZ = 15.0f;
+							offsetCamaraX = 0.0f;
+							dirCamara = 0.0f;
+							break;
+						case 10:
+							dirAvatar = 180.0f;
+							offsetCamaraZ = 15.0f;
+							offsetCamaraX = 0.0f;
+							dirCamara = -90.0f;
+							break;
+						case 21:
+							dirAvatar = -90.0f;
+							offsetCamaraZ = 0.0f;
+							offsetCamaraX = 15.0f;
+							dirCamara = 180.0f;
+							break;
+						case 30:
+							dirAvatar = 0.0f;
+							offsetCamaraZ = -15.0f;
+							offsetCamaraX = 0.0f;
+							dirCamara = 90.0f;
+							break;
+						default:
+							break;
+					}
+				}
+			}
+			else
+			{
+				caminando = false;
+				framesLicua = 1; //al terminar caminata, comienza animacion de modelo de casilla
+			}
 		}
 
 		//control para animacion licuadora
 		if (framesLicua >= 1 && framesLicua < 350)
 		{
-			//animacionLicuadora(posiciones[casAct - 1], direcciones[casAct - 1]);
-			animacionLicuadora(posiciones[1], direcciones[1]); //comentar esta y descomentar anterior cuando esten arreglos llenos
+			animacionLicuadora(posiciones[casAct - 1], direcciones[casAct - 1]);
 			framesLicua++;
 		}
 		else if (framesLicua >= 350)
@@ -1903,15 +2267,14 @@ int main()
 		//Instancia del minion avatar
 		//Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(posicionX, 0.5f, posicionZ));
+		model = glm::translate(model, glm::vec3(posAvatarX, 0.5f, posAvatarZ));
 
-		// Llama a `followTarget` usando `model` y `dirAvatar`
+		// Llama a `followTarget` usando `model` y `dirCamara`
 		if (cameraMode == 2) {
-			followCamera.followTarget(model, 0.0f, 2.0f, 1.0f, dirAvatar);
+			followCamera.followTarget(model, offsetCamaraX, offsetCamaraY, offsetCamaraZ, dirCamara);
 		}
 
 		// Aplica transformaciones adicionales al modelo del Minion
-		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, dirAvatar * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
 		modelaux = model;
@@ -2102,14 +2465,6 @@ int main()
 		{
 			pointLights[2].SetPosicion(glm::vec3(posLamparas[3][0], 30.0f, posLamparas[3][1]));
 		}
-		/*
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bellaT.RenderModel();*/
 
 		model = glm::mat4(1.0);
 		model = glm::translate(model, glm::vec3(-55.0f, 11.0f, -55.0f));

@@ -53,13 +53,13 @@ void Camera::switchCameraMode(int& cameraMode, bool* keys)
 
         switch (cameraMode) {
         case 0:
-            printf("Modo estatica...\n");
+            printf(" [Camara estatica]\n");
             break;
         case 1:
-            printf("Modo en primera persona...\n");
+            printf(" [Camara ortogonal]\n");
             break;
         case 2:
-            printf("Modo follow minion...\n");
+            printf(" [Camara en tercera persona]\n");
             break;
         }
     }
