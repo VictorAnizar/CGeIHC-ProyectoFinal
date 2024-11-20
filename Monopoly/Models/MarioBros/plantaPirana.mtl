@@ -1,52 +1,42 @@
 # Blender 3.6.0 MTL File: 'None'
 # www.blender.org
 
-newmtl Material
-Ns 250.000000
+newmtl 02_-_Default
+Ns 20.000006
 Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
+Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
-illum 2
-map_Kd D:/GitHub/CGeIHC-ProyectoFinal/Monopoly/Textures/dotsred.png
-
-newmtl Material.001
-Ns 250.000000
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
+illum 1
 map_Kd D:/GitHub/CGeIHC-ProyectoFinal/Monopoly/Textures/solid_Green.png
 
-newmtl Material.002
-Ns 250.000000
+newmtl 07_-_Default
+Ns 20.000006
 Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
-illum 2
-map_Kd D:/GitHub/CGeIHC-ProyectoFinal/Monopoly/Textures/solidBrown3.png
+illum 1
 
-newmtl Material.003
-Ns 250.000000
+newmtl 08_-_Default
+Ns 20.000006
 Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
-illum 2
-map_Kd D:/GitHub/CGeIHC-ProyectoFinal/Monopoly/Textures/solid_White.png
+illum 1
 
-newmtl Material.004
-Ns 250.000000
+newmtl 09_-_Default
+Ns 20.000006
 Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
+Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000
-d 1.000000
-illum 2
-map_Kd D:/GitHub/CGeIHC-ProyectoFinal/Monopoly/Textures/solid_Pink.png
+illum 1
+map_Kd D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/Piranha Plant_tex.png
+map_d D:/Github/CGeIHC-ProyectoFinal/Monopoly/Textures/Piranha Plant_tex.png
