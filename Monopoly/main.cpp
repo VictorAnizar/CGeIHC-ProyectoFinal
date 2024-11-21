@@ -781,7 +781,7 @@ void cargarTexturas()
 	MinionTextureDay.LoadTextureA();
 	EvilMinionTextureDay = Texture("Textures/MinionMoradoC.png");
 	EvilMinionTextureDay.LoadTextureA();
-	MaquinaDulcesMinionTextureDay = Texture("Textures/MaquinaDulcesMinion.png");
+	MaquinaDulcesMinionTextureDay = Texture("Textures/MaquinaDulcesMinionC.png");
 	MaquinaDulcesMinionTextureDay.LoadTextureA();
 	MacetMinionTextureDay = Texture("Textures/MacetaMinionC.png");
 	MacetMinionTextureDay.LoadTextureA();
@@ -888,8 +888,8 @@ void cargarTexturas()
 
 	lumiereC = Texture("Textures/lumieredaycook.png");
 	lumiereC.LoadTextureA();
-	//rosaC = Texture("Textures/rosadaycook.png");
-	//rosaC.LoadTextureA();
+	rosaC = Texture("Textures/rosadaycook.png");
+	rosaC.LoadTextureA();
 	gastonC = Texture("Textures/gastondaycook.png");
 	gastonC.LoadTextureA();
 	crosworthC = Texture("Textures/cogsworthdaycook.png");
@@ -900,7 +900,7 @@ void cargarTexturas()
 	plumetteC.LoadTextureA();
 	castilloC = Texture("Textures/castillodaycook.png");
 	castilloC.LoadTextureA();
-	madameC = Texture("Textures/madamedaycook.png");
+	madameC = Texture("Textures/madamecook.png");
 	madameC.LoadTextureA();
 	mrpottsC = Texture("Textures/mrpottsdaycook.png");
 	mrpottsC.LoadTextureA();
@@ -2111,7 +2111,7 @@ int main()
 	if (sound) {
 		sound->setMinDistance(1.0f); // Distancia mínima a la cual el sonido se escucha en su volumen máximo
 		sound->setMaxDistance(2.0);
-		sound->setVolume(0.05);
+		sound->setVolume(1.0);
 	}
 
 	vec3df soundPos2(-2.50f, 0.0f, 70.0f); // Posición del sonido en el espacio 3D
@@ -2119,7 +2119,7 @@ int main()
 	if (sound2) {
 		sound2->setMinDistance(1.0f); // Distancia mínima a la cual el sonido se escucha en su volumen máximo
 		sound2->setMaxDistance(2.0);
-		sound2->setVolume(0.05);
+		sound2->setVolume(1.0);
 	}
 
 
@@ -2191,8 +2191,8 @@ int main()
 	rotaDado8Z = 0.0f;
 	posDados = 6.35f;
 	// play some sound stream, looped
-	//engine->play2D("media/getout.ogg", true);
-	//engine->setSoundVolume(0.1);
+	engine->play2D("media/getout.ogg", true);
+	engine->setSoundVolume(0.01);
 
 	
 
@@ -2872,6 +2872,8 @@ int main()
 
 		mainWindow.swapBuffers();
 	}
+	sound2->drop();
+	sound->drop();
 	engine->drop(); // delete engine
 
 	return 0;
