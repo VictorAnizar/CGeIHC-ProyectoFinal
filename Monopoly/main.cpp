@@ -42,6 +42,8 @@ using namespace irrklang;
 #include "Sphere.h"
 #include "Model.h" 
 #include "Skybox.h"
+#include <thread>
+#include <chrono>
 
 //para iluminaci�n
 #include "CommonValues.h"
@@ -154,8 +156,30 @@ float offsetCamaraZ = 0.0f;
 float dirCamara = 0.0f;
 bool animActiva = false;
 bool esNoche = false;
+
+//<<<<<<< HEAD
+//variables animacion hold on bella
+const GLfloat ciclo = 15.0f;  // Duración total del ciclo en segundos
+const GLfloat totalEstados = 5;  // Número total de estados
+const GLfloat duracion_estado = ciclo / totalEstados;  // Duración de cada estado
+GLfloat rotacion_angulo = 0.0f; // Ángulo de rotación inferior
+
+
+GLfloat Time = 0.0f;
+GLfloat pasTime = 0.0f;
+GLfloat lapso = 0.0f;
+
+
+// Variables de movimiento y rotación
+GLfloat movBellaX = 0.0f;  // Movimiento en el eje X
+GLfloat movBellaY = 0.0f;  // Movimiento en el eje Y
+GLfloat desplazamiento = 4.0f;  // Desplazamiento máximo en unidades
+
+
+
 bool caminando = false;
 int cameraMode = 0;
+
 
 int textures;
 GLfloat contadorDAYNIGHT = 0.0f;
@@ -276,6 +300,13 @@ Model bellapiernatwo;
 //Modelos entorno
 Model Lampara, Sol;
 Model rosaRoom;
+Model Marte;
+Model Volcan;
+Model PuenteLondon;
+Model EiffelTower;
+Model Mountain;
+
+
 
 Skybox skybox;
 
@@ -750,7 +781,7 @@ void cargarTexturas()
 	MinionTextureDay.LoadTextureA();
 	EvilMinionTextureDay = Texture("Textures/MinionMoradoC.png");
 	EvilMinionTextureDay.LoadTextureA();
-	MaquinaDulcesMinionTextureDay = Texture("Textures/MaquinaDulcesMinion.png");
+	MaquinaDulcesMinionTextureDay = Texture("Textures/MaquinaDulcesMinionC.png");
 	MaquinaDulcesMinionTextureDay.LoadTextureA();
 	MacetMinionTextureDay = Texture("Textures/MacetaMinionC.png");
 	MacetMinionTextureDay.LoadTextureA();
@@ -857,8 +888,8 @@ void cargarTexturas()
 
 	lumiereC = Texture("Textures/lumieredaycook.png");
 	lumiereC.LoadTextureA();
-	//rosaC = Texture("Textures/rosadaycook.png");
-	//rosaC.LoadTextureA();
+	rosaC = Texture("Textures/rosadaycook.png");
+	rosaC.LoadTextureA();
 	gastonC = Texture("Textures/gastondaycook.png");
 	gastonC.LoadTextureA();
 	crosworthC = Texture("Textures/cogsworthdaycook.png");
@@ -869,7 +900,7 @@ void cargarTexturas()
 	plumetteC.LoadTextureA();
 	castilloC = Texture("Textures/castillodaycook.png");
 	castilloC.LoadTextureA();
-	madameC = Texture("Textures/madamedaycook.png");
+	madameC = Texture("Textures/madamecook.png");
 	madameC.LoadTextureA();
 	mrpottsC = Texture("Textures/mrpottsdaycook.png");
 	mrpottsC.LoadTextureA();
@@ -1068,7 +1099,18 @@ void cargarModelos()
 
 	//MODELOS CIUDAD
 	rosaRoom = Model();
-	rosaRoom.LoadModel("Models/rosaroom.obj");
+	rosaRoom.LoadModel("Models/Entorno/rosaroom.obj");
+	Marte = Model();
+	Marte.LoadModel("Models/Entorno/Marte.obj");
+	Volcan = Model();
+	Volcan.LoadModel("Models/Entorno/Volcan.obj");
+	Mountain = Model();
+	Mountain.LoadModel("Models/Entorno/ElementoAgua.obj");
+	EiffelTower = Model();
+	EiffelTower.LoadModel("Models/Entorno/Eiffel.obj");
+	PuenteLondon = Model();
+	PuenteLondon.LoadModel("Models/Entorno/puente.obj");
+
 
 
 	//Cargando Modelos de entornos de Mario Bros
@@ -1638,15 +1680,14 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 }
 
 void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
+
+	
+			//INSTANCIAS DE MARIO BROS
+
 	//INSTANCIAS DE MARIO BROS
 
-	//Entorno de flores
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-20.0f, 0.5f, 40.0f));
-	model = glm::scale(model, glm::vec3(3.6f, 3.6f, 3.6f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoFlores.RenderModel();
+	
+
 
 	//Flor flama
 	model = glm::mat4(1.0);
@@ -1665,13 +1706,7 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	florFlama.RenderModel(); // casilla2
 
-	//Reino champiñon
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(26.0f, 0.2f, 40.5f));
-	model = glm::scale(model, glm::vec3(6.5f, 6.5, 6.5f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoGomba.RenderModel();
+	
 
 	//Gomba
 	model = glm::mat4(1.0);
@@ -1689,13 +1724,9 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	goomba.RenderModel(); // casilla5
 
-	//Isla de Yoshi
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(70.0f, 0.5f, 40.0f));
-	model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoYoshi.RenderModel();
+
+
+
 
 	//Yoshi
 	model = glm::mat4(1.0);
@@ -1714,13 +1745,9 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	yoshi.RenderModel(); //casilla7
 
-	//Reino de nube
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(120.9f, 0.5f, 40.5f));
-	model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoNubes.RenderModel();
+
+
+
 
 	//Lakitu
 	model = glm::mat4(1.0);
@@ -1739,23 +1766,13 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	lakitu.RenderModel(); // casilla10
 
-	//Tierra sorbete
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(130.0f, 0.5f, -80.0f));
-	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoNieve.RenderModel();
+
+	
 
 	//Castillo
 
-	//Entorno de piramide
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(130.0f, 0.0f, -90.0f));
-	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoArena.RenderModel();
+	
+
 
 	//Sandman
 	model = glm::mat4(1.0);
@@ -1774,13 +1791,9 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	sandman.RenderModel(); // casilla20
 
-	//Mundo rocoso
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(80.5f, 0.2f, -140.5f));
-	model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoRocoso.RenderModel();
+
+	
+
 
 	//Whomp
 	model = glm::mat4(1.0);
@@ -1799,6 +1812,7 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	whomp.RenderModel(); // casilla22
 
+
 	//Reino Koopa
 	model = glm::mat4(1.0);
 	if (animActiva && casAct == 18)
@@ -1816,6 +1830,7 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoBowser.RenderModel(); // casilla18
 
+
 	//Bowser
 	model = glm::mat4(1.0);
 	if (animActiva && casAct == 28)
@@ -1829,16 +1844,13 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 		model = glm::translate(model, glm::vec3(20.5f, posInicMods, -120.5f));
 		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
 
+
 	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	bowser.RenderModel(); // casilla28
 
-	//Camino estrella
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(130.0f, 0.0f, -20.5f));
-	model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoEstrella.RenderModel();
+	
+
 
 	//Luma
 	model = glm::mat4(1.0);
@@ -1857,13 +1869,8 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	luma.RenderModel(); // casilla32
 
-	// Reino de lava
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(20.0f, 0.0f, -140.5f));
-	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoLava.RenderModel();
+
+
 
 	//Planta Piraña
 	model = glm::mat4(1.0);
@@ -1872,6 +1879,145 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	//plantaPirana.RenderModel();
+}
+
+void renderizarModelosCiudad(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
+	//AGUA
+	//Reino de nube
+	
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(140.9f, 3.0f, 5.0f));
+	model = glm::scale(model, glm::vec3(5.0f, 7.0f,5.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoNubes.RenderModel();
+
+	//Tierra sorbete
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-0.9f, 0.5f, 0.0f));
+	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoNieve.RenderModel();
+
+	//Camino estrella 
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(50.0f, 0.0f, 70.0f));
+	model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoEstrella.RenderModel();
+
+	//Puente de Londres
+
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(96.0f, 6.0f, 30.0f));
+	model = glm::scale(model, glm::vec3(0.220f, 0.350f, 0.20f));
+	model = glm::rotate(model, 145 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	PuenteLondon.RenderModel();
+
+	//Cascada
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(130.0f, 3.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(15.0f, 10.0f, 15.0f));
+	model = glm::rotate(model, -135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	Mountain.RenderModel();
+	//TIERRA 
+	//Entorno de piramide
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(135.0f, 0.0f, -50.0f));
+	model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoArena.RenderModel();
+
+	//Eiffel Tower
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(145.0f, 0.0f, -25.0f));
+	model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	EiffelTower.RenderModel();
+
+
+
+	//Mundo rocoso
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(140.5f, 0.2f, -100.5f));
+	model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoRocoso.RenderModel();
+
+	//Rosa room
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-35.5f, 8.0f, -135.5f));
+	model = glm::scale(model, glm::vec3(0.250f, 0.350f, 0.20f));
+	model = glm::rotate(model, -135 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	rosaRoom.RenderModel();
+
+	//Reino Koopa 
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(110.5f, -1.50f, -150.5f));
+	model = glm::scale(model, glm::vec3(5.0f, 5.0f, 5.0f));
+	model = glm::rotate(model, -120 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoBowser.RenderModel();
+
+	//Reino champiñon
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(60.0f, 0.2f, -155.5f));
+	model = glm::scale(model, glm::vec3(9.0f,9.0f, 9.0f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoGomba.RenderModel();
+
+
+	//Isla de Yoshi
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(20.0f, 0.5f, -150.0f));
+	model = glm::scale(model, glm::vec3(3.50f, 3.50f, 3.50f));
+	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoYoshi.RenderModel();
+
+
+	//FUEGO
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-58.0f, -1.0f, -70.0f));
+	model = glm::scale(model, glm::vec3(4.0f, 6.0f, 7.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoFlores.RenderModel();
+	//volcan
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-70.0f, -.50f, 25.0f));
+	model = glm::scale(model, glm::vec3(30.0f, 85.0f, 60.0f));
+	//model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	Volcan.RenderModel();
+	
+	// Reino de lava
+	model = glm::mat4(1.0);
+	
+	model = glm::translate(model, glm::vec3(-2.50f, 0.0f, 70.0f));
+	model = glm::scale(model, glm::vec3(4.0f, 6.0f,5.0f));
+	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	entornoLava.RenderModel();
+
+	//Marte
+	model = glm::mat4(1.0);
+	model = glm::translate(model, glm::vec3(-70.0f, -13.0f, -50.5f));
+	model = glm::scale(model, glm::vec3(150.0f, 320.0f, 320.0f));
+	model = glm::rotate(model, 95 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	Marte.RenderModel();
+	
+	
 }
 
 void animacionLicuadora(float posFinal, float dirFinal)
@@ -1897,6 +2043,25 @@ void animacionLicuadora(float posFinal, float dirFinal)
 	}
 }
 
+
+//Función para el sonido 
+void updateListenerPositionAndOrientation(Camera& cameraMain, ISoundEngine* engine) {
+	glm::vec3 listenerPos = cameraMain.getCameraPosition();
+	glm::vec3 listenerLookDir = cameraMain.getCameraDirection();
+	glm::vec3 listenerUpVector(0.0f, 1.0f, 0.0f); 
+	glm::vec3 listenerVelPerSecond(0.0f, 0.0f, 0.0f);
+
+	
+	engine->setListenerPosition(
+		vec3df(listenerPos.x, listenerPos.y, listenerPos.z),
+		vec3df(listenerLookDir.x, listenerLookDir.y, listenerLookDir.z),
+		vec3df(listenerVelPerSecond.x, listenerVelPerSecond.y, listenerVelPerSecond.z),
+		vec3df(listenerUpVector.x, listenerUpVector.y, listenerUpVector.z)
+	);
+}
+
+ 
+
 void animacionCaminata()
 {
 	float paso = 10.1f / (float) maxFramesCamin; //distancia que camina por cada "paso" que da
@@ -1919,6 +2084,7 @@ void animacionCaminata()
 	}
 }
 
+
 int main()
 {
 	// start the sound engine with default parameters
@@ -1936,6 +2102,27 @@ int main()
 	CreateObjects();
 	crearDados();
 	CreateShaders();
+
+	
+	
+	// Reproducir un sonido en una posición 3D específica
+	vec3df soundPos(130.0f, 3.0f, 0.0f); // Posición del sonido en el espacio 3D
+	ISound* sound = engine->play3D("media/agua.mp3", soundPos,true, false, true);
+	if (sound) {
+		sound->setMinDistance(1.0f); // Distancia mínima a la cual el sonido se escucha en su volumen máximo
+		sound->setMaxDistance(2.0);
+		sound->setVolume(1.0);
+	}
+
+	vec3df soundPos2(-2.50f, 0.0f, 70.0f); // Posición del sonido en el espacio 3D
+	ISound* sound2 = engine->play3D("media/lava.mp3", soundPos2, true, false, true);
+	if (sound2) {
+		sound2->setMinDistance(1.0f); // Distancia mínima a la cual el sonido se escucha en su volumen máximo
+		sound2->setMaxDistance(2.0);
+		sound2->setVolume(1.0);
+	}
+
+
 
 	cargarTexturas();
 	cargarModelos();
@@ -2005,7 +2192,7 @@ int main()
 	posDados = 6.35f;
 	// play some sound stream, looped
 	engine->play2D("media/getout.ogg", true);
-	engine->setSoundVolume(0.1);
+	engine->setSoundVolume(0.01);
 
 	
 
@@ -2023,6 +2210,7 @@ int main()
 	int casilla;
 	float movOffset = 0.5f;
 
+
 	printf("Comenzando ejecucion...\n\n");
 
 	printf(" [F]\tTirar los dados.\n");
@@ -2032,6 +2220,7 @@ int main()
 	printf(" [A]\t\tIzquierda.\n");
 	printf(" [S]+[A]\tAtras.\n");
 	printf(" [D]\t\tDerecha.\n");
+
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -2043,9 +2232,13 @@ int main()
 
 		angulovaria += 0.9f * deltaTime;
 
-
 		if (mainWindow.getTiroDados())
 		{
+
+
+			
+
+
 			engine->play2D("media/DadoCaida.mp3");
 			//engine->setSoundVolume(1.0f);
 
@@ -2235,8 +2428,82 @@ int main()
 			framesLicua = 0;
 			animActiva = false;
 		}
+
+
+
+		/*
+		Hacer:
+			if casAct es igual a indice de una esquina
+				se hace rotacion del avatar
+
+			contador de 1 en 1 para casAct, para lograr que
+			if casAct == 40
+				reiniciar a casAct = 0 y seguir sumando los restantes
+			prender bandera de paso por inicio para animaciones especiales
+		*/
+
+		//ANIMACION PAARA HOLD ON BELLA
+		Time = now - pasTime;
+		//Time += (now - pasTime) / limitFPS;
+		pasTime = now;
+
+		// Actualizar el tiempo transcurrido
+		lapso += Time;
+
+		// Verificar si hemos completado un ciclo completo
+		if (lapso >= ciclo) {
+			lapso = 0.0f;  // Resetear el tiempo transcurrido después de un ciclo completo
+		}
+
+		GLfloat Tiempo = fmod(lapso, ciclo);
+
+		if (Tiempo < duracion_estado) {
+			// Moviendo en el eje X hacia la derecha
+			movBellaX = 4.0f * (Tiempo / duracion_estado);
+			
+			rotacion_angulo = 0.0f;
+		}
+		else if (Tiempo < 2 * duracion_estado) {
+			// Moviendo en el eje X hacia el centro
+			movBellaX = 4.0f * (1.0f - (Tiempo - duracion_estado) / duracion_estado);
+			rotacion_angulo = 360.0f * ((Tiempo - duracion_estado) / duracion_estado);
+			//rotacion_angulo = 0.0f;
+		}
+		else if (Tiempo < 3 * duracion_estado) {
+			// Moviendo en el eje X hacia la izquierda
+			movBellaX = -4.0f * ((Tiempo - 2 * duracion_estado) / duracion_estado);
+			rotacion_angulo = 0.0f;
+		}
+		else if (Tiempo < 4 * duracion_estado) {
+			// Moviendo en el eje X hacia el centro
+			movBellaX = -4.0f * (1.0f - (Tiempo - 3 * duracion_estado) / duracion_estado);
+			rotacion_angulo = 360.0f * ((Tiempo - 3 * duracion_estado) / duracion_estado);
+		//	rotacion_angulo = 0.0f;
+		}
+		
+		
+		else {
+			// Rotación de 360 grados
+			movBellaX = 0.0f;
+		
+			rotacion_angulo = 360.0f * ((Tiempo - 4 * duracion_estado/2) / duracion_estado);
+		}
+
+//=======
+//		//Recibir eventos del usuario
+		glfwPollEvents();
+		//camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		//camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		
+		
+	
+		updateListenerPositionAndOrientation(mainCamera, engine);
+
+			
+
 		// Render loop
 		glfwPollEvents();
+
 
 		// Actualiza el modo de cámara según la tecla presionada
 		mainCamera.switchCameraMode(cameraMode, mainWindow.getsKeys());
@@ -2324,7 +2591,7 @@ int main()
 
 		//instancia de piso
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(50.0f, 0.0f, -50.0f));
 		model = glm::scale(model, glm::vec3(15.0f, 1.0f, 15.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3fv(uniformColor, 1, glm::value_ptr(color));
@@ -2371,6 +2638,8 @@ int main()
 		renderizarModelosBella(model, uniformModel, modelaux);
 
 		renderizarModelosMario(model, uniformModel, modelaux);
+
+		renderizarModelosCiudad(model, uniformModel, modelaux);
 
 		//instancia de cacodemon avatar
 		model = glm::mat4(1.0);
@@ -2493,10 +2762,16 @@ int main()
 		}
 		model = modelaux;
 
-		//instancia de Bella avatar
+		
+
+		//INSTANCIA DE BELLA ANIMACION HOLD ON
+		// 
+		// model = glm::rotate(model, rotacion_angulo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		//Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-15.0f, 0.30f, 0.0f));
+		model = glm::translate(model, glm::vec3(-12.0, 0.0, movBellaX));
+		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotacion_angulo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.7f, 1.7f, 1.7f));
 		modelaux = model;
 
@@ -2506,27 +2781,27 @@ int main()
 
 		//Brazos
 		model = glm::translate(model, glm::vec3(0.108f, 1.42f, 0.0f));
-		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 5.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, sin(glm::radians(angulovaria)) * 5.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bellabrazo.RenderModel();
 		model = modelaux;
 
 
 		model = glm::translate(model, glm::vec3(-0.108f, 1.415f, 0.0f));
-		model = glm::rotate(model, cos(glm::radians(angulovaria)) * 5.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		//model = glm::rotate(model, cos(glm::radians(angulovaria)) * 5.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bellabrazotwo.RenderModel();
 		model = modelaux;
 
 		//Piernas
 		model = glm::translate(model, glm::vec3(0.05f, 0.950f, -0.20f));
-		model = glm::rotate(model, cos(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, cos(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bellapierna1.RenderModel();
 		model = modelaux;
 
-		model = glm::translate(model, glm::vec3(-0.01f, 0.950f, -0.20f));
-		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::translate(model, glm::vec3(-.01f, 0.950f, -0.20f));
+		//model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bellapiernatwo.RenderModel();
 		model = modelaux;
@@ -2577,23 +2852,28 @@ int main()
 		model = glm::rotate(model, 45 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Lampara.RenderModel();
+
 		if (casAct == 30 && esNoche)
 		{
 			pointLights[2].SetPosicion(glm::vec3(posLamparas[3][0], 30.0f, posLamparas[3][1]));
 		}
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-55.0f, 11.0f, -55.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(.40f, 0.40f, 0.40f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		rosaRoom.RenderModel();
+		
+
+		
+		
+
+
+
+
+		
 
 		glUseProgram(0);
 
 		mainWindow.swapBuffers();
 	}
+	sound2->drop();
+	sound->drop();
 	engine->drop(); // delete engine
 
 	return 0;
