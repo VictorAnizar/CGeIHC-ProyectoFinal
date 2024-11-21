@@ -156,7 +156,7 @@ float offsetCamaraZ = 0.0f;
 float dirCamara = 0.0f;
 bool animActiva = false;
 bool esNoche = false;
-<<<<<<< HEAD
+
 //<<<<<<< HEAD
 //variables animacion hold on bella
 const GLfloat ciclo = 15.0f;  // Duración total del ciclo en segundos
@@ -176,10 +176,10 @@ GLfloat movBellaY = 0.0f;  // Movimiento en el eje Y
 GLfloat desplazamiento = 4.0f;  // Desplazamiento máximo en unidades
 
 
-=======
+
 bool caminando = false;
 int cameraMode = 0;
->>>>>>> origin/main
+
 
 int textures;
 GLfloat contadorDAYNIGHT = 0.0f;
@@ -1680,21 +1680,14 @@ void renderizarModelosDoom(glm::mat4 model, GLuint uniformModel, glm::mat4 model
 }
 
 void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 modelaux) {
-<<<<<<< HEAD
+
 	
 			//INSTANCIAS DE MARIO BROS
 
-=======
 	//INSTANCIAS DE MARIO BROS
 
-	//Entorno de flores
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-20.0f, 0.5f, 40.0f));
-	model = glm::scale(model, glm::vec3(3.6f, 3.6f, 3.6f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoFlores.RenderModel();
->>>>>>> origin/main
+	
+
 
 	//Flor flama
 	model = glm::mat4(1.0);
@@ -1713,17 +1706,7 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	florFlama.RenderModel(); // casilla2
 
-<<<<<<< HEAD
 	
-=======
-	//Reino champiñon
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(26.0f, 0.2f, 40.5f));
-	model = glm::scale(model, glm::vec3(6.5f, 6.5, 6.5f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoGomba.RenderModel();
->>>>>>> origin/main
 
 	//Gomba
 	model = glm::mat4(1.0);
@@ -1741,16 +1724,9 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	goomba.RenderModel(); // casilla5
 
-<<<<<<< HEAD
-=======
-	//Isla de Yoshi
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(70.0f, 0.5f, 40.0f));
-	model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoYoshi.RenderModel();
->>>>>>> origin/main
+
+
+
 
 	//Yoshi
 	model = glm::mat4(1.0);
@@ -1769,17 +1745,9 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	yoshi.RenderModel(); //casilla7
 
-<<<<<<< HEAD
-	
-=======
-	//Reino de nube
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(120.9f, 0.5f, 40.5f));
-	model = glm::scale(model, glm::vec3(4.0f, 4.0f, 4.0f));
-	model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoNubes.RenderModel();
->>>>>>> origin/main
+
+
+
 
 	//Lakitu
 	model = glm::mat4(1.0);
@@ -1798,29 +1766,13 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	lakitu.RenderModel(); // casilla10
 
-<<<<<<< HEAD
-	
 
 	
-=======
-	//Tierra sorbete
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(130.0f, 0.5f, -80.0f));
-	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 0.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoNieve.RenderModel();
 
 	//Castillo
 
-	//Entorno de piramide
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(130.0f, 0.0f, -90.0f));
-	model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
-	model = glm::rotate(model, -180 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoArena.RenderModel();
->>>>>>> origin/main
+	
+
 
 	//Sandman
 	model = glm::mat4(1.0);
@@ -1839,17 +1791,9 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	sandman.RenderModel(); // casilla20
 
-<<<<<<< HEAD
+
 	
-=======
-	//Mundo rocoso
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(80.5f, 0.2f, -140.5f));
-	model = glm::scale(model, glm::vec3(2.5f, 2.5f, 2.5f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoRocoso.RenderModel();
->>>>>>> origin/main
+
 
 	//Whomp
 	model = glm::mat4(1.0);
@@ -1868,9 +1812,7 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	whomp.RenderModel(); // casilla22
 
-<<<<<<< HEAD
-	
-=======
+
 	//Reino Koopa
 	model = glm::mat4(1.0);
 	if (animActiva && casAct == 18)
@@ -1887,7 +1829,7 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	entornoBowser.RenderModel(); // casilla18
->>>>>>> origin/main
+
 
 	//Bowser
 	model = glm::mat4(1.0);
@@ -1902,20 +1844,13 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 		model = glm::translate(model, glm::vec3(20.5f, posInicMods, -120.5f));
 		model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));
 
-<<<<<<< HEAD
-	
-=======
+
 	}
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	bowser.RenderModel(); // casilla28
 
-	//Camino estrella
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(130.0f, 0.0f, -20.5f));
-	model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoEstrella.RenderModel();
->>>>>>> origin/main
+	
+
 
 	//Luma
 	model = glm::mat4(1.0);
@@ -1934,17 +1869,8 @@ void renderizarModelosMario(glm::mat4 model, GLuint uniformModel, glm::mat4 mode
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	luma.RenderModel(); // casilla32
 
-<<<<<<< HEAD
-	
-=======
-	// Reino de lava
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(20.0f, 0.0f, -140.5f));
-	model = glm::scale(model, glm::vec3(2.2f, 2.2f, 2.2f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	entornoLava.RenderModel();
->>>>>>> origin/main
+
+
 
 	//Planta Piraña
 	model = glm::mat4(1.0);
@@ -1983,7 +1909,7 @@ void renderizarModelosCiudad(glm::mat4 model, GLuint uniformModel, glm::mat4 mod
 	entornoEstrella.RenderModel();
 
 	//Puente de Londres
-	//Camino estrella 
+
 	model = glm::mat4(1.0);
 	model = glm::translate(model, glm::vec3(96.0f, 6.0f, 30.0f));
 	model = glm::scale(model, glm::vec3(0.220f, 0.350f, 0.20f));
@@ -2090,15 +2016,7 @@ void renderizarModelosCiudad(glm::mat4 model, GLuint uniformModel, glm::mat4 mod
 	model = glm::rotate(model, 95 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	Marte.RenderModel();
-	//Volcan
-	/*
-	model = glm::mat4(1.0);
-	model = glm::translate(model, glm::vec3(-55.0f, 11.0f, -55.0f));
-	modelaux = model;
-	model = glm::scale(model, glm::vec3(.40f, 0.40f, 0.40f));
-	model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	rosaRoom.RenderModel();*/
+	
 	
 }
 
@@ -2125,11 +2043,11 @@ void animacionLicuadora(float posFinal, float dirFinal)
 	}
 }
 
-<<<<<<< HEAD
+
 //Función para el sonido 
-void updateListenerPositionAndOrientation(Camera& camera, ISoundEngine* engine) {
-	glm::vec3 listenerPos = camera.getCameraPosition();
-	glm::vec3 listenerLookDir = camera.getCameraDirection();
+void updateListenerPositionAndOrientation(Camera& cameraMain, ISoundEngine* engine) {
+	glm::vec3 listenerPos = cameraMain.getCameraPosition();
+	glm::vec3 listenerLookDir = cameraMain.getCameraDirection();
 	glm::vec3 listenerUpVector(0.0f, 1.0f, 0.0f); 
 	glm::vec3 listenerVelPerSecond(0.0f, 0.0f, 0.0f);
 
@@ -2143,7 +2061,7 @@ void updateListenerPositionAndOrientation(Camera& camera, ISoundEngine* engine) 
 }
 
  
-=======
+
 void animacionCaminata()
 {
 	float paso = 10.1f / (float) maxFramesCamin; //distancia que camina por cada "paso" que da
@@ -2166,7 +2084,7 @@ void animacionCaminata()
 	}
 }
 
->>>>>>> origin/main
+
 int main()
 {
 	// start the sound engine with default parameters
@@ -2184,19 +2102,27 @@ int main()
 	CreateObjects();
 	crearDados();
 	CreateShaders();
-<<<<<<< HEAD
+
 	
-	camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -60.0f, 0.0f, 0.3f, 0.5f);
+	
 	// Reproducir un sonido en una posición 3D específica
-	vec3df soundPos(-10.0f, 0.2f, -40.4f); // Posición del sonido en el espacio 3D
-	ISound* sound = engine->play3D("media/DadoCaida.mp3", soundPos,true, false, true);
+	vec3df soundPos(130.0f, 3.0f, 0.0f); // Posición del sonido en el espacio 3D
+	ISound* sound = engine->play3D("media/agua.mp3", soundPos,true, false, true);
 	if (sound) {
 		sound->setMinDistance(1.0f); // Distancia mínima a la cual el sonido se escucha en su volumen máximo
 		sound->setMaxDistance(2.0);
-		sound->setVolume(0.1);
+		sound->setVolume(0.05);
 	}
-=======
->>>>>>> origin/main
+
+	vec3df soundPos2(-2.50f, 0.0f, 70.0f); // Posición del sonido en el espacio 3D
+	ISound* sound2 = engine->play3D("media/lava.mp3", soundPos2, true, false, true);
+	if (sound2) {
+		sound2->setMinDistance(1.0f); // Distancia mínima a la cual el sonido se escucha en su volumen máximo
+		sound2->setMaxDistance(2.0);
+		sound2->setVolume(0.05);
+	}
+
+
 
 	cargarTexturas();
 	cargarModelos();
@@ -2284,9 +2210,7 @@ int main()
 	int casilla;
 	float movOffset = 0.5f;
 
-<<<<<<< HEAD
-	
-=======
+
 	printf("Comenzando ejecucion...\n\n");
 
 	printf(" [F]\tTirar los dados.\n");
@@ -2296,7 +2220,7 @@ int main()
 	printf(" [A]\t\tIzquierda.\n");
 	printf(" [S]+[A]\tAtras.\n");
 	printf(" [D]\t\tDerecha.\n");
->>>>>>> origin/main
+
 
 	////Loop mientras no se cierra la ventana
 	while (!mainWindow.getShouldClose())
@@ -2308,12 +2232,6 @@ int main()
 
 		angulovaria += 0.9f * deltaTime;
 
-<<<<<<< HEAD
-	
-		
-=======
-
->>>>>>> origin/main
 		if (mainWindow.getTiroDados())
 		{
 
@@ -2510,9 +2428,9 @@ int main()
 			framesLicua = 0;
 			animActiva = false;
 		}
-<<<<<<< HEAD
 
-//<<<<<<< HEAD
+
+
 		/*
 		Hacer:
 			if casAct es igual a indice de una esquina
@@ -2574,18 +2492,18 @@ int main()
 //=======
 //		//Recibir eventos del usuario
 		glfwPollEvents();
-		camera.keyControl(mainWindow.getsKeys(), deltaTime);
-		camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
+		//camera.keyControl(mainWindow.getsKeys(), deltaTime);
+		//camera.mouseControl(mainWindow.getXChange(), mainWindow.getYChange());
 		
 		
 	
-		updateListenerPositionAndOrientation(camera, engine);
+		updateListenerPositionAndOrientation(mainCamera, engine);
 
 			
-=======
+
 		// Render loop
 		glfwPollEvents();
->>>>>>> origin/main
+
 
 		// Actualiza el modo de cámara según la tecla presionada
 		mainCamera.switchCameraMode(cameraMode, mainWindow.getsKeys());
@@ -2731,7 +2649,6 @@ int main()
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		Cacodemon.RenderModel();
 
-//>>>>>>> origin/main
 		//Instancia del minion avatar
 		//Cuerpo
 		model = glm::mat4(1.0);
@@ -2845,51 +2762,14 @@ int main()
 		}
 		model = modelaux;
 
-		//instancia de Bella avatar animacion para tablero 
-		//Cuerpo
-		/*
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-15.0f, 0.30f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.7f, 1.7f, 1.7f));
-		modelaux = model;
-
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bellatronco.RenderModel();
-		model = modelaux;
-
-		//Brazos
-		model = glm::translate(model, glm::vec3(0.108f, 1.42f, 0.0f));
-		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 5.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bellabrazo.RenderModel();
-		model = modelaux;
-
-
-		model = glm::translate(model, glm::vec3(-0.108f, 1.415f, 0.0f));
-		model = glm::rotate(model, cos(glm::radians(angulovaria)) * 5.0f * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bellabrazotwo.RenderModel();
-		model = modelaux;
-
-		//Piernas
-		model = glm::translate(model, glm::vec3(0.05f, 0.950f, -0.20f));
-		model = glm::rotate(model, cos(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bellapierna1.RenderModel();
-		model = modelaux;
-
-		model = glm::translate(model, glm::vec3(-0.01f, 0.950f, -0.20f));
-		model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bellapiernatwo.RenderModel();
-		model = modelaux; */
+		
 
 		//INSTANCIA DE BELLA ANIMACION HOLD ON
 		// 
 		// model = glm::rotate(model, rotacion_angulo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		//Cuerpo
 		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-3.0, 0.0, movBellaX));
+		model = glm::translate(model, glm::vec3(-12.0, 0.0, movBellaX));
 		model = glm::rotate(model, 90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, rotacion_angulo * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(1.7f, 1.7f, 1.7f));
@@ -2920,7 +2800,7 @@ int main()
 		bellapierna1.RenderModel();
 		model = modelaux;
 
-		model = glm::translate(model, glm::vec3(-0.01f, 0.950f, -0.20f));
+		model = glm::translate(model, glm::vec3(-.01f, 0.950f, -0.20f));
 		//model = glm::rotate(model, sin(glm::radians(angulovaria)) * 15.0f * toRadians, glm::vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 		bellapiernatwo.RenderModel();
@@ -2977,29 +2857,14 @@ int main()
 		{
 			pointLights[2].SetPosicion(glm::vec3(posLamparas[3][0], 30.0f, posLamparas[3][1]));
 		}
-<<<<<<< HEAD
-		/*
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		bellaT.RenderModel();*/
-//>>>>>>> origin/main
+
+		
 
 		
 		
-=======
 
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(-55.0f, 11.0f, -55.0f));
-		modelaux = model;
-		model = glm::scale(model, glm::vec3(.40f, 0.40f, 0.40f));
-		model = glm::rotate(model, -90 * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		rosaRoom.RenderModel();
->>>>>>> origin/main
+
+
 
 		
 
